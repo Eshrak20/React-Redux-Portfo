@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Daffodil Polytechnic Institute",
+    "subtitle": "Diploma in Computer Science & Technology",
+    "status": "Running • 7th Semester",
+    "icon": "FaUniversity",
+    "link": "https://dpi.ac"
+  },
+  {
+    "title": "Birshreshtha Munshi Abdur Rouf Public College",
+    "subtitle": "Higher Secondary Certificate (Science)",
+    "status": "Completed",
+    "icon": "FaSchool",
+    "link": "https://bmarpc.edu.bd"
+  },
+  {
+    "title": "Firoza Bashar Ideal School & College",
+    "subtitle": "Junior School Certificate",
+    "status": "Completed",
+    "icon": "FaGraduationCap",
+    "link": ""
+  },
+  {
+    "title": "Programming Hero",
+    "subtitle": "Complete Next Level Web Development",
+    "status": "Certified",
+    "icon": "SiCodeforces",
+    "link": "https://programming-hero.com"
+  },
+  {
+    "title": "Phitron",
+    "subtitle": "Problem Solving with C & C++",
+    "status": "Completed",
+    "icon": "FaLaptopCode",
+    "link": "https://phitron.io"
+  },
+  {
+    "title": "Ostad",
+    "subtitle": "PHP, Laravel & Filament",
+    "status": "Completed",
+    "icon": "SiLaravel",
+    "link": "https://ostad.app"
+  }
+]
