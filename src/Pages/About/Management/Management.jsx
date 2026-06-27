@@ -39,14 +39,12 @@ const Management = () => {
 
   if (loading) {
     return (
-      <div className="my-40 text-center text-lg">
-        Loading Education...
-      </div>
+      <div className="my-40 text-center text-lg">Loading Education...</div>
     );
   }
 
   return (
-    <section className="max-w-7xl mx-auto my-24 md:my-52 px-5">
+    <section className="max-w-7xl mx-auto my-24 px-5">
       <Title name="Education & Learning Journey" />
 
       <div className="mt-14 flex items-start">
@@ -119,9 +117,7 @@ const Management = () => {
                 </div>
 
                 <div className="mt-6">
-                  <h2 className="text-xl font-bold">
-                    {item.title}
-                  </h2>
+                  <h2 className="text-xl font-bold">{item.title}</h2>
 
                   <p className="mt-2 text-base-content/70 leading-relaxed">
                     {item.subtitle}
@@ -130,16 +126,16 @@ const Management = () => {
                   <motion.div
                     animate={{
                       boxShadow: [
-                        "0 0 0px rgba(34,197,94,.2)",
-                        "0 0 15px rgba(34,197,94,.45)",
-                        "0 0 0px rgba(34,197,94,.2)",
+                        "0 0 0px rgba(255,107,107,0.2)",
+                        "0 0 24px rgba(255,107,107,0.45)",
+                        "0 0 0px rgba(255,107,107,0.2)",
                       ],
                     }}
                     transition={{
                       repeat: Infinity,
                       duration: 2,
                     }}
-                    className="inline-flex mt-6 rounded-full bg-success/10 text-success px-4 py-2 text-sm font-semibold"
+                    className="inline-flex mt-6 rounded-full bg-primary text-white px-4 py-2 text-sm font-semibold"
                   >
                     {item.status}
                   </motion.div>

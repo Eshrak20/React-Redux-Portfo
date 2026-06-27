@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ProjectSkeletons from "@/components/skeletons/projectSkeletons";
 import projectImg from "../../assets/BannerImages/mainB.jpg";
 import FilterSection from "../Projects/FilterSection/FilterSection";
@@ -7,7 +7,13 @@ import BlogsCard from "./BlogsCard/BlogsCard";
 import { useGetBlogsQuery } from "@/redux/api/blogApi";
 
 const Blogs = () => {
-
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
   const { data, isLoading } = useGetBlogsQuery();
   const blogs = data?.data || [];
 
@@ -41,9 +47,7 @@ const Blogs = () => {
     }
 
     if (filters.category) {
-      list = list.filter(
-        (b) => b.category?.id === Number(filters.category)
-      );
+      list = list.filter((b) => b.category?.id === Number(filters.category));
     }
 
     list.sort((a, b) => {
@@ -68,15 +72,16 @@ const Blogs = () => {
         title="Blog"
         highlight="Articles"
       />
+      <div className="md:mx-14 xl:mx-64">
+        <FilterSection
+          filters={filters}
+          setFilters={setFilters}
+          categories={categories}
+        />
 
-      <FilterSection
-        filters={filters}
-        setFilters={setFilters}
-        categories={categories}
-      />
-
-      {/* ✅ Pass FILTERED blogs */}
-      <BlogsCard blogs={filteredBlogs} />
+        {/* ✅ Pass FILTERED blogs */}
+        <BlogsCard blogs={filteredBlogs} />
+      </div>
     </>
   );
 };

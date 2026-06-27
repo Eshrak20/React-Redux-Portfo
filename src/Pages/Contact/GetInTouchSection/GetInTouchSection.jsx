@@ -225,9 +225,9 @@ const GetInTouchSection = ({ onSubmit, loading, settings }) => {
 
             {/* bottom */}
             <div className="relative z-10 mt-12 pt-8 border-t border-white/10">
-              <p className="italic text-white/50 text-sm mb-6">
+              {/* <p className="italic text-white/50 text-sm mb-6">
                 "Building spaces where luxury meets comfort."
-              </p>
+              </p> */}
 
               <a
                 href={mapLink}

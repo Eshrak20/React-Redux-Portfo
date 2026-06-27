@@ -89,19 +89,19 @@ const TestimonialSection = ({ testimonial }) => {
   };
 
   return (
-    <section className={`${isHomePage ? 'py-16' : 'py-20'} bg-linear-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950`}>
+    <section className={`${isHomePage ? 'py-16' : 'py-20'}`}>
       {/* GLOBAL STRUCTURE WRAPPER ALIGNMENT */}
       <div className="container md:container lg:container mx-auto md:mx-auto lg:mx-auto px-6 md:px-8 lg:px-12">
         
         <div className="text-center mb-12">
           <Title name="What MY Clients Say" />
-          <p className="text-gray-600 dark:text-gray-400 mt-3 text-sm sm:text-base max-w-2xl mx-auto">
+          {/* <p className="text-gray-600 dark:text-gray-400 mt-3 text-sm sm:text-base max-w-2xl mx-auto">
             Trusted feedback from businesses we've partnered with to drive their success
-          </p>
+          </p> */}
         </div>
 
         {/* Stats Banner (Only on Home Page) */}
-        {isHomePage && (
+        {/* {isHomePage && (
           <div className="mb-12">
             <div className="bg-linear-to-r from-primary/10 to-secondary/10 md:rounded-2xl rounded-md p-6 md:p-8">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -124,7 +124,7 @@ const TestimonialSection = ({ testimonial }) => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Testimonial Grid */}
         <motion.div

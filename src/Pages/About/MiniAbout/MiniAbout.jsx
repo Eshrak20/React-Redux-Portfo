@@ -51,7 +51,7 @@ const MiniAbout = ({ about, metrics = [] }) => {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-white dark:bg-slate-950 py-16 md:py-24"
+      className="relative overflow-hidden py-16 md:py-24"
     >
       {/* Background Effects */}
       <div className="absolute inset-0 pointer-events-none">

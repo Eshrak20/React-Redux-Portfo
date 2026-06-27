@@ -58,7 +58,7 @@ const AboutDetProject = ({ project }) => {
   };
 
   return (
-    <section className="relative max-w-7xl mx-auto py-32 md:px-6 overflow-hidden mt-16 bg-transparent text-gray-900 dark:text-gray-100">
+    <section className="relative max-w-7xl mx-auto pt-36 md:px-6 overflow-hidden  bg-transparent text-gray-900 dark:text-gray-100">
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl" />
@@ -106,41 +106,29 @@ const AboutDetProject = ({ project }) => {
             <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/10 to-transparent dark:via-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
             <img
-              src={project.banner}
+              src={
+                project.banner ||
+                "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80"
+              }
               alt={project.project_name}
               className="w-full md:h-137.5 object-fit transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
+              onError={(e) => {
+                e.currentTarget.src =
+                  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80";
+              }}
             />
 
             {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {/* Floating Badge */}
-            <motion.div
+            {/* <motion.div
               variants={floatVariants}
               animate="float"
               className="absolute top-6 right-6 bg-linear-to-r from-primary to-blue-500 text-white px-4 py-2 rounded-full flex items-center gap-2 shadow-lg"
             >
-              <Sparkles size={14} />
               <span className="text-sm font-bold">FEATURED</span>
-            </motion.div>
-          </motion.div>
-
-          {/* Floating Tech Icons */}
-          <motion.div
-            variants={floatVariants}
-            animate="float"
-            className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-900 p-4 md:rounded-2xl rounded-md md:shadow-2xl border border-gray-100 dark:border-gray-800"
-          >
-            <Zap size={24} className="text-yellow-500" />
-          </motion.div>
-
-          <motion.div
-            variants={floatVariants}
-            animate="float"
-            style={{ animationDelay: "1s" }}
-            className="absolute -top-6 -right-6 bg-white dark:bg-gray-900 p-4 md:rounded-2xl rounded-md md:shadow-2xl border border-gray-100 dark:border-gray-800"
-          >
-            <Target size={24} className="text-red-500" />
+            </motion.div> */}
           </motion.div>
         </motion.div>
 
@@ -153,7 +141,6 @@ const AboutDetProject = ({ project }) => {
                 whileHover={{ scale: 1.1 }}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-primary/10 to-blue-500/10 dark:from-primary/20 dark:to-blue-500/20 text-primary dark:text-primary-foreground text-xs font-bold uppercase tracking-[0.2em]"
               >
-                <Sparkles size={12} />
                 Case Study
               </motion.span>
 
@@ -176,8 +163,8 @@ const AboutDetProject = ({ project }) => {
                   project.status === "Completed"
                     ? "bg-green-500/10 text-green-600 dark:text-green-400"
                     : project.status === "In Progress"
-                    ? "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400"
-                    : "bg-blue-500/10 text-blue-600 dark:text-blue-400"
+                      ? "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400"
+                      : "bg-blue-500/10 text-blue-600 dark:text-blue-400"
                 }`}
               >
                 ● {project.status}
@@ -279,8 +266,8 @@ const AboutDetProject = ({ project }) => {
         </div>
       </motion.div>
 
-      {/* Project Overview and Client Information Section - Improved Layout */}
-      <motion.div
+
+      {/* <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
@@ -288,16 +275,15 @@ const AboutDetProject = ({ project }) => {
         className="relative z-10 mt-16"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Left Column: Project Overview */}
           {project.description && (
             <motion.div variants={itemVariants} className="relative">
-              <div className="absolute top-0 left-0 w-1 h-full bg-linear-to-b from-primary to-blue-500 rounded-full" />
+              <div className="absolute top-0 left-0 w-1 h-full bg-linear-to-b from-primary to-secondary rounded-full" />
               <div className="pl-8">
                 <div className="flex items-center gap-3 mb-8">
                   <motion.div
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.6 }}
-                    className="p-2.5 rounded-xl bg-linear-to-br from-primary/10 to-blue-500/10 dark:from-primary/20 dark:to-blue-500/20"
+                    className="p-2.5 rounded-xl "
                   >
                     <FileText size={22} className="text-primary" />
                   </motion.div>
@@ -313,7 +299,6 @@ const AboutDetProject = ({ project }) => {
             </motion.div>
           )}
 
-          {/* Right Column: Client Information Table */}
           {(project.client_name ||
             project.client_company ||
             project.client_role ||
@@ -321,13 +306,13 @@ const AboutDetProject = ({ project }) => {
             project.client_phone ||
             project.client_location) && (
             <motion.div variants={itemVariants} className="relative">
-              <div className="absolute top-0 left-0 w-1 h-full bg-linear-to-b from-primary to-blue-500 rounded-full" />
+              <div className="absolute top-0 left-0 w-1 h-full bg-linear-to-b from-primary to-secondary rounded-full" />
               <div className="pl-8">
                 <div className="flex items-center gap-3 mb-8">
                   <motion.div
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.6 }}
-                    className="p-2.5 rounded-xl bg-linear-to-br from-primary/10 to-blue-500/10 dark:from-primary/20 dark:to-blue-500/20"
+                    className="p-2.5 rounded-xl"
                   >
                     <Building size={22} className="text-primary" />
                   </motion.div>
@@ -337,8 +322,7 @@ const AboutDetProject = ({ project }) => {
                 </div>
 
                 <div className="bg-linear-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden shadow-xl">
-                  {/* Client Header - Using primary color gradient */}
-                  <div className="bg-linear-to-r from-primary/90 to-secondary/90 dark:from-primary/80 dark:to-secondary/80 px-6 py-5">
+                  <div className="bg-linear-to-r from-primary/90 to-primary/90 dark:from-secondary/80 dark:to-secondary/80 px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="p-2.5 bg-white/20 rounded-xl backdrop-blur-sm">
                         <User size={22} className="text-white" />
@@ -354,12 +338,14 @@ const AboutDetProject = ({ project }) => {
                     </div>
                   </div>
 
-                  {/* Client Details Table */}
                   <div className="divide-y divide-gray-100 dark:divide-gray-800">
                     {project.client_name && (
                       <div className="flex items-start gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors group">
                         <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-primary/10 dark:group-hover:bg-primary/20 transition-colors">
-                          <User size={18} className="text-gray-600 dark:text-gray-400 group-hover:text-primary" />
+                          <User
+                            size={18}
+                            className="text-gray-600 dark:text-gray-400 group-hover:text-primary"
+                          />
                         </div>
                         <div className="flex-1">
                           <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">
@@ -375,7 +361,10 @@ const AboutDetProject = ({ project }) => {
                     {project.client_company && (
                       <div className="flex items-start gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors group">
                         <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-primary/10 dark:group-hover:bg-primary/20 transition-colors">
-                          <Building size={18} className="text-gray-600 dark:text-gray-400 group-hover:text-primary" />
+                          <Building
+                            size={18}
+                            className="text-gray-600 dark:text-gray-400 group-hover:text-primary"
+                          />
                         </div>
                         <div className="flex-1">
                           <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">
@@ -391,7 +380,10 @@ const AboutDetProject = ({ project }) => {
                     {project.client_role && (
                       <div className="flex items-start gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors group">
                         <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-primary/10 dark:group-hover:bg-primary/20 transition-colors">
-                          <Award size={18} className="text-gray-600 dark:text-gray-400 group-hover:text-primary" />
+                          <Award
+                            size={18}
+                            className="text-gray-600 dark:text-gray-400 group-hover:text-primary"
+                          />
                         </div>
                         <div className="flex-1">
                           <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">
@@ -407,7 +399,10 @@ const AboutDetProject = ({ project }) => {
                     {project.client_email && (
                       <div className="flex items-start gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors group">
                         <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-primary/10 dark:group-hover:bg-primary/20 transition-colors">
-                          <Mail size={18} className="text-gray-600 dark:text-gray-400 group-hover:text-primary" />
+                          <Mail
+                            size={18}
+                            className="text-gray-600 dark:text-gray-400 group-hover:text-primary"
+                          />
                         </div>
                         <div className="flex-1">
                           <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">
@@ -426,7 +421,10 @@ const AboutDetProject = ({ project }) => {
                     {project.client_phone && (
                       <div className="flex items-start gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors group">
                         <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-primary/10 dark:group-hover:bg-primary/20 transition-colors">
-                          <Phone size={18} className="text-gray-600 dark:text-gray-400 group-hover:text-primary" />
+                          <Phone
+                            size={18}
+                            className="text-gray-600 dark:text-gray-400 group-hover:text-primary"
+                          />
                         </div>
                         <div className="flex-1">
                           <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">
@@ -445,7 +443,10 @@ const AboutDetProject = ({ project }) => {
                     {project.client_location && (
                       <div className="flex items-start gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors group">
                         <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-primary/10 dark:group-hover:bg-primary/20 transition-colors">
-                          <MapPin size={18} className="text-gray-600 dark:text-gray-400 group-hover:text-primary" />
+                          <MapPin
+                            size={18}
+                            className="text-gray-600 dark:text-gray-400 group-hover:text-primary"
+                          />
                         </div>
                         <div className="flex-1">
                           <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">
@@ -463,10 +464,10 @@ const AboutDetProject = ({ project }) => {
             </motion.div>
           )}
         </div>
-      </motion.div>
+      </motion.div> */}
 
-      {/* Footer Actions with View Code and Documentation */}
-      <motion.div
+      
+      {/* <motion.div
         variants={itemVariants}
         initial="hidden"
         whileInView="visible"
@@ -474,7 +475,6 @@ const AboutDetProject = ({ project }) => {
         className="relative z-10 pt-12 mt-8 border-t border-gray-100/50 dark:border-gray-800/50"
       >
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
-          {/* Action Buttons Group */}
           <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
             {project.live_url && (
               <motion.a
@@ -486,9 +486,8 @@ const AboutDetProject = ({ project }) => {
                   boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)",
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="group relative inline-flex items-center gap-3 px-10 py-5 bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-white text-white dark:text-gray-900 md:rounded-2xl rounded-md font-bold overflow-hidden md:shadow-2xl"
+                className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-md md:rounded-xl bg-primary px-10 py-5 font-bold text-primary-foreground shadow-lg transition-all duration-300 hover:shadow-primary/30"
               >
-                {/* Animated Background */}
                 <motion.div
                   animate={{
                     x: ["0%", "100%", "0%"],
@@ -498,10 +497,9 @@ const AboutDetProject = ({ project }) => {
                     repeat: Infinity,
                     repeatType: "reverse",
                   }}
-                  className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent dark:via-black/5"
+                  className="absolute inset-0 bg-linear-to-r from-transparent via-primary-foreground/10 to-transparent"
                 />
 
-                {/* Pulse Effect */}
                 <motion.div
                   animate={{
                     scale: [1, 1.2, 1],
@@ -512,11 +510,11 @@ const AboutDetProject = ({ project }) => {
                     repeat: Infinity,
                     repeatDelay: 1,
                   }}
-                  className="absolute inset-0 bg-linear-to-r from-primary to-blue-500 md:rounded-2xl rounded-md opacity-20 dark:opacity-10"
+                  className="absolute inset-0 rounded-md md:rounded-xl bg-primary opacity-20"
                 />
 
                 <span className="relative z-10 flex items-center gap-2">
-                  Launch Project
+                  Live Project
                   <motion.span
                     animate={{ x: [0, 5, 0] }}
                     transition={{
@@ -529,7 +527,6 @@ const AboutDetProject = ({ project }) => {
                   </motion.span>
                 </span>
 
-                {/* Arrow Animation */}
                 <motion.div
                   initial={{ x: -10, opacity: 0 }}
                   whileHover={{ x: 0, opacity: 1 }}
@@ -553,9 +550,15 @@ const AboutDetProject = ({ project }) => {
                 className="group relative inline-flex items-center gap-3 px-8 py-4 bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300 flex-1 sm:flex-none justify-center overflow-hidden"
               >
                 <div className="absolute inset-0 bg-linear-to-r from-gray-50 to-white dark:from-gray-800/50 dark:to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <Code2 size={20} className="relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+                <Code2
+                  size={20}
+                  className="relative z-10 group-hover:rotate-12 transition-transform duration-300"
+                />
                 <span className="relative z-10">View Code</span>
-                <Github size={18} className="relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-2.5 group-hover:translate-x-0" />
+                <Github
+                  size={18}
+                  className="relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-2.5 group-hover:translate-x-0"
+                />
               </motion.a>
             )}
 
@@ -572,26 +575,31 @@ const AboutDetProject = ({ project }) => {
                 className="group relative inline-flex items-center gap-3 px-8 py-4 bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300 flex-1 sm:flex-none justify-center overflow-hidden"
               >
                 <div className="absolute inset-0 bg-linear-to-r from-gray-50 to-white dark:from-gray-800/50 dark:to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <BookOpen size={20} className="relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+                <BookOpen
+                  size={20}
+                  className="relative z-10 group-hover:rotate-12 transition-transform duration-300"
+                />
                 <span className="relative z-10">Documentation</span>
-                <ArrowUpRight size={18} className="relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-2.5 group-hover:translate-x-0" />
+                <ArrowUpRight
+                  size={18}
+                  className="relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-2.5 group-hover:translate-x-0"
+                />
               </motion.a>
             )}
           </div>
 
-          {/* Additional Info Badge */}
           {(project.github_url || project.documentation_url) && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               className="text-sm text-gray-400 dark:text-gray-500 flex items-center gap-2"
             >
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
               All resources are publicly available
             </motion.div>
           )}
         </div>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 };

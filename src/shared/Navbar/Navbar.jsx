@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { NavLink, useLocation, useMatch } from "react-router-dom";
+import { WHATSAPP_NUMBER, WHATSAPP_MESSAGE, GMAIL_BODY, GMAIL_SUBJECT } from "@/data/emailGreating";
+
 import {
   Phone,
   X,
@@ -20,9 +22,9 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import logoL from "@/assets/title/logoL.png";
-import logoD from "@/assets/title/logoD.png";
-
+import logoL from "@/assets/title/eg1.png";
+import logoD from "@/assets/title/eg2.png";
+import { FaWhatsapp } from "react-icons/fa";
 const navItems = [
   { label: "Home", path: "/", icon: Home },
   { label: "About", path: "/about", icon: Info },
@@ -41,13 +43,9 @@ const platformIcons = {
   whatsapp: <Phone size={18} />,
 };
 
-const WHATSAPP_NUMBER = "8801521498303";
-const WHATSAPP_MESSAGE =
-  "Assalamualaikum, I want to talk about a project/work.";
 
-const DEFAULT_EMAIL = "info@ilabs360.com";
-const GMAIL_SUBJECT = "Project Inquiry";
-const GMAIL_BODY = "Assalamualaikum, I want to talk about a project/work.";
+
+
 
 const CallSignalIcon = ({ iconSize = 17 }) => {
   return (
@@ -352,8 +350,8 @@ const Navbar = ({ socialLinks = [], settingData }) => {
           damping: 20,
         }}
         className="
-          fixed left-0 right-0 top-4 z-95
-          w-full overflow-x-hidden px-3 transition-none
+          left-0 right-0  z-95
+          fixed inset-x-0 top-4 overflow-x-hidden px-3 transition-none
           md:top-4 md:px-0
           lg:top-4
         "
@@ -390,6 +388,7 @@ const Navbar = ({ socialLinks = [], settingData }) => {
                     md:w-42.5
                     md:h-18
                     lg:h-20 lg:w-50
+                    py-2
                   "
                 >
                   <img
@@ -448,7 +447,7 @@ const Navbar = ({ socialLinks = [], settingData }) => {
                         ${
                           isActive
                             ? "text-white dark:text-primary"
-                            : "text-gray-200 hover:bg-primary dark:hover:bg-gray-200 dark:text-white dark:hover:text-primary"
+                            : " text-primary hover:bg-primary dark:hover:bg-gray-200 dark:text-white hover:text-white dark:hover:text-primary"
                         }
                       `}
                     >
@@ -621,14 +620,13 @@ const Navbar = ({ socialLinks = [], settingData }) => {
         transition={{ delay: 1 }}
         onClick={handleBookCall}
         className="
-          group fixed bottom-6 right-4 z-90 rounded-full bg-primary
-          p-4 text-white shadow-none
-          dark:border dark:border-gray-400
-          md:right-5
-          lg:hidden
-        "
+                  group fixed bottom-10 right-4 z-90 rounded-full bg-[#25D366]
+                  p-4 text-white shadow-lg transition-transform hover:scale-110
+                  dark:border dark:border-gray-400
+                  md:right-5
+                  "
       >
-        <CallSignalIcon iconSize={22} />
+        <FaWhatsapp size={24} />
       </motion.button>
     </>
   );

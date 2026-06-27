@@ -85,9 +85,16 @@ const ProjectsCard = ({ projects }) => {
       {/* Image Container */}
       <div className="relative h-44 sm:h-48 overflow-hidden shrink-0">
         <img
-          src={project.banner}
+          src={
+            project.banner ||
+            "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80"
+          }
           alt={project.project_name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          onError={(e) => {
+            e.currentTarget.src =
+              "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80";
+          }}
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
 
@@ -177,11 +184,11 @@ const ProjectsCard = ({ projects }) => {
         Replaced the custom max-w system to directly mirror HomeService, Tech, and HomeAbout widths 
       */}
       <div className="container md:container lg:container mx-auto md:mx-auto lg:mx-auto px-6 md:px-8 lg:px-12">
-        
         <div className="mb-10 md:mb-12">
           <Title name="MY Projects" />
           <p className="text-gray-600 dark:text-gray-400 mt-3 text-center text-sm sm:text-base max-w-2xl mx-auto">
-            Explore our portfolio of innovative solutions delivered with excellence
+            Explore our portfolio of innovative solutions delivered with
+            excellence
           </p>
         </div>
 
@@ -265,9 +272,16 @@ const ProjectsCard = ({ projects }) => {
                 {/* Hero Banner Img Element */}
                 <div className="relative h-48 sm:h-64 md:h-72 flex flex-col justify-end">
                   <img
-                    src={selectedProject.banner}
+                    src={
+                      selectedProject.banner ||
+                      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80"
+                    }
                     alt={selectedProject.project_name}
                     className="absolute inset-0 w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src =
+                        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80";
+                    }}
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
 
@@ -422,7 +436,6 @@ const ProjectsCard = ({ projects }) => {
                       </Link>
                     </div>
                   </div>
-
                 </div>
               </div>
             </motion.div>

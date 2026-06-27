@@ -14,11 +14,11 @@ const App = () => {
   // console.log(data);
 
   return (
-    <div className="mx-auto min-h-screen flex flex-col">
+    <div className="mx-auto min-h-screen flex flex-col ">
       {/* GLOBAL PAGE LOADER */}
       {/* <PageLoader /> */}
 
-      <Navbar socialLinksData={socialLinksData} settingData={data}  />
+      <Navbar  socialLinksData={socialLinksData} settingData={data}  />
 
       {/* MAIN CONTENT */}
       <main className="flex-1">

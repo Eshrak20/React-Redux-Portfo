@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import bannerImage from "@/assets/title/banner4.png";
 import bannerDarkImage from "@/assets/title/bannerD.png";
+import CumButton from "@/components/CumButton/CumButton";
 
 const BannerHome = () => {
   return (
@@ -108,12 +109,8 @@ const BannerHome = () => {
               </div>
 
               {/* Let's Talk Button */}
-              <div className="pt-2 sm:pt-3 md:pt-5 lg:pt-7">
-                <Link to="/contact">
-                  <button className="bg-primary text-primary-foreground px-6 py-2 lg:px-10 lg:py-3 text-[16px] font-bold uppercase tracking-widest hover:translate-x-2 transition-transform rounded-full duration-300 shadow-lg shadow-primary/20">
-                    Let's Talk
-                  </button>
-                </Link>
+              <div className="-ml-102.5">
+                <CumButton path="/contact" title="Let's Talk" />
               </div>
             </div>
 
@@ -142,9 +139,6 @@ const BannerHome = () => {
           </div>
         </div>
       </div>
-
-      {/* Floating Dot */}
-      <div className="absolute right-6 bottom-4 sm:right-10 sm:bottom-6 md:bottom-10 w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-primary" />
     </section>
   );
 };

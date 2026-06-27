@@ -1,25 +1,40 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 
-const CumButton = ({ path, title, onClick }) => {
-  const ButtonContent = ( 
+const CumButton = ({ path, title, onClick, loading = false }) => {
+  const ButtonContent = (
     <motion.button
-      type="button"
-      className="px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white md:rounded-2xl rounded-md font-bold shadow-xl hover:md:shadow-2xl transition-all duration-300 relative overflow-hidden group"
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
+      type="button"
       onClick={onClick}
+      disabled={loading}
+      className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-primary px-6 py-3 lg:px-10 lg:py-3 text-primary-foreground dark:hover:text-primary text shadow-lg shadow-primary/20 transition-all duration-300 disabled:opacity-50 "
     >
-      <span className="relative z-10">{title}</span>
-      <div className="absolute inset-0 bg-gradient-to-r from-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+      {/* Text */}
+      <span className="relative z-10 flex items-center gap-2 text-[16px] font-bold uppercase tracking-widest">
+        {loading ? "Processing..." : title}
+
+        <ArrowUpRight
+          size={18}
+          className={`transition-transform duration-300 ${
+            loading
+              ? "animate-pulse"
+              : "group-hover:translate-x-1 group-hover:-translate-y-1"
+          }`}
+        />
+      </span>
+
+      {/* Hover Background */}
+      <div className="absolute inset-0 -translate-y-full bg-foreground transition-transform duration-300 group-hover:translate-y-0" />
     </motion.button>
   );
 
   return (
     <motion.div
-      className="mt-10 text-center cursor-pointer"
+      className="mt-10 text-center"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}

@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Mousewheel, Autoplay } from "swiper/modules";
-import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  AnimatePresence,
+} from "framer-motion";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Captions from "yet-another-react-lightbox/plugins/captions";
@@ -80,7 +85,7 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
             img.onerror = resolve;
           });
           loadingStates[idx] = false;
-        })
+        }),
       );
       setImageLoading(loadingStates);
     };
@@ -112,14 +117,29 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
     setHoveredSlide(isHovering ? index : null);
   }, []);
 
-  const getParallaxIntensity = useCallback((index) => {
-    // AI-powered parallax effect based on slide position
-    const distance = Math.abs(activeSlide - index);
-    return Math.max(0, 1 - distance * 0.3);
-  }, [activeSlide]);
+  const getParallaxIntensity = useCallback(
+    (index) => {
+      // AI-powered parallax effect based on slide position
+      const distance = Math.abs(activeSlide - index);
+      return Math.max(0, 1 - distance * 0.3);
+    },
+    [activeSlide],
+  );
+  // Fallback images
+  const fallbackGallery = [
+    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1600&q=80",
+  ];
 
+  // Use project gallery if available, otherwise use fallback gallery
+  const gallery =
+    project_gallery && project_gallery.length > 0
+      ? project_gallery
+      : fallbackGallery;
   return (
-    <section className="py-24 max-w-7xl mx-auto bg-linear-to-b from-white to-gray-50 dark:from-transparent dark:to-transparent overflow-hidden relative text-gray-900 dark:text-gray-100">
+    <section className=" max-w-7xl mx-auto bg-linear-to-b from-white to-gray-50 dark:from-transparent dark:to-transparent overflow-hidden relative text-gray-900 dark:text-gray-100">
       {/* Enhanced Custom Cursor with AI states */}
       <motion.div
         className="fixed top-0 left-0 w-24 h-24 bg-linear-to-br from-white/95 to-gray-100/95 dark:from-gray-900/95 dark:to-gray-800/95 mix-blend-difference rounded-full pointer-events-none z-50 flex items-center justify-center text-center border border-white/20 dark:border-gray-700/30 backdrop-blur-sm"
@@ -137,7 +157,7 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
         transition={{
           duration: 2,
           repeat: isHovering ? Infinity : 0,
-          ease: "easeInOut"
+          ease: "easeInOut",
         }}
       >
         <span className="text-[10px] font-bold uppercase tracking-tighter text-black dark:text-white">
@@ -158,7 +178,9 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
           </div>
           <div className="text-right">
             <div className="text-2xl lg:text-3xl font-black text-gray-300 dark:text-gray-700">
-              <span className="text-black dark:text-white">{activeSlide + 1}</span>
+              <span className="text-black dark:text-white">
+                {activeSlide + 1}
+              </span>
               <span className="mx-2">/</span>
               <span>{project_gallery.length}</span>
             </div>
@@ -198,16 +220,20 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
               return `<span class="${className} relative">
                 <span class="bullet-progress absolute top-0 left-0 h-full bg-secondary origin-left"></span>
               </span>`;
-            }
+            },
           }}
           mousewheel={{
             forceToAxis: true,
-            sensitivity: 0.5
+            sensitivity: 0.5,
           }}
-          autoplay={isPlaying ? {
-            delay: 5000,
-            disableOnInteraction: false,
-          } : false}
+          autoplay={
+            isPlaying
+              ? {
+                  delay: 5000,
+                  disableOnInteraction: false,
+                }
+              : false
+          }
           grabCursor={true}
           centeredSlides={true}
           loop={true}
@@ -216,7 +242,7 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
           breakpoints={{
             768: { slidesPerView: 1.2, spaceBetween: 30 },
             1024: { slidesPerView: 1.4, spaceBetween: 40 },
-            1440: { slidesPerView: 1.6, spaceBetween: 50 }
+            1440: { slidesPerView: 1.6, spaceBetween: 50 },
           }}
           className="pb-20"
           onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
@@ -226,20 +252,20 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
             swiper.params.touchRatio = 0.5;
           }}
         >
-          {project_gallery.map((img, i) => (
+          {gallery.map((img, i) => (
             <SwiperSlide key={i}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9, y: 50 }}
                 whileInView={{
                   opacity: 1,
                   scale: getParallaxIntensity(i),
-                  y: 0
+                  y: 0,
                 }}
                 transition={{
                   duration: 0.8,
-                  delay: i * 0.1
+                  delay: i * 0.1,
                 }}
-                className="relative group overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900 aspect-21/10 md:h-[75vh] w-full"
+                className="relative group overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900 aspect-video w-full"
                 onClick={() => {
                   setIndex(i);
                   setOpen(true);
@@ -248,7 +274,7 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
                 onMouseLeave={() => handleSlideHover(i, false)}
                 whileHover={{
                   scale: 1.02,
-                  transition: { duration: 0.3 }
+                  transition: { duration: 0.3 },
                 }}
               >
                 {/* AI Loading State with skeleton */}
@@ -265,17 +291,20 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
                 <motion.img
                   src={img}
                   alt={`Architecture project ${i + 1}`}
-                  className="w-full h-full object-fit"
+                  className="w-full h-full object-cover"
                   initial={{ scale: 1.1 }}
                   animate={{
-                    scale: hoveredSlide === i ? 1.15 : 1.1
+                    scale: hoveredSlide === i ? 1.15 : 1.1,
                   }}
                   transition={{
                     duration: hoveredSlide === i ? 3 : 1,
-                    ease: "easeOut"
+                    ease: "easeOut",
+                  }}
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      fallbackGallery[i % fallbackGallery.length];
                   }}
                 />
-
 
                 {/* Slide Number Indicator */}
                 <div className="absolute bottom-6 left-6 lg:bottom-8 lg:left-8">
@@ -290,7 +319,9 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
                   initial={false}
                 >
                   <div className="text-white">
-                    <h3 className="text-xl lg:text-2xl font-bold mb-2">Architecture Detail</h3>
+                    <h3 className="text-xl lg:text-2xl font-bold mb-2">
+                      Architecture Detail
+                    </h3>
                     <p className="text-sm lg:text-base text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                       Click to explore high-resolution details
                     </p>
@@ -309,7 +340,14 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
               whileHover={{ scale: 1.1, rotate: -5 }}
               whileTap={{ scale: 0.95 }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
             </motion.button>
@@ -318,7 +356,14 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
               whileHover={{ scale: 1.1, rotate: 5 }}
               whileTap={{ scale: 0.95 }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </motion.button>
@@ -330,12 +375,12 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
               <motion.div
                 className="h-full bg-black dark:bg-white"
                 animate={{
-                  width: isPlaying ? "100%" : "0%"
+                  width: isPlaying ? "100%" : "0%",
                 }}
                 transition={{
                   duration: 5,
                   repeat: isPlaying ? Infinity : 0,
-                  ease: "linear"
+                  ease: "linear",
                 }}
               />
             </div>
@@ -362,7 +407,7 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
         }}
         styles={{
           container: { backgroundColor: "rgba(0,0,0,0.95)" },
-          captionsTitle: { fontSize: "1.5rem", fontWeight: "bold" }
+          captionsTitle: { fontSize: "1.5rem", fontWeight: "bold" },
         }}
       />
     </section>

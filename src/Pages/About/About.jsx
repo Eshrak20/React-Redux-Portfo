@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import aboutBg from "@/assets/BannerImages/mainB.jpg";
 import { useGetAboutQuery } from "@/redux/api/aboutApi";
 import Missions from "./Missions/Missions";
@@ -11,6 +11,13 @@ import { useGetGalleryImageQuery } from "@/redux/api/galleryApi";
 import CommonBanner from "@/components/commonBanner/commonBanner";
 
 const About = () => {
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
   const { data: about, isLoading: aboutLoading } = useGetAboutQuery();
   const { data: homeSectionData, isLoading: homeSectionLoading } =
     useGetHomeMetricsQuery();
@@ -25,16 +32,19 @@ const About = () => {
         highlight="Eshràk G"
       />
       <Management />
-      {aboutLoading || homeSectionLoading || !about || !homeSectionData ? (
-        <MiniAboutSkeleton />
-      ) : (
-        <MiniAbout
-          about={about}
-          metrics={homeSectionData?.data[0].metrics || []}
-        />
-      )}
-      <Missions about={about?.data[0]} aboutLoading={aboutLoading} />
-      <Gallery galleryImageData={galleryImageData?.data} />
+
+      <div className="md:mx-14 xl:mx-64">
+        {aboutLoading || homeSectionLoading || !about || !homeSectionData ? (
+          <MiniAboutSkeleton />
+        ) : (
+          <MiniAbout
+            about={about}
+            metrics={homeSectionData?.data[0].metrics || []}
+          />
+        )}
+        <Missions about={about?.data[0]} aboutLoading={aboutLoading} />
+        <Gallery galleryImageData={galleryImageData?.data} />
+      </div>
     </>
   );
 };

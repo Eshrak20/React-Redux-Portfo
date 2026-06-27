@@ -37,7 +37,7 @@ const CommonMap = ({ google_map_embed, loading }) => {
 
   return (
     <section
-      className="relative w-full mb-20 overflow-hidden bg-gradient-to-br from-background via-background to-primary/5 md:py-24"
+      className="relative w-full mb-20 overflow-hidden bg-gradient-to-br from-background via-background to-primary/5 pt-10 md:py-24"
       
     >
       {/* Animated background particles */}

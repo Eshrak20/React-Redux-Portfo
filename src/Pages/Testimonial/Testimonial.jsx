@@ -12,7 +12,6 @@ const Testimonial = () => {
     behavior: "smooth",
   });
   const { data: testimonialData, isLoading } = useGetTestimonialQuery();
-  
 
   if (isLoading) {
     return <CommonBannerSkeleton />;
@@ -32,14 +31,15 @@ const Testimonial = () => {
       <CommonBanner
         backgroundImage={testimonialImg}
         subtitle="MY Testimonial"
-        title="Feedback Us"
-        highlight="Excellence"
+        title="Feedback ME"
+        highlight="eshrakg62@gmail.com"
       />
+      <div className="md:mx-14 xl:mx-64">
+        {chairmanData && <ChairmanSpeech data={chairmanData} />}
 
-      {chairmanData && <ChairmanSpeech data={chairmanData} />}
-
-      {/* {testimonialList.length > 0 && <MainTestimonial data={testimonialList} />} */}
-      <TestimonialSection testimonial={testimonialData?.data} />
+        {/* {testimonialList.length > 0 && <MainTestimonial data={testimonialList} />} */}
+        <TestimonialSection testimonial={testimonialData?.data} />
+      </div>
     </div>
   );
 };

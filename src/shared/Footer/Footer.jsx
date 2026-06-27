@@ -16,16 +16,15 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 
-import mainLogoL from "@/assets/title/logoL.png";
-import mainLogoD from "@/assets/title/logoD.png";
+import logoL from "@/assets/title/eg1.png";
+import logoD from "@/assets/title/eg2.png";
+import { COMPANY_EMAIL, COMPANY_PHONE, GMAIL_BODY, GMAIL_SUBJECT } from "@/data/emailGreating";
 
-const COMPANY_EMAIL = "eshrakg62@gmail.com";
-const COMPANY_PHONE = "01829076247";
+
 const HEAD_OFFICE = "Mohammadpur, Dhaka";
 const WORK_HOUR = "Available 24/7";
 
-const GMAIL_SUBJECT = "Project Inquiry";
-const GMAIL_BODY = "Assalamualaikum, I want to talk about a project/work.";
+
 
 const socialLinks = [
   {
@@ -99,7 +98,7 @@ const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeU
   GMAIL_BODY,
 )}`;
 
-const phoneCallNumber = COMPANY_PHONE.replace(/\s/g, "");
+const phoneCallNumber = COMPANY_PHONE .replace(/\s/g, "");
 
 const isMobileDevice = () => {
   if (typeof window === "undefined") return false;
@@ -171,7 +170,7 @@ const Footer = ({ socialLinksData }) => {
 
   return (
     <>
-      <footer className="border-t border-border bg-background px-4 py-10 text-foreground sm:px-6 lg:px-8">
+      <footer className="bg-background px-4 py-10 text-foreground sm:px-6 md:px-18 xl:px-8">
         <div
           className="
             mx-auto grid max-w-7xl gap-10
@@ -187,15 +186,15 @@ const Footer = ({ socialLinksData }) => {
             <div>
               <div className="-ml-4">
                 <img
-                  src={mainLogoL}
+                  src={logoL}
                   alt="iLabs360 Logo"
-                  className="h-16 w-auto dark:hidden"
+                  className="h-44 w-auto dark:hidden"
                 />
 
                 <img
-                  src={mainLogoD}
+                  src={logoD}
                   alt="iLabs360 Logo"
-                  className="hidden h-16 w-auto dark:block"
+                  className="hidden h-44 w-auto dark:block"
                 />
               </div>
               <p className="mt-3 max-w-xl text-sm leading-7 text-muted-foreground">

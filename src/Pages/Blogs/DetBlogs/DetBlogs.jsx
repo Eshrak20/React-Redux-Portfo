@@ -14,7 +14,7 @@ const DetBlogs = ({ blog }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [activeHeading, setActiveHeading] = useState(null);
-  const [language, setLanguage] = useState("english");
+  const [language, setLanguage] = useState("bangla");
 
   const getContent = () =>
     language === "bangla"
@@ -31,8 +31,7 @@ const DetBlogs = ({ blog }) => {
       ? blog?.title_bng || blog?.title || ""
       : blog?.title || "";
 
-  const hasBangla =
-    blog?.content_bng && blog.content_bng.trim() !== "<p></p>";
+  const hasEng = blog?.content && blog.content.trim() !== "<p></p>";
 
   const formattedContent = getContent()
     .replace(/<p>/g, '<p class="mb-6 text-slate-700 dark:text-slate-300">')
@@ -40,15 +39,15 @@ const DetBlogs = ({ blog }) => {
     .replace(
       /<h([1-6])>/g,
       (_, h) =>
-        `<h${h} class="mt-6 mb-3 text-slate-900 dark:text-white font-bold">`
+        `<h${h} class="mt-6 mb-3 text-slate-900 dark:text-white font-bold">`,
     )
     .replace(
       /<strong>/g,
-      '<strong class="font-bold text-slate-900 dark:text-white">'
+      '<strong class="font-bold text-slate-900 dark:text-white">',
     )
     .replace(
       /<a /g,
-      '<a class="text-primary hover:opacity-80 underline transition" '
+      '<a class="text-primary hover:opacity-80 underline transition" ',
     );
 
   const toggleBookmark = () => {
@@ -61,7 +60,7 @@ const DetBlogs = ({ blog }) => {
     } else {
       localStorage.setItem(
         "bookmarkedBlogs",
-        JSON.stringify([...list, blog?.id])
+        JSON.stringify([...list, blog?.id]),
       );
       setIsBookmarked(true);
     }
@@ -84,12 +83,13 @@ const DetBlogs = ({ blog }) => {
     <>
       {/* MAIN */}
       <section
-        className={`max-w-7xl mx-auto px-4 py-12 md:py-16 bg-white dark:bg-slate-950 ${isFullscreen ? "max-w-full px-6" : ""
-          }`}
+        className={`max-w-7xl mx-auto px-7 md:px-44 py-12 md:py-16 bg-white dark:bg-slate-950 ${
+          isFullscreen ? "max-w-full px-6" : ""
+        }`}
       >
         <motion.article initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           {/* TITLE */}
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
+          <h1 className="text-xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
             {getTitle()}
           </h1>
 
@@ -106,7 +106,7 @@ const DetBlogs = ({ blog }) => {
                 {language === "english" ? "Summary" : "সারাংশ"}
               </h3>
               <div
-                className="text-blue-800 dark:text-slate-300"
+                className="text-blue-800 text-[10px] md:text-lg dark:text-slate-300"
                 dangerouslySetInnerHTML={{ __html: getSummary() }}
               />
             </div>
@@ -137,10 +137,11 @@ const DetBlogs = ({ blog }) => {
 
             <button
               onClick={toggleBookmark}
-              className={`px-4 py-2 rounded-lg ${isBookmarked
+              className={`px-4 py-2 rounded-lg ${
+                isBookmarked
                   ? "bg-yellow-100 text-yellow-600"
                   : "bg-slate-100 dark:bg-slate-900"
-                }`}
+              }`}
             >
               <Bookmark size={16} />
             </button>
@@ -156,19 +157,15 @@ const DetBlogs = ({ blog }) => {
               onClick={toggleFullscreen}
               className="px-4 py-2 bg-slate-100 dark:bg-slate-900 rounded-lg"
             >
-              {isFullscreen ? (
-                <Minimize2 size={16} />
-              ) : (
-                <Maximize2 size={16} />
-              )}
+              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
             </button>
           </div>
         </motion.article>
       </section>
 
       {/* FLOATING LANGUAGE SWITCH */}
-      {hasBangla && (
-        <div className="fixed top-24 right-6 z-40">
+      {hasEng && (
+        <div className="fixed top-30 right-94 z-40">
           <button
             onClick={() =>
               setLanguage(language === "english" ? "bangla" : "english")

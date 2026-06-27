@@ -75,14 +75,15 @@ const Projects = () => {
         title="Project"
         highlight="Showcase"
       />
+      <div className="md:mx-14 xl:mx-64">
+        <FilterSection
+          filters={filters}
+          setFilters={setFilters}
+          categories={categoriesData}
+        />
 
-      <FilterSection
-        filters={filters}
-        setFilters={setFilters}
-        categories={categoriesData}
-      />
-
-      <ProjectsCard projects={filteredProjects} />
+        <ProjectsCard projects={filteredProjects} />
+      </div>
     </>
   );
 };

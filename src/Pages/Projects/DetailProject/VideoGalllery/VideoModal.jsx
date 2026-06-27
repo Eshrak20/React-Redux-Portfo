@@ -1,12 +1,26 @@
 import { useState, useRef, useEffect } from "react";
 import {
-  X, Maximize2, Minimize2, Play, Pause, 
-  SkipBack, SkipForward, ChevronLeft, ChevronRight,
-  Volume2, VolumeX
+  X,
+  Maximize2,
+  Minimize2,
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  ChevronLeft,
+  ChevronRight,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-export const VideoModal = ({ videoData, onNext, onPrev, onClose }) => {
+export const VideoModal = ({
+  videoData,
+  onNext = () => {},
+  onPrev = () => {},
+  onClose,
+}) => {
+  // ... rest of your code
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +28,7 @@ export const VideoModal = ({ videoData, onNext, onPrev, onClose }) => {
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
 
-  const playerRef = useRef(null); 
+  const playerRef = useRef(null);
   const iframeRef = useRef(null);
   const playerApiRef = useRef(null);
   const isPlayerReady = useRef(false);
@@ -24,7 +38,8 @@ export const VideoModal = ({ videoData, onNext, onPrev, onClose }) => {
       setIsFullscreen(!!document.fullscreenElement);
     };
     document.addEventListener("fullscreenchange", handleFullscreenChange);
-    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
   useEffect(() => {
@@ -33,7 +48,10 @@ export const VideoModal = ({ videoData, onNext, onPrev, onClose }) => {
 
     const initPlayer = () => {
       // If player exists, just change video
-      if (playerApiRef.current && typeof playerApiRef.current.loadVideoById === 'function') {
+      if (
+        playerApiRef.current &&
+        typeof playerApiRef.current.loadVideoById === "function"
+      ) {
         playerApiRef.current.loadVideoById(videoData.videoId);
         return;
       }
@@ -50,8 +68,10 @@ export const VideoModal = ({ videoData, onNext, onPrev, onClose }) => {
             setDuration(event.target.getDuration());
           },
           onStateChange: (event) => {
-            if (event.data === window.YT.PlayerState.PLAYING) setIsPlaying(true);
-            if (event.data === window.YT.PlayerState.PAUSED) setIsPlaying(false);
+            if (event.data === window.YT.PlayerState.PLAYING)
+              setIsPlaying(true);
+            if (event.data === window.YT.PlayerState.PAUSED)
+              setIsPlaying(false);
             if (event.data === window.YT.PlayerState.ENDED) onNext();
           },
         },
@@ -59,9 +79,9 @@ export const VideoModal = ({ videoData, onNext, onPrev, onClose }) => {
     };
 
     if (!window.YT || !window.YT.Player) {
-      if (!document.getElementById('youtube-sdk')) {
+      if (!document.getElementById("youtube-sdk")) {
         const tag = document.createElement("script");
-        tag.id = 'youtube-sdk';
+        tag.id = "youtube-sdk";
         tag.src = "https://www.youtube.com/iframe_api";
         document.body.appendChild(tag);
       }
@@ -83,7 +103,9 @@ export const VideoModal = ({ videoData, onNext, onPrev, onClose }) => {
     if (e) e.stopPropagation();
     if (!isPlayerReady.current) return;
     const state = playerApiRef.current.getPlayerState();
-    state === 1 ? playerApiRef.current.pauseVideo() : playerApiRef.current.playVideo();
+    state === 1
+      ? playerApiRef.current.pauseVideo()
+      : playerApiRef.current.playVideo();
   };
 
   const toggleMute = (e) => {
@@ -117,27 +139,30 @@ export const VideoModal = ({ videoData, onNext, onPrev, onClose }) => {
     >
       <div className="absolute inset-0 z-0" onClick={onClose} />
 
-      <div 
+      <div
         className={`relative w-full aspect-video bg-black md:shadow-2xl z-10 group transition-all duration-300 ${
-            isFullscreen ? "max-w-full h-screen" : "max-w-5xl mx-4"
+          isFullscreen ? "max-w-full h-screen" : "max-w-5xl mx-4"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Yellow Close Button - Always Visible */}
-        <button 
-          onClick={onClose} 
+        <button
+          onClick={onClose}
           className="absolute -top-12 right-0 p-2 bg-primary hover:bg-secondary rounded-full text-white transition-all z-50 shadow-lg"
         >
           <X size={24} strokeWidth={3} />
         </button>
 
         <div className="w-full h-full">
-            <iframe
-                ref={iframeRef}
-                src={`https://www.youtube.com/embed/${videoData.videoId}?enablejsapi=1&autoplay=1&mute=1&rel=0&controls=0`}
-                className="w-full h-full pointer-events-none"
-                allow="autoplay; encrypted-media; fullscreen"
-            />
+          <iframe
+            ref={iframeRef}
+            // Use backticks here!
+            src={`https://www.youtube.com/embed/${videoData.videoId}?enablejsapi=1&autoplay=1&mute=0&rel=0&controls=1`}
+            className="w-full h-full"
+            allow="autoplay; encrypted-media; fullscreen"
+            allowFullScreen
+            title={videoData.title}
+          />
         </div>
 
         {isLoading && (
@@ -148,33 +173,44 @@ export const VideoModal = ({ videoData, onNext, onPrev, onClose }) => {
 
         {/* Controls Overlay */}
         <div className="absolute inset-0 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity bg-linear-to-t from-black/90 via-transparent to-black/60 p-4 md:p-6 z-30">
-          
           <div className="flex justify-between items-start">
             <div className="text-white">
-              <h3 className="text-lg md:text-xl font-bold">{videoData.title}</h3>
+              <h3 className="text-lg md:text-xl font-bold">
+                {videoData.title}
+              </h3>
               <p className="text-gray-400 text-sm">Now Playing</p>
             </div>
-            
+
             {/* Mute Toggle Button */}
-            <button 
-                onClick={toggleMute} 
-                className="p-3 bg-white/10 hover:bg-primary hover:text-black rounded-full text-white transition-all backdrop-blur-sm"
+            <button
+              onClick={toggleMute}
+              className="p-3 bg-white/10 hover:bg-primary hover:text-black rounded-full text-white transition-all backdrop-blur-sm"
             >
-                {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+              {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
             </button>
           </div>
 
           <div className="flex items-center justify-center gap-6 md:gap-12">
-            <button onClick={onPrev} className="text-white hover:text-primary transition-colors">
+            <button
+              onClick={onPrev}
+              className="text-white hover:text-primary transition-colors"
+            >
               <SkipBack size={32} fill="currentColor" />
             </button>
-            <button 
-              onClick={togglePlay} 
+            <button
+              onClick={togglePlay}
               className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-black hover:scale-110 transition-transform shadow-lg"
             >
-              {isPlaying ? <Pause size={32} fill="black" /> : <Play size={32} fill="black" className="ml-1" />}
+              {isPlaying ? (
+                <Pause size={32} fill="black" />
+              ) : (
+                <Play size={32} fill="black" className="ml-1" />
+              )}
             </button>
-            <button onClick={onNext} className="text-white hover:text-primary transition-colors">
+            <button
+              onClick={onNext}
+              className="text-white hover:text-primary transition-colors"
+            >
               <SkipForward size={32} fill="currentColor" />
             </button>
           </div>
@@ -182,16 +218,28 @@ export const VideoModal = ({ videoData, onNext, onPrev, onClose }) => {
           <div className="space-y-4">
             <div className="flex items-center gap-4 text-white">
               <span className="text-xs font-mono w-10">
-                {Math.floor(currentTime/60)}:{(Math.floor(currentTime%60)).toString().padStart(2, '0')}
+                {Math.floor(currentTime / 60)}:
+                {Math.floor(currentTime % 60)
+                  .toString()
+                  .padStart(2, "0")}
               </span>
               <div className="flex-1 h-1.5 bg-white/20 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-primary transition-all duration-300" 
-                  style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }} 
+                <div
+                  className="h-full bg-primary transition-all duration-300"
+                  style={{
+                    width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%`,
+                  }}
                 />
               </div>
-              <button onClick={toggleFullscreen} className="hover:text-primary transition-colors">
-                {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+              <button
+                onClick={toggleFullscreen}
+                className="hover:text-primary transition-colors"
+              >
+                {isFullscreen ? (
+                  <Minimize2 size={20} />
+                ) : (
+                  <Maximize2 size={20} />
+                )}
               </button>
             </div>
           </div>
@@ -200,10 +248,16 @@ export const VideoModal = ({ videoData, onNext, onPrev, onClose }) => {
 
       {!isFullscreen && (
         <>
-          <button onClick={onPrev} className="absolute left-8 top-1/2 -translate-y-1/2 text-white/30 hover:text-primary transition-all hidden lg:block z-50">
+          <button
+            onClick={onPrev}
+            className="absolute left-8 top-1/2 -translate-y-1/2 text-white/30 hover:text-primary transition-all hidden lg:block z-50"
+          >
             <ChevronLeft size={64} />
           </button>
-          <button onClick={onNext} className="absolute right-8 top-1/2 -translate-y-1/2 text-white/30 hover:text-primary transition-all hidden lg:block z-50">
+          <button
+            onClick={onNext}
+            className="absolute right-8 top-1/2 -translate-y-1/2 text-white/30 hover:text-primary transition-all hidden lg:block z-50"
+          >
             <ChevronRight size={64} />
           </button>
         </>

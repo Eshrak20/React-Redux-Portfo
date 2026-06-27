@@ -47,9 +47,9 @@ const Contact = () => {
 
       <CommonBanner
         backgroundImage={connectImg}
-        subtitle="Connect with us"
-        title="Lets Connect"
-        highlight="Excellence"
+        subtitle="Connect with me"
+        title="Whats App"
+        highlight="01829076247"
       />
 
 
