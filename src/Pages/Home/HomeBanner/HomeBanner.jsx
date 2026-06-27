@@ -2,7 +2,7 @@ import React from "react";
 import Typewriter from "typewriter-effect";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import bannerImage from "@/assets/title/banner4.png";
+import bannerImage from "@/assets/title/bannerD.png";
 import bannerDarkImage from "@/assets/title/bannerD.png";
 import CumButton from "@/components/CumButton/CumButton";
 
@@ -125,13 +125,13 @@ const BannerHome = () => {
                 <img
                   src={bannerImage}
                   alt="iLabs360 software development banner"
-                  className="w-full h-auto rounded-lg object-contain select-none border border-gray-200 shadow-sm pointer-events-none block dark:hidden"
+                  className="w-full h-auto rounded-lg object-contain select-none pointer-events-none block dark:hidden"
                   draggable="false"
                 />
                 <img
                   src={bannerDarkImage}
                   alt="iLabs360 software development banner"
-                  className="w-full h-auto rounded-lg object-contain select-none border border-gray-200 shadow-sm pointer-events-none hidden dark:block"
+                  className="w-full h-auto rounded-lg object-contain select-none pointer-events-none hidden dark:block"
                   draggable="false"
                 />
               </motion.div>

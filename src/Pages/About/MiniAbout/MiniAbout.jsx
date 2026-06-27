@@ -97,30 +97,6 @@ const MiniAbout = ({ about, metrics = [] }) => {
                   className="w-full h-full object-cover"
                 />
               </motion.div>
-
-              {/* Glass Badge */}
-              <div className="absolute bottom-4 md:bottom-8 left-4 md:left-8 right-4 md:right-8 p-4 md:p-6 backdrop-blur-md bg-white/10 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl md:rounded-2xl">
-                <div className="flex items-center gap-3 md:gap-4">
-                  <div className="w-10 h-10 md:w-12 md:h-12 bg-primary rounded-lg flex items-center justify-center text-white">
-                    <svg
-                      className="w-5 h-5 md:w-6 md:h-6"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2H4z" />
-                    </svg>
-                  </div>
-
-                  <div>
-                    <p className="text-white font-semibold text-sm md:text-lg">
-                      Excellence in Service
-                    </p>
-                    <p className="text-white/80 text-xs md:text-sm italic">
-                      Established Corporate Quality
-                    </p>
-                  </div>
-                </div>
-              </div>
             </motion.div>
 
             {/* floating decoration */}
@@ -139,14 +115,14 @@ const MiniAbout = ({ about, metrics = [] }) => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
             >
               <div className="flex items-center gap-3 mb-3 md:mb-4">
-                <span className="h-[2px] w-6 md:w-8 bg-primary"></span>
+                <span className="h-0.5 w-6 md:w-8 bg-primary"></span>
                 <span className="text-primary font-bold tracking-widest text-xs md:text-sm uppercase">
                   Legacy & Vision
                 </span>
               </div>
 
               <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-slate-900 dark:text-white leading-tight">
-                Crafting Exceptional <br />
+                CSS Exceptional <br />
                 <span className="text-primary underline decoration-slate-200 dark:decoration-slate-700 underline-offset-8">
                   Software Experiences
                 </span>
@@ -158,7 +134,7 @@ const MiniAbout = ({ about, metrics = [] }) => {
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ delay: 0.3 }}
-              className="text-slate-600 dark:text-slate-300 text-sm md:text-lg leading-relaxed border-l-4 border-slate-100 dark:border-slate-800 md:pl-6"
+              className="text-slate-600 dark:text-slate-300 text-sm md:text-lg leading-relaxed dark:border-slate-800 "
             >
               {about?.data?.[0]?.who_we_are}
             </motion.p>

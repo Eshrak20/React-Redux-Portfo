@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { NavLink, useLocation, useMatch } from "react-router-dom";
-import { WHATSAPP_NUMBER, WHATSAPP_MESSAGE, GMAIL_BODY, GMAIL_SUBJECT } from "@/data/emailGreating";
+import { WHATSAPP_NUMBER, WHATSAPP_MESSAGE, GMAIL_BODY, GMAIL_SUBJECT, COMPANY_EMAIL } from "@/data/emailGreating";
 
 import {
   Phone,
@@ -236,7 +236,7 @@ const Navbar = ({ socialLinks = [], settingData }) => {
     settingData?.email ||
     settingData?.data?.primary_email ||
     settingData?.data?.email ||
-    DEFAULT_EMAIL;
+    COMPANY_EMAIL;
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     WHATSAPP_MESSAGE,

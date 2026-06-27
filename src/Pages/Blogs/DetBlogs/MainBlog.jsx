@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BlogBanner from "./BlogBanner";
 import DetBlogs from "./DetBlogs";
@@ -6,6 +6,13 @@ import BlogPublisher from "./BlogPublisher";
 import { useGetDetailBlogsQuery } from "@/redux/api/blogApi";
 
 const MainBlog = () => {
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
   const { slug } = useParams();
 
   const {

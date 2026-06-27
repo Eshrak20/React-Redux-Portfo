@@ -62,90 +62,93 @@ const BlogsCard = ({ blogs = [] }) => {
             )}
           </div>
 
-          <div className="grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {displayedBlogs.map((blog, index) => (
-              <motion.article
-                key={blog.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -4 }}
-                onClick={() => handleBlogClick(blog)}
-                className="
-                  bg-card
-                  text-card-foreground
-                  md:rounded-2xl rounded-md
-                  shadow-lg
-                  overflow-hidden
-                  border border-border
-                  hover:shadow-xl
-                  transition-all duration-300
-                  cursor-pointer
-                  flex flex-col h-full
-                "
-              >
-                {/* Image */}
-                <div className="relative overflow-hidden aspect-video shrink-0">
-                  <img
-                    src={
-                      blog.featured_image ||
-                      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80"
-                    }
-                    alt={blog.title}
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.src =
-                        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80";
-                    }}
-                  />
+            <div className="grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {displayedBlogs.map((blog, index) => (
+                <Link
+                  key={blog.id}
+                  to={`/blogs/${blog.slug}`}
+                  className="block"
+                >
+                  <motion.article
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    whileHover={{ y: -4 }}
+                    className="
+          bg-card
+          text-card-foreground
+          md:rounded-2xl rounded-md
+          shadow-lg
+          overflow-hidden
+          border border-border
+          hover:shadow-xl
+          transition-all duration-300
+          cursor-pointer
+          flex flex-col h-full
+        "
+                  >
+                    <div className="relative overflow-hidden aspect-video shrink-0">
+                      <img
+                        src={
+                          blog.featured_image ||
+                          "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80"
+                        }
+                        alt={blog.title}
+                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                        onError={(e) => {
+                          e.currentTarget.src =
+                            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80";
+                        }}
+                      />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
 
-                  <div className="absolute top-4 left-4 flex items-center gap-2 bg-background/90 backdrop-blur-sm border border-border px-3 py-1.5 rounded-full">
-                    <Calendar className="w-3 h-3 text-primary" />
-                    <span className="text-xs font-medium text-foreground">
-                      {formatDate(blog.published_at)}
-                    </span>
-                  </div>
-                </div>
+                      <div className="absolute top-4 left-4 flex items-center gap-2 bg-background/90 backdrop-blur-sm border border-border px-3 py-1.5 rounded-full">
+                        <Calendar className="w-3 h-3 text-primary" />
+                        <span className="text-xs font-medium text-foreground">
+                          {formatDate(blog.published_at)}
+                        </span>
+                      </div>
+                    </div>
 
-                {/* Content */}
-                <div className="p-6 flex flex-col grow">
-                  <div className="mb-3">
-                    <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
-                      {blog.category?.name || "Uncategorized"}
-                    </span>
-                  </div>
+                    {/* Content */}
+                    <div className="p-6 flex flex-col grow">
+                      <div className="mb-3">
+                        <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
+                          {blog.category?.name || "Uncategorized"}
+                        </span>
+                      </div>
 
-                  <h3 className="text-lg font-bold text-foreground mb-3 line-clamp-2 hover:text-primary transition-colors leading-snug">
-                    {blog.title}
-                  </h3>
+                      <h3 className="text-lg font-bold text-foreground mb-3 line-clamp-2 hover:text-primary transition-colors leading-snug">
+                        {blog.title}
+                      </h3>
 
-                  <div
-                    className="text-muted-foreground text-xs sm:text-sm mb-4 line-clamp-3 leading-relaxed grow"
-                    dangerouslySetInnerHTML={{
-                      __html: getExcerpt(blog.content || blog.summary, 120),
-                    }}
-                  />
+                      <div
+                        className="text-muted-foreground text-xs sm:text-sm mb-4 line-clamp-3 leading-relaxed grow"
+                        dangerouslySetInnerHTML={{
+                          __html: getExcerpt(blog.content || blog.summary, 120),
+                        }}
+                      />
 
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (isHomePage) handleBlogClick(blog);
-                        else window.location.href = `/blogs/${blog.slug}`;
-                      }}
-                      className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium text-sm group"
-                    >
-                      Read {isHomePage ? "Preview" : "Full Blog"}
-                      <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </div>
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (isHomePage) handleBlogClick(blog);
+                            else window.location.href = `/blogs/${blog.slug}`;
+                          }}
+                          className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium text-sm group"
+                        >
+                          Read {isHomePage ? "Preview" : "Full Blog"}
+                          <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </button>
+                      </div>
+                    </div>
+                  </motion.article>
+                </Link>
+              ))}
+            </div>
 
           {isHomePage && blogs.length === 0 && (
             <div className="text-center py-12">

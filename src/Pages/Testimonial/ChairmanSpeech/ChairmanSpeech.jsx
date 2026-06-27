@@ -74,7 +74,7 @@ const ChairmanSpeech = ({ data }) => {
               <div className="h-1 bg-primary w-10 sm:w-12" />
             )}
             <p className="text-xs sm:text-sm md:text-base text-gray-500 font-medium">
-              Chairman of the Board
+              IT Head of Verin Group
             </p>
           </motion.div>
         </div>

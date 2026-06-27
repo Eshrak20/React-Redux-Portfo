@@ -101,12 +101,12 @@ const DetBlogs = ({ blog }) => {
 
           {/* SUMMARY */}
           {getSummary() && (
-            <div className="mt-10 p-6 rounded-xl bg-blue-50 dark:bg-slate-900 border border-blue-100 dark:border-slate-800">
-              <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-3">
+            <div className="mt-10 p-6 rounded-xl bg-primary/10 dark:bg-slate-900 border border-primary/10 dark:border-slate-800">
+              <h3 className="font-semibold text-primary dark:text-primary mb-3">
                 {language === "english" ? "Summary" : "সারাংশ"}
               </h3>
               <div
-                className="text-blue-800 text-[10px] md:text-lg dark:text-slate-300"
+                className="text-primary text-[10px] md:text-lg dark:text-slate-300"
                 dangerouslySetInnerHTML={{ __html: getSummary() }}
               />
             </div>
@@ -128,18 +128,18 @@ const DetBlogs = ({ blog }) => {
 
           {/* ACTION BAR */}
           <div className="mt-10 flex flex-wrap gap-3">
-            <button
+            {/* <button
               onClick={() => navigator.share?.({ url: location.href })}
               className="px-4 py-2 bg-slate-100 dark:bg-slate-900 rounded-lg"
             >
               <Share2 size={16} />
-            </button>
+            </button> */}
 
             <button
               onClick={toggleBookmark}
               className={`px-4 py-2 rounded-lg ${
                 isBookmarked
-                  ? "bg-yellow-100 text-yellow-600"
+                  ? "bg-primary/10 text-primary"
                   : "bg-slate-100 dark:bg-slate-900"
               }`}
             >
