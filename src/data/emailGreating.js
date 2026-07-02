@@ -1,6 +1,7 @@
 export const COMPANY_EMAIL = "eshrakg62@gmail.com";
 
 export const COMPANY_PHONE = "01829076247";
+export const COMPANY_LOCATION = "01829076247";
 
 export const GMAIL_SUBJECT = "Project Inquiry";
 

@@ -3,6 +3,7 @@ import {
   default as bannerImage,
 } from "@/assets/title/bannerD.png";
 import CumButton from "@/components/CumButton/CumButton";
+import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import { motion } from "framer-motion";
 import Typewriter from "typewriter-effect";
 
@@ -10,27 +11,6 @@ const BannerHome = () => {
   return (
     <section className="relative w-full min-h-0 md:min-h-[calc(100vh-80px)] bg-background overflow-hidden mt-0 lg:mt-12 flex items-start md:items-center pt-40 pb-4 sm:pt-8 sm:pb-4 md:py-6 lg:pt-10 lg:pb-4">
       {/* --- BACKGROUND DESIGN: Circuit Lines --- */}
-      <div className="absolute top-0 left-0 w-1/2 md:w-1/3 h-full pointer-events-none opacity-20 md:opacity-35">
-        <svg viewBox="0 0 400 800" className="w-full h-full">
-          <path
-            d="M0 200 H100 L150 250 H250"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-            className="text-primary/40"
-          />
-          <path
-            d="M0 400 H150 L200 350 H300"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-            className="text-primary/60"
-          />
-          <circle cx="250" cy="250" r="4" className="fill-primary" />
-          <circle cx="300" cy="350" r="3" className="fill-primary/50" />
-        </svg>
-      </div>
-
       <div className="absolute top-0 right-0 w-1/2 md:w-1/3 h-full pointer-events-none opacity-20 md:opacity-35">
         <svg viewBox="0 0 400 800" className="w-full h-full">
           <path
@@ -78,20 +58,25 @@ const BannerHome = () => {
                   <span className="text-primary font-semibold">
                     Glad you made it! 👋
                   </span>{" "}
-                  Congratulations—you've officially found another developer's
-                  portfolio. Don't worry, I won't ask you to rate it ⭐⭐⭐⭐⭐.
-                  😄 What started as curiosity about how computers work somehow
-                  turned into building web applications with{" "}
+                  Congratulations—you've officially found Eshrak's Digital
+                  Notebook. What started as curiosity about how computers work
+                  somehow turned into building web applications with{" "}
                   <span className="text-primary font-semibold">
                     MERN, Laravel, Filament, and Medusa.js
                   </span>
-                  . These days, I spend my time turning ideas into scalable,
-                  real-world products and occasionally arguing with DB migration
-                  and semicolons.
                 </p>
               </div>
 
               {/* Typewriter Effect */}
+
+              <div className="flex items-center gap-3">
+                {/* <span className="hidden h-px w-10 bg-border sm:block" /> */}
+                <SocialIcons
+                  iconSize={18}
+                  className="gap-2"
+                  buttonClassName="h-10 w-10 rounded-full"
+                />
+              </div>
               <div className="pt-2 sm:pt-3 md:pt-4 lg:pt-5">
                 <div className="text-primary font-mono text-base sm:text-lg md:text-[18px] lg:text-[18px] font-semibold border-l-2 border-primary/20 pl-4 sm:pl-6 min-h-9">
                   <Typewriter
@@ -110,9 +95,7 @@ const BannerHome = () => {
                   />
                 </div>
               </div>
-
-              {/* Let's Talk Button */}
-              <div className="-ml-102.5">
+              <div className="flex justify-start -mt-10">
                 <CumButton path="/contact" title="Let's Talk" />
               </div>
             </div>

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import Title from "@/components/Title/Title";
 import CumButton from "@/components/CumButton/CumButton";
+import Title from "@/components/Title/Title";
+import { useState } from "react";
 
 const HomeClients = ({ testimonial }) => {
   const [visibleCount, setVisibleCount] = useState(8);
@@ -17,7 +17,6 @@ const HomeClients = ({ testimonial }) => {
     <section className="py-16 bg-background">
       {/* GLOBAL STRUCTURE WRAPPER ALIGNMENT */}
       <div className="container md:container lg:container mx-auto md:mx-auto lg:mx-auto px-6 md:px-8 lg:px-12">
-        
         <div className="mb-12">
           <Title name="MY Clients" />
         </div>
@@ -33,7 +32,7 @@ const HomeClients = ({ testimonial }) => {
               <div className="flex items-center justify-center min-h-30 group-hover:opacity-90 transition-opacity duration-300 w-full">
                 {item.company_image ? (
                   <img
-                    src={`${import.meta.env.VITE_API_BASE_URL}/storage/${item.company_image}`}
+                    src={`${import.meta.env.VITE_API_BASE_URL.replace("/api", "")}/storage/${item.company_image}`}
                     alt={item.company_name || "Company"}
                     className="max-w-full max-h-30 object-contain mx-auto"
                     style={{ width: "auto", height: "auto" }}
@@ -58,11 +57,11 @@ const HomeClients = ({ testimonial }) => {
         {/* Interactive Action Control Anchor */}
         <div className="mt-12 flex justify-center gap-4">
           {visibleCount < testimonial?.length && (
-            <CumButton onClick={showMore} title="Show More"/>
+            <CumButton onClick={showMore} title="Show More" />
           )}
 
           {visibleCount > 8 && (
-            <CumButton onClick={showLess} title="Show Less"/>
+            <CumButton onClick={showLess} title="Show Less" />
           )}
         </div>
       </div>

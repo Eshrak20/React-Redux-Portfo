@@ -59,7 +59,7 @@ const Tech = () => {
                 ${
                   selectedTech === tech
                     ? "text-white bg-secondary shadow-md"
-                    : "text-secondary dark:text-primary bg-primary/20 hover:bg-red-500 hover:text-white dark:hover:text-white" 
+                    : "text-secondary dark:text-primary bg-primary/20 hover:bg-primary  hover:text-white dark:hover:text-white" 
                 }
               `}
             >
