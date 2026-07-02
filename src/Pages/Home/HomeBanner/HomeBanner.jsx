@@ -1,10 +1,10 @@
-import React from "react";
-import Typewriter from "typewriter-effect";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import bannerImage from "@/assets/title/bannerD.png";
-import bannerDarkImage from "@/assets/title/bannerD.png";
+import {
+  default as bannerDarkImage,
+  default as bannerImage,
+} from "@/assets/title/bannerD.png";
 import CumButton from "@/components/CumButton/CumButton";
+import { motion } from "framer-motion";
+import Typewriter from "typewriter-effect";
 
 const BannerHome = () => {
   return (
@@ -76,15 +76,18 @@ const BannerHome = () => {
               <div className="max-w-xl md:max-w-md lg:max-w-xl">
                 <p className="text-muted-foreground text-base sm:text-lg md:text-[17px] lg:text-lg xl:text-xl leading-relaxed">
                   <span className="text-primary font-semibold">
-                    Welcome to my portfolio.
+                    Glad you made it! 👋
                   </span>{" "}
-                  Curiosity is what brought me into software development. Today,
-                  I build modern web applications with{" "}
+                  Congratulations—you've officially found another developer's
+                  portfolio. Don't worry, I won't ask you to rate it ⭐⭐⭐⭐⭐.
+                  😄 What started as curiosity about how computers work somehow
+                  turned into building web applications with{" "}
                   <span className="text-primary font-semibold">
                     MERN, Laravel, Filament, and Medusa.js
                   </span>
-                  , focusing on creating products that are scalable, practical,
-                  and solve real-life problems.
+                  . These days, I spend my time turning ideas into scalable,
+                  real-world products and occasionally arguing with DB migration
+                  and semicolons.
                 </p>
               </div>
 
