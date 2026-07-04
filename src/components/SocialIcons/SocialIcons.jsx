@@ -10,8 +10,6 @@ const SocialIcons = ({
   const { data, isLoading, isError } = useGetSocialLinksQuery();
 
   const socialLinks = data?.data ?? [];
-  console.log(socialLinks)
-
   if (isLoading || isError || !socialLinks.length) {
     return null;
   }

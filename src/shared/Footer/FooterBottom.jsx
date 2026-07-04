@@ -21,7 +21,7 @@ const FooterBottom = () => {
           </Link>
 
           <Link
-            to="/terms"
+            to="/terms-conditions"
             className="transition-colors duration-300 hover:text-primary"
           >
             Terms & Conditions

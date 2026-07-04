@@ -10,8 +10,8 @@ export const projectApi = baseApi.injectEndpoints({
       providesTags: ["ProjectApi"],
     }),
     getDetailProjects: builder.query({
-      query: (id) => ({
-        url: `/get-project-by-id/${id}`,
+      query: (slug) => ({
+        url: `/get-project-by-id/${slug}`,
         method: "GET",
       }),
       providesTags: ["ProjectApi"],

@@ -1,14 +1,14 @@
-import { createBrowserRouter } from "react-router";
-import App from "../App";
-import Home from "@/Pages/Home/Home";
-import ProjectDetail from "@/Pages/ProjectDetail/ProjectDetail";
 import About from "@/Pages/About/About";
-import Testimonial from "@/Pages/Testimonial/Testimonial";
-import Contact from "@/Pages/Contact/Contact";
-import Projects from "@/Pages/Projects/Projects";
-import DetailProject from "@/Pages/Projects/DetailProject/DetailProject";
 import Blogs from "@/Pages/Blogs/Blogs";
 import MainBlog from "@/Pages/Blogs/DetBlogs/MainBlog";
+import Contact from "@/Pages/Contact/Contact";
+import Home from "@/Pages/Home/Home";
+import DetailProject from "@/Pages/Projects/DetailProject/DetailProject";
+import Projects from "@/Pages/Projects/Projects";
+import Testimonial from "@/Pages/Testimonial/Testimonial";
+import PrivacyTerms from "@/shared/Footer/PrivacyTerms/PrivacyTerms";
+import { createBrowserRouter } from "react-router";
+import App from "../App";
 
 export const router = createBrowserRouter([
   {
@@ -22,7 +22,7 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "/projects/:id",
+        path: "/projects/:slug",
         element: <DetailProject />,
       },
       {
@@ -36,6 +36,14 @@ export const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/privacy-policy",
+        element: <PrivacyTerms />,
+      },
+      {
+        path: "/terms-conditions",
+        element: <PrivacyTerms />,
       },
       {
         path: "/projects",

@@ -1,8 +1,7 @@
 import Title from "@/components/Title/Title";
-import React, { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Missions = ({ about, aboutLoading }) => {
-
   const [isVisible, setIsVisible] = useState(false);
   const [missionTyped, setMissionTyped] = useState("");
   const [visionTyped, setVisionTyped] = useState("");
@@ -136,12 +135,21 @@ const Missions = ({ about, aboutLoading }) => {
                 </h3>
               </div>
 
-              <p className="text-card-foreground/90 leading-relaxed text-sm md:text-lg font-light min-h-[80px] md:min-h-[120px]">
-                {missionTyped}
-                {missionTyped.length < about?.mission?.length && (
-                  <span className="inline-block w-0.5 md:w-1 h-4 md:h-5 ml-1 bg-primary animate-pulse"></span>
-                )}
-              </p>
+              <div
+                className="
+                              prose prose-sm md:prose-lg
+                              dark:prose-invert
+                              max-w-none
+                              min-h-[80px] md:min-h-[120px]
+                              prose-p:text-card-foreground/90
+                              prose-strong:text-primary
+                              prose-headings:text-card-foreground
+                              prose-a:text-primary
+                            "
+                dangerouslySetInnerHTML={{
+                  __html: about?.mission || "",
+                }}
+              />
 
               {/* Progress indicator */}
               <div className="mt-6 flex items-center gap-2">
@@ -221,12 +229,21 @@ const Missions = ({ about, aboutLoading }) => {
                 </h3>
               </div>
 
-              <p className="text-card-foreground/90 leading-relaxed text-sm md:text-lg font-light min-h-[80px] md:min-h-[146px]">
-                {visionTyped}
-                {visionTyped.length < about?.vission?.length && (
-                  <span className="inline-block w-0.5 md:w-1 h-4 md:h-5 ml-1 bg-secondary animate-pulse"></span>
-                )}
-              </p>
+              <div
+                className="
+                          prose prose-sm md:prose-lg
+                          dark:prose-invert
+                          max-w-none
+                          min-h-[80px] md:min-h-[146px]
+                          prose-p:text-card-foreground/90
+                          prose-strong:text-secondary
+                          prose-headings:text-card-foreground
+                          prose-a:text-secondary
+                        "
+                dangerouslySetInnerHTML={{
+                  __html: about?.vission || "",
+                }}
+              />
 
               {/* Progress indicator */}
               <div className="mt-6 flex items-center gap-2">

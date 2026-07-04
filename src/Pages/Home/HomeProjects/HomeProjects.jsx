@@ -1,15 +1,13 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import CumButton from "@/components/CumButton/CumButton";
 import Title from "@/components/Title/Title";
+import { motion } from "framer-motion";
 import {
-  FaPlayCircle,
-  FaExternalLinkAlt,
-  FaStar,
   FaCode,
+  FaExternalLinkAlt,
+  FaPlayCircle
 } from "react-icons/fa";
 import { IoSparkles } from "react-icons/io5";
-import CumButton from "@/components/CumButton/CumButton";
+import { Link } from "react-router-dom";
 
 const HomeProjects = ({ projects }) => {
   const containerVariants = {
@@ -115,7 +113,7 @@ const HomeProjects = ({ projects }) => {
         {projects?.slice(0, 8).map((project, index) => (
           <Link
             key={project.id}
-            to={`/projects/${project.id}`}
+            to={`/projects/${project.slug}`}
             className="block relative group"
           >
             {/* Glow effect behind card */}
@@ -142,7 +140,7 @@ const HomeProjects = ({ projects }) => {
               <div className="pt-6 px-6 relative">
                 <div className="relative h-52 overflow-hidden rounded-sm">
                   {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-card/20 via-transparent to-transparent z-10" />
+                  <div className="absolute inset-0 bg-linear-to-t from-card/20 via-transparent to-transparent z-10" />
 
                   {/* Image with enhanced hover effect */}
                   <motion.div
@@ -157,28 +155,28 @@ const HomeProjects = ({ projects }) => {
                     />
 
                     {/* Shine effect on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover/card:translate-x-[100%] transition-transform duration-1000" />
+                    <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover/card:translate-x-[100%] transition-transform duration-1000" />
                   </motion.div>
                 </div>
               </div>
 
               {/* Content Container */}
-              <div className="p-6 flex flex-col flex-grow">
+              <div className="p-6 flex flex-col grow">
                 {/* Title & Status Row */}
                 <div className="flex items-center justify-between gap-2 mb-5">
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 bg-primary/10 rounded-lg">
                       <FaCode className="text-primary" size={14} />
                     </div>
-                    <h3 className="text-lg font-bold capitalize truncate bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+                    <h3 className="text-lg font-bold capitalize truncate bg-linear-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
                       {project.project_name}
                     </h3>
                   </div>
                   <span
                     className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider shrink-0 shadow-lg  ${
                       project.status === "completed"
-                        ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white"
-                        : "bg-gradient-to-r from-amber-500 to-orange-500 text-white"
+                        ? "bg-linear-to-r from-emerald-500 to-green-500 text-white"
+                        : "bg-linear-to-r from-amber-500 to-orange-500 text-white"
                     }`}
                   >
                     {project.status}

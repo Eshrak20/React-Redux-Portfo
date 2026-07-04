@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const MiniAbout = ({ about, metrics = [] }) => {
   const sectionRef = useRef(null);
@@ -11,8 +11,7 @@ const MiniAbout = ({ about, metrics = [] }) => {
   // Mouse move effect for 3D tilt
   const handleMouseMove = (e) => {
     const { clientX, clientY, currentTarget } = e;
-    const { width, height, left, top } =
-      currentTarget.getBoundingClientRect();
+    const { width, height, left, top } = currentTarget.getBoundingClientRect();
 
     const x = (clientX - left) / width - 0.5;
     const y = (clientY - top) / height - 0.5;
@@ -117,27 +116,36 @@ const MiniAbout = ({ about, metrics = [] }) => {
               <div className="flex items-center gap-3 mb-3 md:mb-4">
                 <span className="h-0.5 w-6 md:w-8 bg-primary"></span>
                 <span className="text-primary font-bold tracking-widest text-xs md:text-sm uppercase">
-                  Legacy & Vision
+                  My Journey
                 </span>
               </div>
 
               <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-slate-900 dark:text-white leading-tight">
-                CSS Exceptional <br />
+                Curious Mind <br />
                 <span className="text-primary underline decoration-slate-200 dark:decoration-slate-700 underline-offset-8">
-                  Software Experiences
+                  Debugging Real-World
                 </span>
               </h2>
             </motion.div>
 
             {/* Description */}
-            <motion.p
+            <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ delay: 0.3 }}
-              className="text-slate-600 dark:text-slate-300 text-sm md:text-lg leading-relaxed dark:border-slate-800 "
-            >
-              {about?.data?.[0]?.who_we_are}
-            </motion.p>
+              className="
+    prose prose-sm md:prose-lg
+    dark:prose-invert
+    max-w-none
+    prose-p:text-slate-600 dark:prose-p:text-slate-300
+    prose-strong:text-slate-900 dark:prose-strong:text-white
+    prose-a:text-primary
+    prose-headings:text-slate-900 dark:prose-headings:text-white
+  "
+              dangerouslySetInnerHTML={{
+                __html: about?.data?.[0]?.who_we_are || "",
+              }}
+            />
 
             {/* Metrics */}
             <div className="grid grid-cols-2 gap-3 md:gap-4 pt-2 md:pt-4">

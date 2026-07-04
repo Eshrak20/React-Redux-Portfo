@@ -26,6 +26,14 @@ const footerLinks = [
     label: "Contact",
     path: "/contact",
   },
+  {
+    label: "Privacy Policy",
+    path: "/privacy-policy",
+  },
+  {
+    label: "Terms & Conditions",
+    path: "/terms-conditions",
+  },
 ];
 
 const FooterLinks = () => {

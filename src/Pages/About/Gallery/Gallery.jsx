@@ -1,128 +1,85 @@
-import { useState } from "react";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Title from "@/components/Title/Title";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import Lightbox from "yet-another-react-lightbox";
+import Captions from "yet-another-react-lightbox/plugins/captions";
+import "yet-another-react-lightbox/plugins/captions.css";
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import "yet-another-react-lightbox/styles.css";
 
-const Gallery = ({ galleryImageData }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const handleChange = (index) => {
-    setCurrentIndex(index);
+const Gallery = ({ galleryImageData = [] }) => {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const handleImageClick = (index) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
+  // Animations
+  const floatingVariants = {
+    initial: { scale: 1, y: 0 },
+    float: { scale: [1, 1.02, 1], y: [0, -10, 0], transition: { duration: 6, repeat: Infinity, ease: "easeInOut" } }
   };
 
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden">
-      <div className="absolute inset-0 -z-10 opacity-10">
-        <div className="absolute inset-0 "></div>
-      </div>
-
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center">
-          <Title name="MY Gallery" />
+    <section className="relative py-20 md:py-32 overflow-hidden text-white">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="text-center mb-12">
+          <Title name="MY Memory" />
         </div>
 
-        <div className="relative  rounded-xl overflow-hidden ">
-          <span></span> {/* Required for animated border */}
-          <Carousel
-            autoPlay={true}
-            infiniteLoop={true}
-            showArrows={true}
-            showIndicators={false}
-            showThumbs={false}
-            showStatus={false}
-            dynamicHeight={false}
-            emulateTouch={true}
-            swipeable={true}
-            interval={4000}
-            transitionTime={1000}
-            stopOnHover={true}
-            selectedItem={currentIndex}
-            onChange={handleChange}
-            renderArrowPrev={(onClickHandler, hasPrev, label) =>
-              hasPrev && (
-                <button
-                  type="button"
-                  onClick={onClickHandler}
-                  title={label}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 glowing-button w-12 h-12 rounded-full flex items-center justify-center shadow-lg bg-primary hover:scale-110 transition-all duration-300"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </button>
-              )
-            }
-            renderArrowNext={(onClickHandler, hasNext, label) =>
-              hasNext && (
-                <button
-                  type="button"
-                  onClick={onClickHandler}
-                  title={label}
-                  className="absolute bg-primary right-4 top-1/2 -translate-y-1/2 z-10 glowing-button w-12 h-12 rounded-full hidden md:flex items-center justify-center shadow-lg hover:scale-110 transition-all duration-300"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              )
-            }
-          >
-            {galleryImageData?.map((image, index) => (
-              <div key={index} className="relative group">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[280px]"
+        >
+          {galleryImageData.map((item, index) => {
+            const isLarge = index % 5 === 0;
+            const isTall = index % 7 === 0;
+            const isHovered = hoveredIndex === index;
+
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                animate={isHovered ? "float" : "initial"}
+                variants={floatingVariants}
+                className={`group relative cursor-pointer overflow-hidden rounded-3xl ${isLarge ? "md:col-span-2 md:row-span-2" : ""} ${isTall ? "md:row-span-2" : ""}`}
+                onClick={() => handleImageClick(index)}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
                 <img
-                  src={`${image.image}`}
-                  alt={`Gallery Image ${index + 1}`}
-                  className="w-full h-[350px] md:h-[550px] 2xl:h-[750px] object-cover transition-all duration-500 group-hover:scale-105"
+                  src={item.image}
+                  alt={item.title || "Gallery Image"}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                  <div className="transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                    <h3 className="text-white text-3xl font-extrabold tracking-wide mb-1">
-                      Timeless Frame {index + 1}
-                    </h3>
-                    <p className="text-gray-400 text-lg italic">
-                      Stories told without words
-                    </p>
-                  </div>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                  <h3 className="text-white text-2xl font-bold">{item.title || "Timeless Frame"}</h3>
+                  <p className="text-gray-300 text-sm uppercase tracking-widest mt-2">{item.place || "Gallery"}</p>
                 </div>
-              </div>
-            ))}
-          </Carousel>
-        </div>
-
-        <div className="flex justify-center space-x-2 mt-2">
-          {galleryImageData?.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                currentIndex === index ? "bg-primary" : "bg-gray-300"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
       </div>
+
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        index={lightboxIndex}
+        slides={galleryImageData.map((img) => ({
+          src: img.image,
+          title: img.title,
+          description: img.place
+        }))}
+        plugins={[Zoom, Captions, Thumbnails]}
+      />
     </section>
   );
 };

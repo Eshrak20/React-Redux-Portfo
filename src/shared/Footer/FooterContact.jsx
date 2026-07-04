@@ -1,7 +1,7 @@
 import {
-    COMPANY_EMAIL,
-    COMPANY_LOCATION,
-    COMPANY_PHONE,
+  COMPANY_EMAIL,
+  COMPANY_LOCATION,
+  COMPANY_PHONE,
 } from "@/data/emailGreating";
 import { useGetSettingsDataQuery } from "@/redux/api/homeApi";
 import { Mail, MapPin, Phone } from "lucide-react";
@@ -9,10 +9,14 @@ import { Mail, MapPin, Phone } from "lucide-react";
 const FooterContact = () => {
   const { data, isLoading, isError } = useGetSettingsDataQuery();
 
-  const settings = data?.data ?? {};
+  const settings = data?.data?.[0] ?? {};
 
-  const email = settings.email || COMPANY_EMAIL;
-  const phone = settings.phone || COMPANY_PHONE;
+  const email = settings.primary_email || COMPANY_EMAIL;
+
+  // Prefer primary phone, otherwise secondary, otherwise fallback
+  const phone =
+    settings.primary_phone || settings.secondary_phone || COMPANY_PHONE;
+
   const address = settings.address || COMPANY_LOCATION;
 
   const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
@@ -22,9 +26,7 @@ const FooterContact = () => {
   if (isLoading) {
     return (
       <div>
-        <h3 className="text-xl font-bold text-foreground">
-          Contact
-        </h3>
+        <h3 className="text-xl font-bold text-foreground">Contact</h3>
 
         <div className="mt-6 space-y-5">
           <div className="h-12 animate-pulse rounded-lg bg-muted" />
@@ -39,9 +41,7 @@ const FooterContact = () => {
 
   return (
     <div>
-      <h3 className="text-xl font-bold text-foreground">
-        Contact
-      </h3>
+      <h3 className="text-xl font-bold text-foreground">Contact</h3>
 
       <div className="mt-6 space-y-6">
         {/* Email */}
@@ -97,9 +97,7 @@ const FooterContact = () => {
               Address
             </p>
 
-            <p className="mt-1 text-sm text-foreground">
-              {address}
-            </p>
+            <p className="mt-1 text-sm text-foreground">{address}</p>
           </div>
         </div>
       </div>

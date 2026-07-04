@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import { useGetDetailBlogsQuery } from "@/redux/api/blogApi";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BlogBanner from "./BlogBanner";
 import DetBlogs from "./DetBlogs";
-import BlogPublisher from "./BlogPublisher";
-import { useGetDetailBlogsQuery } from "@/redux/api/blogApi";
 
 const MainBlog = () => {
   // Scroll to top when page loads
@@ -58,7 +57,8 @@ const MainBlog = () => {
     <main className="bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
       <BlogBanner blog={blog} />
       <DetBlogs blog={blog} />
-      <BlogPublisher blog={blog} />
+      
+      {/* <BlogPublisher blog={blog} /> */}
     </main>
   );
 };

@@ -1,64 +1,127 @@
-import React from "react";
-import { useLocation } from "react-router";
-
-const FilterSection = ({ filters, setFilters, categories = [] }) => {
-  const location = useLocation();
-
-  const filterTitle = location.pathname.startsWith("/projects")
-    ? "Projects"
-    : "Blogs";
-
+const FilterSection = ({
+  type = "blog",
+  filters,
+  setFilters,
+  categories = [],
+  projectTypes = [],
+  projectCategories = [],
+}) => {
   const selectStyles =
     "w-full bg-gray-50 dark:bg-slate-900 border-none ring-1 ring-gray-200 dark:ring-slate-800 focus:ring-2 focus:ring-primary rounded-none px-4 py-4 text-sm transition-all outline-none appearance-none cursor-pointer text-gray-900 dark:text-white";
 
   return (
     <div className="relative z-30 -mt-24 px-6">
-      <div className="max-w-5xl mx-auto bg-white dark:bg-slate-950 shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-8 md:p-12 border border-gray-100 dark:border-slate-800">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
-          
-          {/* Status Filter */}
+      <div className="mx-auto max-w-5xl border border-gray-100 bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] md:p-12">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-4 items-end">
+
+          {type === "blog" ? (
+            <>
+              {/* Status */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                  Status
+                </label>
+
+                <select
+                  className={selectStyles}
+                  value={filters.status}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      status: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">All</option>
+                  <option value="published">Published</option>
+                </select>
+              </div>
+
+              {/* Blog Category */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                  Category
+                </label>
+
+                <select
+                  className={selectStyles}
+                  value={filters.category}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      category: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">All Categories</option>
+
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Project Type */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                  Project Type
+                </label>
+
+                <select
+                  className={selectStyles}
+                  value={filters.type}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      type: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">All Types</option>
+
+                  {projectTypes.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Project Category */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                  Project Category
+                </label>
+
+                <select
+                  className={selectStyles}
+                  value={filters.category}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      category: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">All Categories</option>
+
+                  {projectCategories.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
+          )}
+
+          {/* Sort */}
           <div className="flex flex-col gap-2">
-            <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400 dark:text-gray-500">
-              Status
-            </label>
-
-            <select
-              className={selectStyles}
-              value={filters.status}
-              onChange={(e) =>
-                setFilters({ ...filters, status: e.target.value })
-              }
-            >
-              <option value="">All</option>
-              <option value="published">Published</option>
-            </select>
-          </div>
-
-          {/* Category Filter */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400 dark:text-gray-500">
-              Category
-            </label>
-
-            <select
-              className={selectStyles}
-              value={filters.category}
-              onChange={(e) =>
-                setFilters({ ...filters, category: e.target.value })
-              }
-            >
-              <option value="">All Categories</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Sort Filter */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400 dark:text-gray-500">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
               Sort By
             </label>
 
@@ -66,24 +129,34 @@ const FilterSection = ({ filters, setFilters, categories = [] }) => {
               className={selectStyles}
               value={filters.sort}
               onChange={(e) =>
-                setFilters({ ...filters, sort: e.target.value })
+                setFilters({
+                  ...filters,
+                  sort: e.target.value,
+                })
               }
             >
-              <option value="latest">Latest {filterTitle}</option>
-              <option value="oldest">Oldest {filterTitle}</option>
+              <option value="latest">Latest</option>
+              <option value="oldest">Oldest</option>
             </select>
           </div>
 
-          {/* Reset Button */}
           <button
             onClick={() =>
-              setFilters({
-                status: "",
-                category: "",
-                sort: "latest",
-              })
+              setFilters(
+                type === "blog"
+                  ? {
+                      status: "",
+                      category: "",
+                      sort: "latest",
+                    }
+                  : {
+                      type: "",
+                      category: "",
+                      sort: "latest",
+                    }
+              )
             }
-            className="h-[56px] bg-primary text-white text-xs uppercase tracking-widest font-bold hover:bg-primary/80 dark:hover:bg-primary/90 transition-colors"
+            className="h-14 bg-primary text-xs font-bold uppercase tracking-widest text-white transition hover:bg-primary/80"
           >
             Reset Filters
           </button>

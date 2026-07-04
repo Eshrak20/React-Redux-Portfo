@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Share2,
-  Bookmark,
-  Printer,
-  Maximize2,
-  Minimize2,
-  ChevronRight,
-  Globe,
-} from "lucide-react";
+import { motion } from "framer-motion";
+import { Globe } from "lucide-react";
+import { useEffect, useState } from "react";
+import BlogActions from "./BlogActions/BlogActions";
+import SocialShareButtons from "./SocialShareButtons";
 
 const DetBlogs = ({ blog }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [activeHeading, setActiveHeading] = useState(null);
   const [language, setLanguage] = useState("bangla");
 
   const getContent = () =>
@@ -126,39 +119,45 @@ const DetBlogs = ({ blog }) => {
             </div>
           )}
 
-          {/* ACTION BAR */}
-          <div className="mt-10 flex flex-wrap gap-3">
-            {/* <button
-              onClick={() => navigator.share?.({ url: location.href })}
-              className="px-4 py-2 bg-slate-100 dark:bg-slate-900 rounded-lg"
-            >
-              <Share2 size={16} />
-            </button> */}
+          <div className="mt-10 space-y-4">
+            <SocialShareButtons title={blog.title} url={window.location.href} />
+            <BlogActions
+              blog={blog}
+              isBookmarked={isBookmarked}
+              toggleBookmark={toggleBookmark}
+              isFullscreen={isFullscreen}
+              toggleFullscreen={toggleFullscreen}
+            />
+            {/* <div className="flex flex-wrap gap-3">
+              <button
+                onClick={toggleBookmark}
+                className={`px-4 py-2 rounded-lg ${
+                  isBookmarked
+                    ? "bg-primary/10 text-primary"
+                    : "bg-slate-100 dark:bg-slate-900"
+                }`}
+              >
+                <Bookmark size={16} />
+              </button>
 
-            <button
-              onClick={toggleBookmark}
-              className={`px-4 py-2 rounded-lg ${
-                isBookmarked
-                  ? "bg-primary/10 text-primary"
-                  : "bg-slate-100 dark:bg-slate-900"
-              }`}
-            >
-              <Bookmark size={16} />
-            </button>
+              <button
+                onClick={() => window.print()}
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-900 rounded-lg"
+              >
+                <Printer size={16} />
+              </button>
 
-            <button
-              onClick={() => window.print()}
-              className="px-4 py-2 bg-slate-100 dark:bg-slate-900 rounded-lg"
-            >
-              <Printer size={16} />
-            </button>
-
-            <button
-              onClick={toggleFullscreen}
-              className="px-4 py-2 bg-slate-100 dark:bg-slate-900 rounded-lg"
-            >
-              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-            </button>
+              <button
+                onClick={toggleFullscreen}
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-900 rounded-lg"
+              >
+                {isFullscreen ? (
+                  <Minimize2 size={16} />
+                ) : (
+                  <Maximize2 size={16} />
+                )}
+              </button>
+            </div> */}
           </div>
         </motion.article>
       </section>

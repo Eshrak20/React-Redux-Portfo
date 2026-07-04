@@ -1,13 +1,17 @@
-import React, { useEffect, useMemo, useState } from "react";
-import ProjectSkeletons from "@/components/skeletons/projectSkeletons";
-import CommonBanner from "../../components/commonBanner/commonBanner";
-import projectImg from "../../assets/BannerImages/mainB.jpg";
-import FilterSection from "./FilterSection/FilterSection";
-import { useGetAllProjectsQuery } from "@/redux/api/projectApi";
 import ProjectsCard from "@/components/ProjectsCard/ProjectsCard";
+import ProjectSkeletons from "@/components/skeletons/projectSkeletons";
+import { useGetAllProjectsQuery } from "@/redux/api/projectApi";
+import { useEffect, useMemo, useState } from "react";
+import projectImg from "../../assets/BannerImages/mainB.jpg";
+import CommonBanner from "../../components/commonBanner/commonBanner";
+import FilterSection from "./FilterSection/FilterSection";
+
+const formatName = (value) =>
+  value
+    ?.replace(/[-_]/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 
 const Projects = () => {
-  // Scroll to top when page loads
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -15,50 +19,55 @@ const Projects = () => {
     });
   }, []);
 
-  // Fetch all projects from your API
   const { data, isLoading } = useGetAllProjectsQuery();
   const projects = data?.data || [];
 
-  // Static categories (replace with API data if you have it)
-  const categoriesData = [
-    { id: "web", name: "Web Development" },
-    { id: "mobile", name: "Mobile App" },
-    { id: "game", name: "Game Development" },
-  ];
+  const projectTypes = useMemo(() => {
+    return [...new Set(projects.map((p) => p.project_type))]
+      .filter(Boolean)
+      .map((item) => ({
+        id: item,
+        name: formatName(item),
+      }));
+  }, [projects]);
 
-  // Filters state
+  const projectCategories = useMemo(() => {
+    return [...new Set(projects.map((p) => p.project_category))]
+      .filter(Boolean)
+      .map((item) => ({
+        id: item,
+        name: formatName(item),
+      }));
+  }, [projects]);
+
   const [filters, setFilters] = useState({
-    status: "",
+    type: "",
     category: "",
     sort: "latest",
   });
 
-  // Filter logic
   const filteredProjects = useMemo(() => {
     let filtered = [...projects];
 
-    // Filter by status
-    if (filters.status) {
-      filtered = filtered.filter((p) => p.status === filters.status);
+    if (filters.type) {
+      filtered = filtered.filter(
+        (p) => p.project_type === filters.type
+      );
     }
 
-    // Filter by category
     if (filters.category) {
       filtered = filtered.filter(
-        (p) => p.project_category === filters.category,
+        (p) => p.project_category === filters.category
       );
     }
 
-    // Sort by date (assuming p.created_at exists)
-    if (filters.sort === "latest") {
-      filtered = filtered.sort(
-        (a, b) => new Date(b.created_at) - new Date(a.created_at),
-      );
-    } else if (filters.sort === "oldest") {
-      filtered = filtered.sort(
-        (a, b) => new Date(a.created_at) - new Date(b.created_at),
-      );
-    }
+    filtered.sort((a, b) => {
+      if (filters.sort === "latest") {
+        return new Date(b.created_at) - new Date(a.created_at);
+      }
+
+      return new Date(a.created_at) - new Date(b.created_at);
+    });
 
     return filtered;
   }, [projects, filters]);
@@ -75,11 +84,14 @@ const Projects = () => {
         title="Project"
         highlight="Showcase"
       />
+
       <div className="md:mx-14 xl:mx-64">
         <FilterSection
+          type="project"
           filters={filters}
           setFilters={setFilters}
-          categories={categoriesData}
+          projectTypes={projectTypes}
+          projectCategories={projectCategories}
         />
 
         <ProjectsCard projects={filteredProjects} />

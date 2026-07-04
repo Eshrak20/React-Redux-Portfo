@@ -1,24 +1,20 @@
-import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-  Share2,
-  Mail,
-  Link2,
-  Check,
-  ExternalLink,
-  Facebook,
-  Twitter,
-  Linkedin,
-  MessageCircle,
   Briefcase,
   Building2,
   Calendar,
-  User,
+  Check,
   Code,
-  Sparkles,
+  ExternalLink,
   Heart,
-  X,
+  Link2,
+  Mail,
+  Share2,
+  Sparkles,
+  User,
+  X
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const BlogPublisher = ({ blog }) => {
   const staff = blog?.staff;
@@ -153,41 +149,7 @@ const BlogPublisher = ({ blog }) => {
                   </a>
                 )}
 
-                <a
-                  href={shareUrls.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 rounded-xl hover:border-primary hover:text-primary transition-all"
-                >
-                  <Facebook className="w-4 h-4" />
-                </a>
-
-                <a
-                  href={shareUrls.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 rounded-xl hover:border-primary hover:text-primary transition-all"
-                >
-                  <Twitter className="w-4 h-4" />
-                </a>
-
-                <a
-                  href={shareUrls.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 rounded-xl hover:border-primary hover:text-primary transition-all"
-                >
-                  <Linkedin className="w-4 h-4" />
-                </a>
-
-                <a
-                  href={shareUrls.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 rounded-xl hover:border-primary hover:text-primary transition-all"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                </a>
+         
               </div>
             </div>
           </div>
