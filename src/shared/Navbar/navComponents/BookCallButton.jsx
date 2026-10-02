@@ -29,7 +29,7 @@ const BookCallButton = ({phoneNumber}) => {
           className="group relative hidden h-11 items-center gap-2 overflow-hidden rounded-full border border-primary/40 bg-transparent px-5 font-bold text-primary transition-all duration-300 hover:bg-primary hover:text-white dark:border-gray-400 dark:bg-primary dark:text-white dark:hover:bg-transparent md:flex"
         >
           <CallSignalIcon />
-          <span className="text-xs uppercase tracking-wider">Book a Call</span>
+          <span className="text-xs uppercase tracking-wider">Open at Your Own Risk</span>
         </motion.button>
       </DialogTrigger>
 

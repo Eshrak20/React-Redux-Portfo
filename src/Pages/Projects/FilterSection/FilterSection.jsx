@@ -13,10 +13,10 @@ const FilterSection = ({
         "text-[10px] font-bold uppercase tracking-widest text-gray-400";
 
     const updateFilter = (key, value) => {
-        setFilters({
-            ...filters,
+        setFilters((prev) => ({
+            ...prev,
             [key]: value,
-        });
+        }));
     };
 
     const handleReset = () => {
@@ -28,8 +28,8 @@ const FilterSection = ({
                     sort: "latest",
                 }
                 : {
-                    type: "",
-                    category: "",
+                    project_type: "",
+                    project_category: "",
                     sort: "latest",
                 }
         );
@@ -39,16 +39,16 @@ const FilterSection = ({
         <div className="relative z-30 -mt-24 px-6">
             <div
                 className="
-          mx-auto max-w-5xl
-          border border-gray-100
-          bg-white
-          p-8
-          shadow-[0_20px_50px_rgba(0,0,0,0.1)]
-          dark:border-slate-800
-          dark:bg-slate-950
-          dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)]
-          md:p-12
-        "
+                    mx-auto max-w-5xl
+                    border border-gray-100
+                    bg-white
+                    p-8
+                    shadow-[0_20px_50px_rgba(0,0,0,0.1)]
+                    dark:border-slate-800
+                    dark:bg-slate-950
+                    dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)]
+                    md:p-12
+                "
             >
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-4 items-end">
 
@@ -64,13 +64,20 @@ const FilterSection = ({
                                     className={selectStyles}
                                     value={filters.status}
                                     onChange={(e) =>
-                                        updateFilter("status", e.target.value)
+                                        updateFilter(
+                                            "status",
+                                            e.target.value
+                                        )
                                     }
                                 >
-                                    <option value="">All</option>
+                                    <option value="">
+                                        All
+                                    </option>
+
                                     <option value="published">
                                         Published
                                     </option>
+
                                     <option value="draft">
                                         Draft
                                     </option>
@@ -87,7 +94,10 @@ const FilterSection = ({
                                     className={selectStyles}
                                     value={filters.category}
                                     onChange={(e) =>
-                                        updateFilter("category", e.target.value)
+                                        updateFilter(
+                                            "category",
+                                            e.target.value
+                                        )
                                     }
                                 >
                                     <option value="">
@@ -115,9 +125,12 @@ const FilterSection = ({
 
                                 <select
                                     className={selectStyles}
-                                    value={filters.type}
+                                    value={filters.project_type}
                                     onChange={(e) =>
-                                        updateFilter("type", e.target.value)
+                                        updateFilter(
+                                            "project_type",
+                                            e.target.value
+                                        )
                                     }
                                 >
                                     <option value="">
@@ -143,10 +156,10 @@ const FilterSection = ({
 
                                 <select
                                     className={selectStyles}
-                                    value={filters.category}
+                                    value={filters.project_category}
                                     onChange={(e) =>
                                         updateFilter(
-                                            "category",
+                                            "project_category",
                                             e.target.value
                                         )
                                     }
@@ -178,17 +191,27 @@ const FilterSection = ({
                             className={selectStyles}
                             value={filters.sort}
                             onChange={(e) =>
-                                updateFilter("sort", e.target.value)
+                                updateFilter(
+                                    "sort",
+                                    e.target.value
+                                )
                             }
                         >
                             <option value="latest">
                                 Latest
                             </option>
+
                             <option value="oldest">
                                 Oldest
                             </option>
-                            <option value="featured">Featured</option>
-                            <option value="not_featured">Not Featured</option>
+
+                            <option value="featured">
+                                Featured
+                            </option>
+
+                            <option value="not_featured">
+                                Not Featured
+                            </option>
                         </select>
                     </div>
 
@@ -197,17 +220,17 @@ const FilterSection = ({
                         type="button"
                         onClick={handleReset}
                         className="
-              h-14
-              bg-primary
-              px-6
-              text-xs
-              font-bold
-              uppercase
-              tracking-widest
-              text-primary-foreground
-              transition
-              hover:bg-primary/80
-            "
+                            h-14
+                            bg-primary
+                            px-6
+                            text-xs
+                            font-bold
+                            uppercase
+                            tracking-widest
+                            text-primary-foreground
+                            transition
+                            hover:bg-primary/80
+                        "
                     >
                         Reset Filters
                     </button>

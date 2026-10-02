@@ -8,6 +8,7 @@ import CommonBanner from "@/components/commonBanner/commonBanner";
 import BlogsCard from "./BlogsCard/BlogsCard";
 
 import { useGetBlogsQuery } from "@/redux/api/blogApi";
+import BlogCardSkeleton from "@/components/skeletons/BlogCardSkeleton.jsx";
 
 const Blogs = () => {
   useEffect(() => {
@@ -67,7 +68,7 @@ const Blogs = () => {
   };
 
   if (isLoading) {
-    return <ProjectSkeletons />;
+    return <BlogCardSkeleton />;
   }
 
   return (

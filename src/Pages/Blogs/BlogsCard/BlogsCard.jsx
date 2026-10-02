@@ -63,7 +63,7 @@ const BlogsCard = ({
 
                 {/* Blog Grid */}
                 {displayedBlogs.length > 0 ? (
-                    <div className="grid gap-7 sm:grid-cols-2 xl:grid-cols-3">
+                    <div className="grid gap-7 sm:grid-cols-2 xl:grid-cols-3 mt-7">
                         {displayedBlogs.map((blog, index) => (
                             <BlogCardUI
                                 key={blog.id}

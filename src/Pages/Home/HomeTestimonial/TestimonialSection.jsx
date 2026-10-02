@@ -300,7 +300,7 @@ const TestimonialSection = ({ testimonial }) => {
                 <div className="relative mb-6 sm:mb-8 pt-4">
                   <Quote className="absolute left-0 -top-1 w-8 h-8 text-primary/10" />
                   <blockquote className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed pl-6 italic">
-                    "{selectedTestimonial.long_description || selectedTestimonial.short_description}"
+                    "{selectedTestimonial.description || selectedTestimonial.short_description}"
                   </blockquote>
                 </div>
 

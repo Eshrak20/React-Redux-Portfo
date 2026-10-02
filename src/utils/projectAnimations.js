@@ -2,48 +2,48 @@
 
 /**
  * Parent grid animation
+ *
+ * Controls the reveal timing of all project cards.
  */
 export const containerVariants = {
   hidden: {
     opacity: 0,
   },
+
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.15,
+      staggerChildren: 0.06,
     },
   },
 };
 
 /**
  * Project card animation
+ *
+ * Lightweight entrance animation using opacity + transform.
  */
 export const cardVariants = {
   hidden: {
     opacity: 0,
-    y: 30,
-    scale: 0.96,
+    y: 25,
   },
 
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: {
-      type: "spring",
-      stiffness: 120,
-      damping: 16,
+      duration: 0.4,
+      ease: "easeOut",
     },
   },
 
   hover: {
-    y: -10,
-    scale: 1.02,
+    y: -6,
+    scale: 1.01,
     transition: {
-      type: "spring",
-      stiffness: 350,
-      damping: 22,
+      duration: 0.25,
+      ease: "easeOut",
     },
   },
 
@@ -53,20 +53,20 @@ export const cardVariants = {
 };
 
 /**
- * Image animation
+ * Project image hover animation
  */
 export const imageVariants = {
   hover: {
-    scale: 1.08,
+    scale: 1.05,
     transition: {
-      duration: 0.45,
+      duration: 0.5,
       ease: "easeOut",
     },
   },
 };
 
 /**
- * Button animation
+ * Button / arrow hover animation
  */
 export const buttonVariants = {
   initial: {
@@ -77,6 +77,7 @@ export const buttonVariants = {
     x: 4,
     transition: {
       duration: 0.2,
+      ease: "easeOut",
     },
   },
 };
@@ -87,21 +88,21 @@ export const buttonVariants = {
 export const badgeVariants = {
   hidden: {
     opacity: 0,
-    scale: 0.8,
+    scale: 0.9,
   },
 
   visible: {
     opacity: 1,
     scale: 1,
     transition: {
-      delay: 0.2,
-      duration: 0.3,
+      duration: 0.25,
+      ease: "easeOut",
     },
   },
 };
 
 /**
- * Fade-up animation
+ * Reusable fade-up animation
  */
 export const fadeUpVariants = {
   hidden: {
@@ -113,7 +114,8 @@ export const fadeUpVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.45,
+      duration: 0.4,
+      ease: "easeOut",
     },
   },
 };
