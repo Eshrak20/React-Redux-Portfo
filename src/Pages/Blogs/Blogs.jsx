@@ -1,21 +1,21 @@
 import React, { useEffect, useMemo, useState } from "react";
+
 import ProjectSkeletons from "@/components/skeletons/projectSkeletons";
 import projectImg from "../../assets/BannerImages/mainB.jpg";
+
 import FilterSection from "../Projects/FilterSection/FilterSection";
 import CommonBanner from "@/components/commonBanner/commonBanner";
 import BlogsCard from "./BlogsCard/BlogsCard";
+
 import { useGetBlogsQuery } from "@/redux/api/blogApi";
 
 const Blogs = () => {
-  // Scroll to top when page loads
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   }, []);
-  const { data, isLoading } = useGetBlogsQuery();
-  const blogs = data?.data || [];
 
   const [filters, setFilters] = useState({
     status: "",
@@ -23,66 +23,78 @@ const Blogs = () => {
     sort: "latest",
   });
 
-  /* -------------------------------
-     Extract unique categories
-  --------------------------------*/
+  const [page, setPage] = useState(1);
+
+  const {
+    data,
+    isLoading,
+    isFetching,
+  } = useGetBlogsQuery({
+    page,
+    perPage: 20,
+    status: filters.status,
+    category: filters.category,
+    sort: filters.sort,
+  });
+
+  const blogs = data?.data || [];
+  const pagination = data?.meta;
+
   const categories = useMemo(() => {
     const map = new Map();
-    blogs.forEach((b) => {
-      if (b.category) {
-        map.set(b.category.id, b.category.name);
+
+    blogs.forEach((blog) => {
+      if (blog.category) {
+        map.set(
+            blog.category.id,
+            blog.category.name
+        );
       }
     });
-    return Array.from(map, ([id, name]) => ({ id, name }));
+
+    return Array.from(map, ([id, name]) => ({
+      id,
+      name,
+    }));
   }, [blogs]);
 
-  /* -------------------------------
-     Filter + Sort blogs
-  --------------------------------*/
-  const filteredBlogs = useMemo(() => {
-    let list = [...blogs];
+  const handleFiltersChange = (newFilters) => {
+    setFilters(newFilters);
 
-    if (filters.status) {
-      list = list.filter((b) => b.status === filters.status);
-    }
-
-    if (filters.category) {
-      list = list.filter((b) => b.category?.id === Number(filters.category));
-    }
-
-    list.sort((a, b) => {
-      if (filters.sort === "latest") {
-        return new Date(b.published_at) - new Date(a.published_at);
-      }
-      return new Date(a.published_at) - new Date(b.published_at);
-    });
-
-    return list;
-  }, [blogs, filters]);
+    // Always return to first page
+    // when a filter changes.
+    setPage(1);
+  };
 
   if (isLoading) {
     return <ProjectSkeletons />;
   }
 
   return (
-    <>
-      <CommonBanner
-        backgroundImage={projectImg}
-        subtitle="MY Insights"
-        title="Blog"
-        highlight="Articles"
-      />
-      <div className="md:mx-14 xl:mx-64">
-        <FilterSection
-          filters={filters}
-          setFilters={setFilters}
-          categories={categories}
+      <>
+        <CommonBanner
+            backgroundImage={projectImg}
+            subtitle="MY Insights"
+            title="Blog"
+            highlight="Articles"
         />
 
-        {/* ✅ Pass FILTERED blogs */}
-        <BlogsCard blogs={filteredBlogs} />
-      </div>
-    </>
+        <div className="md:mx-14 xl:mx-64">
+          <FilterSection
+              filters={filters}
+              setFilters={handleFiltersChange}
+              categories={categories}
+          />
+
+          <BlogsCard
+              blogs={blogs}
+              pagination={pagination}
+              page={page}
+              setPage={setPage}
+              isFetching={isFetching}
+          />
+        </div>
+      </>
   );
 };
 

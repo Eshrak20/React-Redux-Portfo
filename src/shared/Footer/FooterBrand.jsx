@@ -2,6 +2,7 @@ import logoLight from "@/assets/title/eg1.png";
 import logoDark from "@/assets/title/eg2.png";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import { useGetSettingsDataQuery } from "@/redux/api/homeApi";
+import RichContent from "@/components/RichContent/RichContent.jsx";
 
 const FooterBrand = () => {
   const { data, isLoading } = useGetSettingsDataQuery();
@@ -43,7 +44,7 @@ const FooterBrand = () => {
 
       {/* Description */}
       <p className="max-w-md text-sm leading-7 text-muted-foreground">
-        {description}
+          <RichContent content={description} />
       </p>
 
       {/* Social Icons */}

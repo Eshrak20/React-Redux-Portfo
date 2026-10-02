@@ -1,16 +1,13 @@
-import RichContent from "../RichContent/RichContent";
-
-const BlogContent = ({ content = "" }) => {
-    if (!content) {
-        return null;
-    }
+const RichContent = ({
+                         content = "",
+                         className = "",
+                     }) => {
+    if (!content) return null;
 
     return (
-        <div className="w-full overflow-x-auto">
-            <RichContent
-                content={content}
-                className="
-                    max-w-none
+        <div
+            className={`
+        max-w-none
                     text-base
                     leading-relaxed
 
@@ -116,9 +113,14 @@ const BlogContent = ({ content = "" }) => {
                     [&_sub]:text-xs
                     [&_sup]:text-xs
                 "
-            />
-        </div>
+
+        ${className}
+      `}
+            dangerouslySetInnerHTML={{
+                __html: content,
+            }}
+        />
     );
 };
 
-export default BlogContent;
+export default RichContent;
