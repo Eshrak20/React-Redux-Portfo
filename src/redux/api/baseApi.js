@@ -5,7 +5,7 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl:
      import.meta.env.VITE_API_BASE_URL,
-    // "https://mastermind.ilabs360.com/api"
+    // "https://code.veringroup.com/api"
     //  || "http://localhost:8000/api",
     credentials: "include",
   }),
