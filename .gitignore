@@ -24,3 +24,4 @@ src/assets/ShantaAssets/*.mp4
 *.njsproj
 *.sln
 *.sw?
+dist.zip
