@@ -122,7 +122,7 @@ const Projects = () => {
                 highlight="Showcase"
             />
 
-            <div className="md:mx-14 xl:mx-64">
+            <div className="w-full">
                 <FilterSection
                     type="project"
                     filters={filters}

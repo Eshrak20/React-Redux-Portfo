@@ -1,28 +1,45 @@
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
 export default function useNavbar() {
-  const [isOpen, setIsOpen] = useState(false);
-
   const [isScrolled, setIsScrolled] = useState(false);
-
-  const [screenWidth, setScreenWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 1440,
-  );
-
+  const [showTopButton, setShowTopButton] = useState(false);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const previousScrollY = useRef(0);
+  const scrollDirection = useRef(null);
+  const directionDistance = useRef(0);
 
-  const [activePill, setActivePill] = useState({
-    left: 0,
-    width: 0,
-    opacity: 0,
-  });
-
-  // Scroll Effect
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const scrollY = window.scrollY;
+      const delta = scrollY - previousScrollY.current;
+      setIsScrolled(scrollY > 50);
+      setShowTopButton(scrollY > 300);
+
+      if (scrollY < 60) {
+        setIsNavbarVisible(true);
+        scrollDirection.current = null;
+        directionDistance.current = 0;
+      } else if (delta !== 0) {
+        const nextDirection = delta > 0 ? "down" : "up";
+
+        if (nextDirection !== scrollDirection.current) {
+          scrollDirection.current = nextDirection;
+          directionDistance.current = 0;
+        }
+
+        directionDistance.current += Math.abs(delta);
+
+        if (directionDistance.current >= 8) {
+          setIsNavbarVisible(nextDirection === "up");
+          directionDistance.current = 0;
+        }
+      }
+
+      previousScrollY.current = scrollY;
     };
 
+    previousScrollY.current = window.scrollY;
     handleScroll();
 
     window.addEventListener("scroll", handleScroll, {
@@ -34,22 +51,6 @@ export default function useNavbar() {
     };
   }, []);
 
-  // Resize Effect
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  // Theme Effect
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
 
@@ -82,16 +83,10 @@ export default function useNavbar() {
   };
 
   return {
-    isOpen,
-    setIsOpen,
-
     isScrolled,
-    screenWidth,
-
+    showTopButton,
+    isNavbarVisible,
     isDarkMode,
     toggleTheme,
-
-    activePill,
-    setActivePill,
   };
 }

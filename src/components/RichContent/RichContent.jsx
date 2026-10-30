@@ -1,11 +1,15 @@
 const RichContent = ({
                          content = "",
                          className = "",
+                         lang,
+                         dir,
                      }) => {
     if (!content) return null;
 
     return (
         <div
+            lang={lang}
+            dir={dir}
             className={`
         max-w-none
                     text-base

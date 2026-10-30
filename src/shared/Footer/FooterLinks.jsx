@@ -50,17 +50,17 @@ const FooterLinks = () => {
         Quick Links
       </h3>
 
-      <nav className="mt-6 grid gap-4">
+      <nav aria-label="Footer navigation" className="mt-5 grid grid-cols-2 gap-x-3 gap-y-3 sm:mt-6 sm:grid-cols-1 sm:gap-4">
         {footerLinks.map((link) => (
           <Link
             key={link.path}
             to={link.path}
             onClick={handleClick}
-            className="group flex w-fit items-center gap-2 text-sm font-medium text-muted-foreground transition-all duration-300 hover:translate-x-1 hover:text-primary"
+            className="group flex min-h-10 items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
           >
             <ChevronRight
               size={16}
-              className="text-primary transition-transform duration-300 group-hover:translate-x-1"
+              className="shrink-0 text-primary"
             />
 
             <span>{link.label}</span>

@@ -24,11 +24,11 @@ export const getExcerpt = (html = "", limit = 120) => {
  * Format published date.
  * Example: Jul 2, 2026
  */
-export const formatDate = (dateString) => {
+export const formatDate = (dateString, language = "en") => {
   if (!dateString) return "";
 
   return new Date(dateString).toLocaleDateString(
-      "en-US",
+      language === "bn" ? "bn-BD" : "en-US",
       {
         month: "short",
         day: "numeric",
@@ -48,7 +48,7 @@ export const getBlogTitle = (
 
   return language === "bn"
       ? blog.title_bng || blog.title || ""
-      : blog.title || "";
+      : blog.title || blog.title_bng || "";
 };
 
 /**
@@ -68,6 +68,8 @@ export const getBlogContent = (
       ""
       : blog.summary ||
       blog.content ||
+      blog.summary_bng ||
+      blog.content_bng ||
       "";
 };
 
@@ -87,7 +89,9 @@ export const getBlogArticleContent = (
       ? blog.content_bng ||
       blog.content ||
       ""
-      : blog.content || "";
+      : blog.content ||
+      blog.content_bng ||
+      "";
 };
 
 /**
@@ -103,7 +107,9 @@ export const getBlogSummary = (
       ? blog.summary_bng ||
       blog.summary ||
       ""
-      : blog.summary || "";
+      : blog.summary ||
+      blog.summary_bng ||
+      "";
 };
 
 /**
@@ -123,7 +129,9 @@ export const getCategoryName = (
       ? blog.category.name_bng ||
       blog.category.name ||
       ""
-      : blog.category.name || "";
+      : blog.category.name ||
+      blog.category.name_bng ||
+      "";
 };
 
 /**

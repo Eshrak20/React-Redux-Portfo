@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 const FooterBottom = () => {
   return (
-    <div className="border-t border-border pt-6">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-center text-sm text-muted-foreground md:flex-row md:text-left">
-        <p>
+    <div className="border-t border-border pt-5 sm:pt-6">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-center text-xs text-muted-foreground sm:text-sm md:flex-row md:text-left">
+        <p className="leading-6">
           © {new Date().getFullYear()}{" "}
           <span className="font-semibold text-foreground">
             Tashrif Hasan Jilan Eshrak
@@ -12,7 +12,7 @@ const FooterBottom = () => {
           . All rights reserved.
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-5">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:gap-5">
           <Link
             to="/privacy-policy"
             className="transition-colors duration-300 hover:text-primary"

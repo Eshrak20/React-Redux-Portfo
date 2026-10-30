@@ -3,13 +3,9 @@ import {
   COMPANY_LOCATION,
   COMPANY_PHONE,
 } from "@/data/emailGreating";
-import { useGetSettingsDataQuery } from "@/redux/api/homeApi";
 import { Mail, MapPin, Phone } from "lucide-react";
 
-const FooterContact = () => {
-  const { data, isLoading, isError } = useGetSettingsDataQuery();
-
-  const settings = data?.data?.[0] ?? {};
+const FooterContact = ({settings = {}, isLoading, isError}) => {
 
   const email = settings.primary_email || COMPANY_EMAIL;
 
@@ -28,7 +24,7 @@ const FooterContact = () => {
       <div>
         <h3 className="text-xl font-bold text-foreground">Contact</h3>
 
-        <div className="mt-6 space-y-5">
+        <div className="mt-5 space-y-4 sm:mt-6 sm:space-y-5">
           <div className="h-12 animate-pulse rounded-lg bg-muted" />
           <div className="h-12 animate-pulse rounded-lg bg-muted" />
           <div className="h-12 animate-pulse rounded-lg bg-muted" />
@@ -43,7 +39,7 @@ const FooterContact = () => {
     <div>
       <h3 className="text-xl font-bold text-foreground">Contact</h3>
 
-      <div className="mt-6 space-y-6">
+      <div className="mt-5 space-y-4 sm:mt-6 sm:space-y-5">
         {/* Email */}
         <a
           href={gmailUrl}

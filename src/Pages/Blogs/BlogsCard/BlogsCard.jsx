@@ -2,7 +2,6 @@ import {ChevronRight} from "lucide-react";
 import {useState} from "react";
 import {Link, useLocation} from "react-router-dom";
 
-import Title from "@/components/Title/Title";
 import Pagination from "@/components/Pagination/Pagination";
 
 import BlogCardUI from "./BlogCardUI";
@@ -25,18 +24,23 @@ const BlogsCard = ({
         : blogs;
 
     return (
-        <section className="py-16 bg-background">
-            <div className="container mx-auto px-6 md:px-8 lg:px-12">
+        <section className="bg-background py-10 sm:py-14 lg:py-16">
+            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
                 {/* Header */}
-                <div className="text-center mb-12">
-                    <Title name="My Writes"/>
+                <div className="mb-8 text-center sm:mb-10">
+                    <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
+                        {language === "bn" ? "আমার লেখা" : "My Writes"}
+                    </h2>
+                    <div className="mx-auto h-1.5 w-24 rounded-full bg-primary" />
                 </div>
 
-                <LanguageToggle
-                    language={language}
-                    onChange={setLanguage}
-                />
+                <div className="mb-6 flex justify-center">
+                    <LanguageToggle
+                        language={language}
+                        onChange={setLanguage}
+                    />
+                </div>
 
                 {/* View All */}
                 {isHomePage && (
@@ -56,14 +60,17 @@ const BlogsCard = ({
 
                 {/* Loading */}
                 {isFetching && !isHomePage && (
-                    <div className="text-center py-4 text-muted-foreground">
-                        Loading blogs...
+                    <div role="status" className="py-4 text-center text-muted-foreground">
+                        {language === "bn" ? "ব্লগ লোড হচ্ছে..." : "Loading blogs..."}
                     </div>
                 )}
 
                 {/* Blog Grid */}
                 {displayedBlogs.length > 0 ? (
-                    <div className="grid gap-7 sm:grid-cols-2 xl:grid-cols-3 mt-7">
+                    <div
+                        aria-busy={isFetching && !isHomePage}
+                        className="mt-7 grid gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3"
+                    >
                         {displayedBlogs.map((blog, index) => (
                             <BlogCardUI
                                 key={blog.id}
@@ -74,7 +81,7 @@ const BlogsCard = ({
                         ))}
                     </div>
                 ) : (
-                    <div className="py-24 text-center border border-dashed rounded-2xl">
+                    <div className="rounded-2xl border border-dashed px-4 py-16 text-center sm:py-24">
                         <h3 className="text-xl font-semibold text-foreground">
                             {language === "bn"
                                 ? "এখনো কোনো ব্লগ প্রকাশ করা হয়নি"

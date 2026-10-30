@@ -6,11 +6,14 @@ const SocialIcons = ({
   className = "",
   buttonClassName = "",
   iconSize = 20,
+  socialLinks: providedLinks,
 }) => {
-  const { data, isLoading, isError } = useGetSocialLinksQuery();
+  const { data, isLoading, isError } = useGetSocialLinksQuery(undefined, {
+    skip: Array.isArray(providedLinks),
+  });
 
-  const socialLinks = data?.data ?? [];
-  if (isLoading || isError || !socialLinks.length) {
+  const socialLinks = providedLinks ?? data?.data ?? [];
+  if ((!providedLinks && (isLoading || isError)) || !socialLinks.length) {
     return null;
   }
 

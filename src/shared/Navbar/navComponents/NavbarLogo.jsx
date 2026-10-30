@@ -1,51 +1,21 @@
-import { motion } from "framer-motion";
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
-export default function NavbarLogo({
-  logo,
-  alt = "Logo",
-}) {
-  return (
-    <motion.div
-      whileHover={{ scale: 1.03 }}
-      className="relative group min-w-0 shrink-0"
-    >
-      <NavLink
+const NavbarLogo = ({logo, alt = "Logo"}) => (
+    <NavLink
         to="/"
-        className="relative block"
-      >
-        <div
-          className="
-            relative
-            flex
-            h-13
-            w-39
-            items-center
-            py-2
-
-            md:h-18
-            md:w-42.5
-
-            lg:h-20
-            lg:w-50
-          "
-        >
-          <img
+        aria-label={alt}
+        className="flex h-11 w-32 shrink-0 items-center sm:h-12 sm:w-36 lg:w-40"
+    >
+        <img
             src={logo}
-            alt={alt}
-            className="
-              h-full
-              w-full
-              object-contain
+            alt=""
+            width="160"
+            height="52"
+            fetchPriority="high"
+            decoding="async"
+            className="h-full w-full object-contain object-left"
+        />
+    </NavLink>
+);
 
-              transition-transform
-              duration-300
-
-              group-hover:scale-[1.02]
-            "
-          />
-        </div>
-      </NavLink>
-    </motion.div>
-  );
-}
+export default NavbarLogo;

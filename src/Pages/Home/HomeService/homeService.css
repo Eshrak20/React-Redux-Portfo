@@ -1,0 +1,81 @@
+.home-service-track {
+  height: var(--desktop-track-height-fallback);
+  height: var(--desktop-track-height, var(--desktop-track-height-fallback));
+}
+
+.home-service-stage {
+  isolation: isolate;
+}
+
+.home-service-stack,
+.home-service-mobile-stack {
+  position: relative;
+  width: min(100%, 48rem);
+  height: min(52svh, 27.5rem);
+}
+
+.home-service-mobile-stack {
+  width: min(100%, 27rem);
+  height: min(56svh, 28rem);
+}
+
+.home-service-card-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  will-change: transform, opacity;
+}
+
+.home-service-finish {
+  position: absolute;
+  inset: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 1rem;
+}
+
+.home-service-finish-card {
+  flex: 0 1 calc((100% - 3rem) / 4);
+  min-width: 0;
+  height: min(45svh, 23rem);
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .home-service-finish-card {
+    flex-basis: calc((100% - 1rem) / 2);
+  }
+}
+
+@media (max-width: 767px) {
+  .home-service-track {
+    height: var(--mobile-track-height-fallback);
+    height: var(--mobile-track-height, var(--mobile-track-height-fallback));
+  }
+}
+
+@supports not (height: 100svh) {
+  .home-service-stack,
+  .home-service-mobile-stack {
+    height: min(52vh, 27.5rem);
+  }
+
+  .home-service-mobile-stack {
+    height: min(56vh, 28rem);
+  }
+
+  .home-service-finish-card {
+    height: min(45vh, 23rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-service-track {
+    height: auto;
+  }
+
+  .home-service-card-layer {
+    will-change: auto;
+  }
+}

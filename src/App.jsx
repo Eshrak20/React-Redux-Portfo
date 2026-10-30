@@ -5,16 +5,15 @@ import Footer from "./shared/Footer/Footer";
 import { useGetSettingsDataQuery, useGetSocialLinksQuery } from "./redux/api/homeApi";
 
 const App = () => {
-  const { data: footerData, isLoading: footerLoading } =
+  const { data: footerData, isLoading: footerLoading, isError: footerError } =
     useGetSettingsDataQuery();
-  const { data: socialLinksData, isLoading: socialLinksLoading } =
-    useGetSocialLinksQuery();
+  const { data: socialLinksData } = useGetSocialLinksQuery();
 
-  const data = footerData?.data[0] || [];
+  const data = footerData?.data?.[0] || {};
   // console.log(data);
 
   return (
-    <div className="mx-auto min-h-screen flex flex-col ">
+    <div className="mx-auto flex min-h-screen flex-col pb-[calc(5.5rem+env(safe-area-inset-bottom))] lg:pb-0">
       {/* GLOBAL PAGE LOADER */}
       {/* <PageLoader /> */}
 
@@ -25,7 +24,12 @@ const App = () => {
         <Outlet />
       </main>
 
-      <Footer data={data} socialLinksData={socialLinksData} />
+      <Footer
+        data={data}
+        socialLinksData={socialLinksData}
+        isLoading={footerLoading}
+        isError={footerError}
+      />
     </div>
   );
 };

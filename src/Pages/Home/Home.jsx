@@ -8,7 +8,7 @@ import { useGetTestimonialQuery } from "@/redux/api/testimonialApi";
 import HomeProjectsSkeleton from "@/components/skeletons/HomeProjectsSkeleton";
 import HomeTestimonialSkeleton from "@/components/skeletons/HomeTestimonialSkeleton";
 import HomeClients from "./HomeClients/HomeClients";
-import ProjectsCard from "@/components/ProjectsCard/ProjectsCard";
+import HomeProjects from "./HomeProjects/HomeProjects";
 import TestimonialSection from "./HomeTestimonial/TestimonialSection";
 import { useGetBlogsQuery } from "@/redux/api/blogApi";
 import BlogsCard from "../Blogs/BlogsCard/BlogsCard";
@@ -35,7 +35,7 @@ const Home = () => {
   const { data: blogsData, isLoading: blogLoading } = useGetBlogsQuery();
 
   return (
-    <div className="md:mx-14 xl:mx-72">
+    <div className="w-full">
       <HomeBanner />
 
       {/* SERVICES */}
@@ -49,7 +49,7 @@ const Home = () => {
       {projectsLoading || !projectsData?.data ? (
         <HomeProjectsSkeleton />
       ) : (
-        <ProjectsCard projects={projectsData.data} />
+        <HomeProjects projects={projectsData.data} />
       )}
       <Tech />
 

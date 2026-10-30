@@ -13,9 +13,14 @@ import {
 
 const BlogCardUI = ({blog, language = "bn", index = 0}) => {
     const title = getBlogTitle(blog, language);
-    const content = getExcerpt(getBlogContent(blog, language), 120);
-    const category = getCategoryName(blog, language);
+    const content = getExcerpt(getBlogContent(blog, language), 160);
+    const category = getCategoryName(blog, "en");
     const image = getFeaturedImage(blog);
+    const publishedDate = blog.published_at
+        ? new Date(blog.published_at)
+        : null;
+    const hasValidPublishedDate = publishedDate &&
+        !Number.isNaN(publishedDate.getTime());
 
     return (
         <motion.article
@@ -44,6 +49,8 @@ const BlogCardUI = ({blog, language = "bn", index = 0}) => {
                     <img
                         src={image}
                         alt={title}
+                        loading="lazy"
+                        decoding="async"
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                         onError={(e) => {
                             e.currentTarget.src =
@@ -57,37 +64,44 @@ const BlogCardUI = ({blog, language = "bn", index = 0}) => {
                 </div>
 
                 {/* Content */}
-                <div className="flex h-65 flex-col p-6">
+                <div className="flex h-full min-h-[17rem] flex-col p-5 sm:p-6">
                     {/* Date */}
-                    <div className="mb-4 flex items-center gap-2 text-xs text-muted-foreground">
-                        <Calendar className="h-4 w-4"/>
-                        <span>{formatDate(blog.published_at)}</span>
-                    </div>
+                    {hasValidPublishedDate && (
+                        <div className="mb-4 flex items-center gap-2 text-xs text-muted-foreground">
+                            <Calendar aria-hidden="true" className="h-4 w-4"/>
+                            <time dateTime={publishedDate.toISOString()}>
+                                {formatDate(blog.published_at, "en")}
+                            </time>
+                        </div>
+                    )}
 
                     {/* Title */}
-                    <h3 className="mb-3 line-clamp-2 text-xl font-bold leading-snug text-foreground transition-colors duration-300 group-hover:text-primary">
+                    <h3
+                        lang={language === "bn" ? "bn" : "en"}
+                        className={`mb-3 line-clamp-2 break-words text-xl font-bold leading-snug text-foreground transition-colors duration-300 group-hover:text-primary ${language === "bn" ? "font-bengali" : ""}`}
+                    >
                         {title}
                     </h3>
 
                     {/* Summary */}
-                    <p className="line-clamp-6 text-sm leading-7 text-muted-foreground">
+                    <p
+                        lang={language === "bn" ? "bn" : "en"}
+                        className={`mb-5 line-clamp-4 break-words text-sm leading-7 text-muted-foreground ${language === "bn" ? "font-bengali" : ""}`}
+                    >
                         {content}
                     </p>
 
                     {/* Bottom */}
-                    <div className="mt-auto ">
-                        <div className="flex items-center justify-between">
-    <span className="inline-flex items-center gap-2 font-medium text-primary">
-        {language === "bn" ? "আরও পড়ুন" : "Read Article"}
-        <ChevronRight className="h-4 w-4"/>
-    </span>
-
-                            <span
-                                className="rounded-full border border-border bg-background/90 px-3 py-1 text-xs font-semibold text-primary">
-        {category}
-    </span>
+                    <div className="mt-auto">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                            <span className="inline-flex items-center gap-2 font-medium text-primary">
+                                Read Article
+                                <ChevronRight aria-hidden="true" className="h-4 w-4"/>
+                            </span>
+                            <span className="max-w-full break-words rounded-full border border-border bg-background/90 px-3 py-1 text-xs font-semibold text-primary">
+                                {category}
+                            </span>
                         </div>
-
                     </div>
                 </div>
             </Link>

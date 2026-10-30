@@ -32,7 +32,7 @@ const Blogs = () => {
     isFetching,
   } = useGetBlogsQuery({
     page,
-    perPage: 20,
+    perPage: 18,
     status: filters.status,
     category: filters.category,
     sort: filters.sort,

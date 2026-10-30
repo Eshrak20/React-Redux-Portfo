@@ -1,78 +1,67 @@
-import { Bookmark, Maximize2, Minimize2, Printer } from "lucide-react";
-import { generatePDF } from "./GeneratePDF";
 
+import {
+  Bookmark,
+  Maximize2,
+  Minimize2,
+  Printer,
+} from "lucide-react";
 
 const BlogActions = ({
-  blog,
   isBookmarked,
   toggleBookmark,
   isFullscreen,
   toggleFullscreen,
+  onPrint,
 }) => {
-  const handleDownloadPDF = async () => {
-    try {
-      await generatePDF(blog);
-    } catch (error) {
-      console.error("PDF generation failed:", error);
-    }
-  };
+  const buttonClass =
+    "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
 
   return (
-    <div className="mt-10 space-y-6">
-      {/* SOCIAL SHARE */}
-      {/* <SocialShareButtons
-        title={blog?.title_bng || blog?.title}
-        url={typeof window !== "undefined" ? window.location.href : ""}
-      /> */}
-
-      {/* ACTION BUTTONS */}
-      <div className="flex flex-wrap gap-3">
+    <div className="print-hidden">
+      <div className="flex flex-nowrap items-center gap-1.5">
         {/* Bookmark */}
         <button
+          type="button"
           onClick={toggleBookmark}
-          className={`px-4 py-2 rounded-lg flex items-center gap-2 transition ${
+          aria-label={isBookmarked ? "Remove bookmark" : "Bookmark"}
+          aria-pressed={isBookmarked}
+          title={isBookmarked ? "Saved" : "Bookmark"}
+          className={`${buttonClass} ${
             isBookmarked
-              ? "bg-primary/10 text-primary"
-              : "bg-slate-100 dark:bg-slate-900"
+              ? "border-primary/30 bg-primary/10 text-primary"
+              : ""
           }`}
         >
-          <Bookmark size={16} />
-          Bookmark
+          <Bookmark
+            size={17}
+            fill={isBookmarked ? "currentColor" : "none"}
+          />
         </button>
-
-        {/* TODO: PDF Download */}
-        {/* <button
-          onClick={handleDownloadPDF}
-          className="px-4 py-2 rounded-lg flex items-center gap-2 bg-slate-100 dark:bg-slate-900 hover:bg-primary hover:text-white transition"
-        >
-          <Download size={16} />
-          PDF
-        </button> */}
 
         {/* Print */}
         <button
-          onClick={() => window.print()}
-          className="px-4 py-2 rounded-lg flex items-center gap-2 bg-slate-100 dark:bg-slate-900 hover:bg-primary hover:text-white transition"
+          type="button"
+          onClick={onPrint || (() => window.print())}
+          aria-label="Print or save as PDF"
+          title="Print / Save PDF"
+          className={buttonClass}
         >
-          <Printer size={16} />
-          Print
+          <Printer size={17} />
         </button>
 
         {/* Fullscreen */}
         <button
+          type="button"
           onClick={toggleFullscreen}
-          className="px-4 py-2 rounded-lg flex items-center gap-2 bg-slate-100 dark:bg-slate-900 hover:bg-primary hover:text-white transition"
+          aria-label={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+          title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+          aria-pressed={isFullscreen}
+          className={buttonClass}
         >
           {isFullscreen ? (
-            <>
-              <Minimize2 size={16} />
-              Exit
-            </>
+            <Minimize2 size={17} />
           ) : (
-            <>
-              <Maximize2 size={16} />
-              Fullscreen
-            </>
+            <Maximize2 size={17} />
           )}
         </button>
       </div>

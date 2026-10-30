@@ -1,18 +1,26 @@
 import { useGetDetailBlogsQuery } from "@/redux/api/blogApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import BlogBanner from "./BlogBanner";
+import {
+  getBlogArticleContent,
+  getBlogSummary,
+  getBlogTitle,
+  getExcerpt,
+} from "@/Pages/Blogs/BlogsCard/blogUtils.js";
 import DetBlogs from "./DetBlogs";
 
 const MainBlog = () => {
-  // Scroll to top when page loads
+  const [language, setLanguage] = useState("bn");
+
+  const { slug } = useParams();
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-  }, []);
-  const { slug } = useParams();
+    setLanguage("bn");
+  }, [slug]);
 
   const {
     data: response,
@@ -24,6 +32,59 @@ const MainBlog = () => {
   });
 
   const blog = response?.data;
+
+  useEffect(() => {
+    if (!blog) return undefined;
+
+    const previousTitle = document.title;
+    const title = getBlogTitle(blog, language);
+    const articleText =
+      getBlogSummary(blog, language) ||
+      getBlogArticleContent(blog, language);
+    const descriptionText = getExcerpt(articleText, 180) || title;
+    const metaDefinitions = [
+      ["name", "description", descriptionText],
+      ["property", "og:title", title],
+      ["property", "og:description", descriptionText],
+      ["property", "og:type", "article"],
+      ["property", "og:url", window.location.href],
+      ["property", "og:image", blog.featured_image || ""],
+      ["name", "twitter:card", "summary_large_image"],
+      ["name", "twitter:title", title],
+      ["name", "twitter:description", descriptionText],
+      ["name", "twitter:image", blog.featured_image || ""],
+    ];
+    const previousMeta = metaDefinitions.map(([attribute, name]) => {
+      const selector = `meta[${attribute}="${name}"]`;
+      let element = document.head.querySelector(selector);
+      const created = !element;
+
+      if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute(attribute, name);
+        document.head.appendChild(element);
+      }
+
+      return {
+        element,
+        created,
+        content: element.content,
+      };
+    });
+
+    document.title = title || previousTitle;
+    metaDefinitions.forEach(([, , content], index) => {
+      previousMeta[index].element.content = content;
+    });
+
+    return () => {
+      document.title = previousTitle;
+      previousMeta.forEach(({element, created, content}) => {
+        if (created) element.remove();
+        else element.content = content;
+      });
+    };
+  }, [blog, language]);
 
   // 🔥 Loading state (better UX)
   if (isLoading || isFetching) {
@@ -55,8 +116,11 @@ const MainBlog = () => {
 
   return (
     <main className="bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
-      <BlogBanner blog={blog} />
-      <DetBlogs blog={blog} />
+      <DetBlogs
+        blog={blog}
+        language={language}
+        onLanguageChange={setLanguage}
+      />
       
       {/* <BlogPublisher blog={blog} /> */}
     </main>

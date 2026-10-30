@@ -1,7 +1,9 @@
 // src/utils/projectUtils.js
 
+import fallbackImage from "@/assets/BannerImages/Projects-Banner.avif";
+
 const FALLBACK_IMAGE =
-  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80";
+  fallbackImage;
 
 /**
  * Returns the project banner or fallback image.
