@@ -1,5 +1,5 @@
-import {Share2, X} from "lucide-react";
-import {useState} from "react";
+import { Share2, X } from "lucide-react";
+import { useState } from "react";
 import SocialShareButtons from "./SocialShareButtons";
 
 const BlogMobileShare = ({title, summary}) => {
@@ -10,7 +10,7 @@ const BlogMobileShare = ({title, summary}) => {
             {isOpen && (
                 <div
                     id="mobile-article-share"
-                    className="mb-3 rounded-2xl border border-border bg-background p-3 shadow-xl"
+                    className="mb-3 rounded-sm border border-border bg-background p-3 shadow-xl"
                 >
                     <SocialShareButtons
                         title={title}

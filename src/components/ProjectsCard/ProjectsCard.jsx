@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
-import { FolderKanban, Sparkles } from "lucide-react";
 import Pagination from "@/components/Pagination/Pagination";
 import { containerVariants } from "@/utils/projectAnimations";
+import { motion } from "framer-motion";
+import { FolderKanban } from "lucide-react";
 import ProjectCard from "./ProjectCard";
 
 const ProjectsCard = ({
@@ -10,14 +10,10 @@ const ProjectsCard = ({
   setPage,
   isFetching = false,
 }) => (
-  <section className="bg-background px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+  <section className="bg-background px-4 pb-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
     <div className="mx-auto max-w-7xl">
-      <header className="mb-9 border-b border-border pb-6 sm:mb-12 sm:flex sm:items-end sm:justify-between sm:gap-8">
+      <header className="md:mb-9 border-b border-border pb-6 sm:mb-12 sm:flex sm:items-end sm:justify-between sm:gap-8">
         <div className="max-w-2xl">
-          <p className="mb-3 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.2em] text-primary">
-            <Sparkles aria-hidden="true" size={15} />
-            The portfolio
-          </p>
           <h2 className="text-3xl font-black tracking-tight text-foreground sm:text-4xl">
             Projects &amp; products
           </h2>
@@ -44,7 +40,7 @@ const ProjectsCard = ({
             <ProjectCard key={project.id || project.slug} project={project} />
           ))
         ) : (
-          <div className="col-span-full rounded-2xl border border-dashed border-border bg-muted/30 px-6 py-16 text-center">
+          <div className="col-span-full rounded-sm border border-dashed border-border bg-muted/30 px-6 py-16 text-center">
             <h3 className="text-xl font-bold text-foreground">
               No projects found
             </h3>

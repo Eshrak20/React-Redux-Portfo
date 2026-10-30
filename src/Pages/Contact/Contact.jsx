@@ -1,16 +1,14 @@
-import React, { useState } from "react";
-import ContactSection from "@/components/contactSection/contactSection";
+import CommonBanner from "@/components/commonBanner/commonBanner";
 import CommonMap from "@/components/commonMap/commonMap";
+import MessageSuccess from "@/components/messageSuccess/messageSuccess";
+import GetInTouchSectionSkeleton from "@/components/skeletons/getInTouchSectionSkeleton";
+import { useCreateContactMessageMutation } from "@/redux/api/contactApi";
 import {
   useGetSettingsDataQuery,
   useGetSocialLinksQuery,
 } from "@/redux/api/homeApi";
-import { useCreateContactMessageMutation } from "@/redux/api/contactApi";
-import CommonBanner from "@/components/commonBanner/commonBanner";
+import { useState } from "react";
 import connectImg from "../../assets/BannerImages/mainB.jpg";
-import GetInTouchSectionSkeleton from "@/components/skeletons/getInTouchSectionSkeleton";
-import ContactSectionSkeleton from "@/components/skeletons/contactSectionSkeleton";
-import MessageSuccess from "@/components/messageSuccess/messageSuccess";
 import GetInTouchSection from "./GetInTouchSection/GetInTouchSection";
 
 const Contact = () => {
@@ -40,6 +38,16 @@ const Contact = () => {
       alert("Failed to send message!");
     }
   };
+  const mapSettings = (() => {
+    try {
+      const value = settingData?.data?.[0]?.google_map_embed;
+
+      return value ? JSON.parse(value) : {};
+    } catch (error) {
+      console.error("Invalid map settings:", error);
+      return {};
+    }
+  })();
 
   return (
     <div>
@@ -51,7 +59,6 @@ const Contact = () => {
         title="Whats App"
         highlight="01829076247"
       />
-
 
       {/* CONTACT FORM */}
 
@@ -67,10 +74,13 @@ const Contact = () => {
       )}
       {/* MAP */}
       <div className="-mb-20">
-        <CommonMap
-          google_map_embed={settingData?.data?.[0]?.google_map_embed}
-          loading={settingDataLoading}
-        />
+        <div className="-mb-20">
+          <CommonMap
+            google_map_embed={mapSettings.google_map_embed}
+            street_view_embed={mapSettings.street_view_embed}
+            loading={settingDataLoading}
+          />
+        </div>
       </div>
       <MessageSuccess
         show={showSuccess}

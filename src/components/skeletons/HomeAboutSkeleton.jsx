@@ -1,4 +1,3 @@
-import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const HomeAboutSkeleton = () => {
@@ -31,7 +30,7 @@ const HomeAboutSkeleton = () => {
 
             {/* Stats Overlay */}
             <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-[95%] lg:w-full">
-              <div className="bg-background/80 backdrop-blur-xl p-6 md:px-10 md:py-8 md:rounded-2xl rounded-md border">
+              <div className="bg-background/80 backdrop-blur-xl p-6 md:px-10 md:py-8 md:rounded-sm rounded-md border">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {Array.from({ length: 4 }).map((_, i) => (
                     <div key={i} className="space-y-2">
@@ -60,9 +59,9 @@ const HomeAboutSkeleton = () => {
               {Array.from({ length: 3 }).map((_, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-5 p-5 md:rounded-2xl rounded-md border bg-background"
+                  className="flex items-center gap-5 p-5 md:rounded-sm rounded-md border bg-background"
                 >
-                  <Skeleton className="h-12 w-12 rounded-xl bg-muted" />
+                  <Skeleton className="h-12 w-12  bg-muted" />
                   <div className="flex-1 space-y-2">
                     <Skeleton className="h-5 w-40 bg-muted" />
                     <Skeleton className="h-4 w-full bg-muted" />

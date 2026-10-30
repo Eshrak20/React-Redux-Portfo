@@ -10,7 +10,7 @@ const BlogCardSkeleton = () => (
                 <article
                     key={index}
                     aria-hidden="true"
-                    className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
+                    className="overflow-hidden rounded-sm border border-border bg-card shadow-sm"
                 >
                     <div className="aspect-video animate-pulse bg-muted" />
                     <div className="space-y-4 p-5 sm:p-6">

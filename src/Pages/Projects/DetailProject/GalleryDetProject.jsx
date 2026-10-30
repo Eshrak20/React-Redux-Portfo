@@ -12,7 +12,7 @@ const GalleryDetProject = ({ project_gallery = [] }) => {
   const gallery = project_gallery?.length > 0 ? project_gallery : fallbackGallery;
 
   return (
-    <div className="w-full min-w-0 relative overflow-hidden rounded-2xl shadow-lg">
+    <div className="w-full min-w-0 relative overflow-hidden rounded-sm shadow-lg">
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"

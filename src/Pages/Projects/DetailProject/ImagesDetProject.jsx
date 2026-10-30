@@ -15,7 +15,7 @@ const ImagesDetProject = ({ project_gallery = [] }) => {
   return (
     <div className="max-w-7xl mx-auto pb-24">
       <div className="flex items-center gap-3 mb-8">
-        <div className="p-3 rounded-xl bg-primary/10 dark:bg-primary/20">
+        <div className="p-3  bg-primary/10 dark:bg-primary/20">
           <FileText size={24} className="text-primary" />
         </div>
         <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -31,7 +31,7 @@ const ImagesDetProject = ({ project_gallery = [] }) => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="group relative overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-800 cursor-pointer aspect-[4/3]"
+            className="group relative overflow-hidden rounded-sm bg-gray-200 dark:bg-gray-800 cursor-pointer aspect-[4/3]"
             onClick={() => {
               setIndex(i);
               setOpen(true);

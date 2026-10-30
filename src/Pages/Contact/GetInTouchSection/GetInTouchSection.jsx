@@ -1,15 +1,15 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  User,
-  Mail,
-  Phone,
-  BookOpen,
-  MessageSquare,
-  Send,
-  MapPin,
-  ArrowRight,
+    ArrowRight,
+    BookOpen,
+    Mail,
+    MapPin,
+    MessageSquare,
+    Phone,
+    Send,
+    User,
 } from "lucide-react";
+import { useState } from "react";
 
 const GetInTouchSection = ({ onSubmit, loading, settings }) => {
   const embedUrl = settings?.data?.[0]?.google_map_embed;
@@ -194,7 +194,7 @@ const GetInTouchSection = ({ onSubmit, loading, settings }) => {
                 },
               ].map((item, i) => (
                 <div key={i} className="flex gap-6 group mb-10">
-                  <div className="w-14 h-14 flex items-center justify-center rounded-md md:rounded-2xl bg-white/5 border border-white/10 group-hover:bg-primary group-hover:border-primary transition-all">
+                  <div className="w-14 h-14 flex items-center justify-center rounded-md md:rounded-sm bg-white/5 border border-white/10 group-hover:bg-primary group-hover:border-primary transition-all">
                     <item.icon
                       size={22}
                       className="text-primary group-hover:text-white"

@@ -11,9 +11,6 @@
   -webkit-backdrop-filter: blur(16px);
 }
 
-.site-mobile-bar {
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
-}
 
 @media (prefers-reduced-motion: reduce) {
   .site-navbar-shell {

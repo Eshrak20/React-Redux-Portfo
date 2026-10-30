@@ -92,7 +92,7 @@ const RichContent = ({
                     [&_pre]:my-6
                     [&_pre]:overflow-x-auto
                     [&_pre]:whitespace-pre
-                    [&_pre]:rounded-xl
+                    [&_pre]:
                     [&_pre]:border
                     [&_pre]:border-border
                     [&_pre]:bg-muted
@@ -112,7 +112,7 @@ const RichContent = ({
                     [&_img]:mx-auto
                     [&_img]:my-6
                     [&_img]:max-w-full
-                    [&_img]:rounded-xl
+                    [&_img]:
 
                     [&_sub]:text-xs
                     [&_sup]:text-xs

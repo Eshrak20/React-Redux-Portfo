@@ -54,10 +54,10 @@ const BlogBanner = ({
     return (
         <section
             aria-label="Article heading"
-            className={`group mb-5 overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow duration-300 hover:shadow-lg ${className}`}
+            className={`group mb-5 overflow-hidden rounded-sm border border-border bg-card shadow-sm transition-shadow duration-300 hover:shadow-lg ${className}`}
         >
             {/* Large Featured Image */}
-            <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
+            <div className="relative aspect-[16/9] w-full overflow-hidden bg-primary">
                 <img
                     src={blog.featured_image || FALLBACK_IMAGE}
                     alt={title || "Blog featured image"}
@@ -69,7 +69,7 @@ const BlogBanner = ({
                             event.currentTarget.src = FALLBACK_IMAGE;
                         }
                     }}
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    className="h-full w-full object-fit transition-transform duration-700 ease-out group-hover:scale-95"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/25 to-transparent" />

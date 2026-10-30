@@ -1,19 +1,19 @@
-import HomeBanner from "./HomeBanner/HomeBanner";
-import { useGetServiceQuery } from "@/redux/api/homeApi";
-import HomeService from "./HomeService/HomeService";
+import HomeBlogsSkeleton from "@/components/skeletons/HomeBlogsSkeleton";
+import HomeProjectsSkeleton from "@/components/skeletons/HomeProjectsSkeleton";
 import HomeServiceSkeleton from "@/components/skeletons/HomeServiceSkeleton";
-import Tech from "./Tech/Tech";
+import HomeTestimonialSkeleton from "@/components/skeletons/HomeTestimonialSkeleton";
+import { useGetBlogsQuery } from "@/redux/api/blogApi";
+import { useGetServiceQuery } from "@/redux/api/homeApi";
 import { useGetAllProjectsQuery } from "@/redux/api/projectApi";
 import { useGetTestimonialQuery } from "@/redux/api/testimonialApi";
-import HomeProjectsSkeleton from "@/components/skeletons/HomeProjectsSkeleton";
-import HomeTestimonialSkeleton from "@/components/skeletons/HomeTestimonialSkeleton";
+import { useEffect } from "react";
+import BlogsCard from "../Blogs/BlogsCard/BlogsCard";
+import HomeBanner from "./HomeBanner/HomeBanner";
 import HomeClients from "./HomeClients/HomeClients";
 import HomeProjects from "./HomeProjects/HomeProjects";
+import HomeService from "./HomeService/HomeService";
 import TestimonialSection from "./HomeTestimonial/TestimonialSection";
-import { useGetBlogsQuery } from "@/redux/api/blogApi";
-import BlogsCard from "../Blogs/BlogsCard/BlogsCard";
-import HomeBlogsSkeleton from "@/components/skeletons/HomeBlogsSkeleton";
-import { useEffect } from "react";
+import Tech from "./Tech/Tech";
 
 const Home = () => {
   // Scroll to top when page loads
@@ -52,6 +52,11 @@ const Home = () => {
         <HomeProjects projects={projectsData.data} />
       )}
       <Tech />
+      {blogLoading || !blogsData?.data ? (
+        <HomeBlogsSkeleton />
+      ) : (
+        <BlogsCard blogs={blogsData.data} />
+      )}
 
       {/* TESTIMONIAL */}
       {testimonialLoading || !testimonialData?.data ? (
@@ -62,11 +67,6 @@ const Home = () => {
         </>
       )}
 
-      {blogLoading || !blogsData?.data ? (
-        <HomeBlogsSkeleton />
-      ) : (
-        <BlogsCard blogs={blogsData.data} />
-      )}
       {testimonialLoading || !testimonialData?.data ? (
         <HomeTestimonialSkeleton />
       ) : (

@@ -1,9 +1,15 @@
 import logoLight from "@/assets/title/eg1.png";
 import logoDark from "@/assets/title/eg2.png";
-import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import RichContent from "@/components/RichContent/RichContent.jsx";
+import SocialIcons from "@/components/SocialIcons/SocialIcons";
+import { useGetSettingsDataQuery } from "@/redux/api/homeApi";
 
-const FooterBrand = ({settings = {}, isLoading, socialLinks = []}) => {
+const FooterBrand = () => {
+  const { data, isLoading } = useGetSettingsDataQuery();
+
+  // API returns an array
+  const settings = data?.data?.[0] ?? {};
+
   const lightLogo = settings.logo || logoLight;
   const darkLogo = settings.logo_dark || logoDark;
 
@@ -18,35 +24,31 @@ const FooterBrand = ({settings = {}, isLoading, socialLinks = []}) => {
       {/* Logo */}
       <div>
         {isLoading ? (
-          <div className="h-24 w-40 animate-pulse rounded-lg bg-muted sm:h-28 sm:w-44" />
+          <div className="h-20 w-32 animate-pulse rounded-lg bg-muted sm:h-28 sm:w-44" />
         ) : (
           <>
             <img
               src={lightLogo}
               alt={`${siteName} Logo`}
-              width="176"
-              height="120"
-              className="h-28 w-auto object-contain object-left dark:hidden sm:h-32"
+              className="h-24 w-auto object-contain object-left dark:hidden sm:h-32"
             />
 
             <img
               src={darkLogo}
               alt={`${siteName} Logo`}
-              width="176"
-              height="120"
-              className="hidden h-28 w-auto object-contain object-left dark:block sm:h-32"
+              className="hidden h-24 w-auto object-contain object-left dark:block sm:h-32"
             />
           </>
         )}
       </div>
 
       {/* Description */}
-      <div className="max-w-md text-sm leading-7 text-muted-foreground">
+      <div className="max-w-md text-xs leading-6 text-muted-foreground sm:text-sm sm:leading-7">
         <RichContent content={description} />
       </div>
 
       {/* Social Icons */}
-      <SocialIcons socialLinks={socialLinks} />
+      <SocialIcons />
     </div>
   );
 };

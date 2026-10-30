@@ -1,4 +1,3 @@
-import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const HomeTeamSkeleton = () => {
@@ -15,7 +14,7 @@ const HomeTeamSkeleton = () => {
         {Array.from({ length: 8 }).map((_, index) => (
           <div
             key={index}
-            className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+            className="bg-white  border border-gray-200 overflow-hidden"
           >
             {/* Image Skeleton */}
             <Skeleton className="h-64 md:h-72 w-full bg-gray-200" />

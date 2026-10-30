@@ -39,7 +39,7 @@ const PhoneModal = ({ open, onClose }) => {
             initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
-            className="relative z-10 w-full max-w-sm rounded-2xl border border-border bg-background p-6 shadow-xl"
+            className="relative z-10 w-full max-w-sm rounded-sm border border-border bg-background p-6 shadow-xl"
           >
             <button
               onClick={onClose}
@@ -48,7 +48,7 @@ const PhoneModal = ({ open, onClose }) => {
               <X size={18} />
             </button>
 
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+            <div className="flex h-14 w-14 items-center justify-center rounded-sm bg-primary/10 text-primary">
               <Phone size={24} />
             </div>
 
@@ -63,7 +63,7 @@ const PhoneModal = ({ open, onClose }) => {
             <div className="mt-6 grid grid-cols-2 gap-3">
               <a
                 href={`tel:${phoneNumber.replace(/\s+/g, "")}`}
-                className="flex items-center justify-center gap-2 rounded-xl bg-primary py-3 text-primary-foreground"
+                className="flex items-center justify-center gap-2  bg-primary py-3 text-primary-foreground"
               >
                 <Phone size={18} />
                 Call
@@ -71,7 +71,7 @@ const PhoneModal = ({ open, onClose }) => {
 
               <button
                 onClick={handleCopy}
-                className="flex items-center justify-center gap-2 rounded-xl border border-primary/20 py-3 text-primary"
+                className="flex items-center justify-center gap-2  border border-primary/20 py-3 text-primary"
               >
                 {copied ? <Check size={18} /> : <Copy size={18} />}
                 {copied ? "Copied" : "Copy"}

@@ -1,4 +1,3 @@
-import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const GetInTouchSectionSkeleton = () => {
@@ -53,7 +52,7 @@ const GetInTouchSectionSkeleton = () => {
             <div className="space-y-10">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="flex gap-6 items-center">
-                  <Skeleton className="h-14 w-14 md:rounded-2xl rounded-md bg-gray-700" />
+                  <Skeleton className="h-14 w-14 md:rounded-sm rounded-md bg-gray-700" />
                   <div className="space-y-3">
                     <Skeleton className="h-3 w-24 bg-gray-600" />
                     <Skeleton className="h-5 w-40 bg-gray-500" />

@@ -1,41 +1,44 @@
-import {ChevronRight} from "lucide-react";
-import {useState} from "react";
-import {Link, useLocation} from "react-router-dom";
+
+import { ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import Pagination from "@/components/Pagination/Pagination";
 
-import BlogCardUI from "./BlogCardUI";
+import BlogCarousel from "./BlogCarousel";
 import LanguageToggle from "./LanguageToggle";
 
 const BlogsCard = ({
-                       blogs = [],
-                       pagination,
-                       setPage,
-                       isFetching,
-                   }) => {
+    blogs = [],
+    pagination,
+    setPage,
+    isFetching,
+}) => {
     const location = useLocation();
     const isHomePage = location.pathname === "/";
 
     const [language, setLanguage] = useState("bn");
 
-    // Show only first 6 blogs on Home page
+    // Show only first 6 blogs on homepage.
     const displayedBlogs = isHomePage
         ? blogs.slice(0, 6)
         : blogs;
 
     return (
-        <section className="bg-background py-10 sm:py-14 lg:py-16">
+        <section className="overflow-hidden bg-background pb-12 pt-3 sm:py-14 lg:py-16">
             <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
                 {/* Header */}
                 <div className="mb-8 text-center sm:mb-10">
-                    <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
+                    <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                         {language === "bn" ? "আমার লেখা" : "My Writes"}
                     </h2>
-                    <div className="mx-auto h-1.5 w-24 rounded-full bg-primary" />
+
+                    <div className="mx-auto h-1.5 w-20 rounded-full bg-primary sm:w-24" />
                 </div>
 
-                <div className="mb-6 flex justify-center">
+                {/* Language Toggle */}
+                <div className="mb-7 flex justify-center">
                     <LanguageToggle
                         language={language}
                         onChange={setLanguage}
@@ -44,51 +47,57 @@ const BlogsCard = ({
 
                 {/* View All */}
                 {isHomePage && (
-                    <div className="flex justify-end mb-8">
+                    <div className="mb-6 flex justify-end">
                         <Link
                             to="/blogs"
-                            className="inline-flex items-center gap-2 text-primary font-medium transition-all hover:gap-3"
+                            className="
+                                inline-flex items-center gap-2
+                                text-sm font-medium text-primary
+                                transition-all duration-300
+                                hover:gap-3
+                            "
                         >
                             {language === "bn"
                                 ? "সব ব্লগ দেখুন"
                                 : "View All Blogs"}
 
-                            <ChevronRight className="w-4 h-4"/>
+                            <ChevronRight className="h-4 w-4" />
                         </Link>
                     </div>
                 )}
 
                 {/* Loading */}
                 {isFetching && !isHomePage && (
-                    <div role="status" className="py-4 text-center text-muted-foreground">
-                        {language === "bn" ? "ব্লগ লোড হচ্ছে..." : "Loading blogs..."}
+                    <div
+                        role="status"
+                        className="py-5 text-center text-sm text-muted-foreground"
+                    >
+                        {language === "bn"
+                            ? "ব্লগ লোড হচ্ছে..."
+                            : "Loading blogs..."}
                     </div>
                 )}
 
-                {/* Blog Grid */}
+                {/* Blog Content */}
                 {displayedBlogs.length > 0 ? (
                     <div
                         aria-busy={isFetching && !isHomePage}
-                        className="mt-7 grid gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3"
+                        className="mt-5"
                     >
-                        {displayedBlogs.map((blog, index) => (
-                            <BlogCardUI
-                                key={blog.id}
-                                blog={blog}
-                                language={language}
-                                index={index}
-                            />
-                        ))}
+                        <BlogCarousel
+                            blogs={displayedBlogs}
+                            language={language}
+                        />
                     </div>
                 ) : (
-                    <div className="rounded-2xl border border-dashed px-4 py-16 text-center sm:py-24">
+                    <div className="rounded-sm border border-dashed border-border px-4 py-16 text-center sm:py-24">
                         <h3 className="text-xl font-semibold text-foreground">
                             {language === "bn"
                                 ? "এখনো কোনো ব্লগ প্রকাশ করা হয়নি"
                                 : "No Blogs Available"}
                         </h3>
 
-                        <p className="mt-2 text-muted-foreground">
+                        <p className="mt-2 text-sm text-muted-foreground">
                             {language === "bn"
                                 ? "শীঘ্রই নতুন ব্লগ প্রকাশ করা হবে।"
                                 : "New articles will be published soon."}
@@ -96,7 +105,7 @@ const BlogsCard = ({
                     </div>
                 )}
 
-                {/* Pagination Info */}
+                {/* Pagination */}
                 {!isHomePage && (
                     <Pagination
                         pagination={pagination}

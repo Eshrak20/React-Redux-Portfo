@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { Play, Volume2, VolumeX, Maximize2 } from "lucide-react";
+import { Maximize2, Play } from "lucide-react";
+import { useState } from "react";
 
 export const VideoCard = ({ videoId, title, duration = "2:30" }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -12,7 +12,7 @@ export const VideoCard = ({ videoId, title, duration = "2:30" }) => {
       className={`relative bg-black group md:shadow-2xl overflow-hidden ${
         isExpanded 
           ? "fixed inset-0 z-[100] w-screen h-screen rounded-none" 
-          : "md:rounded-2xl rounded-md aspect-video cursor-pointer"
+          : "md:rounded-sm rounded-md aspect-video cursor-pointer"
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

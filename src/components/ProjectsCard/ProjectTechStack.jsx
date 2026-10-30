@@ -21,10 +21,10 @@ const TechSection = ({
   if (!technologies.length) return null;
 
   return (
-    <div className="rounded-2xl border border-border bg-background p-5 transition-all duration-300 hover:border-primary/40 hover:shadow-lg">
+    <div className="rounded-sm border border-border bg-background p-5 transition-all duration-300 hover:border-primary/40 hover:shadow-lg">
       <div className="flex items-center gap-3 mb-5">
         <div
-          className={`flex h-11 w-11 items-center justify-center rounded-xl ${iconClass}`}
+          className={`flex h-11 w-11 items-center justify-center  ${iconClass}`}
         >
           <Icon size={20} />
         </div>
@@ -67,7 +67,7 @@ const ProjectTechStack = ({ project }) => {
       {/* Heading */}
       <div className="mb-8">
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+          <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-primary/10 text-primary">
             <Layers3 size={22} />
           </div>
 

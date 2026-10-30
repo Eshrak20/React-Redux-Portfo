@@ -18,7 +18,7 @@ const ProjectOverview = ({ project }) => {
     >
       {/* Heading */}
       <div className="flex items-center gap-3 mb-6">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+        <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-primary/10 text-primary">
           <FileText size={22} />
         </div>
 

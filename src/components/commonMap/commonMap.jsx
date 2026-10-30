@@ -1,232 +1,182 @@
-import React, { useState, useEffect } from "react";
 
-const CommonMap = ({ google_map_embed, loading }) => {
-  const [displayedTitle, setDisplayedTitle] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [showCursor, setShowCursor] = useState(true);
+import { Map, MapPinned, Navigation } from "lucide-react";
+import { useState } from "react";
 
-  const fullTitle = "Find ME";
-  const typingSpeed = 80; // ms per character
-  const cursorBlinkSpeed = 500; // ms
+const CommonMap = ({
+  google_map_embed,
+  street_view_embed,
+  loading = false,
+}) => {
+  const [showStreetView, setShowStreetView] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
 
-  // Typing effect
-  useEffect(() => {
-    if (currentIndex < fullTitle.length) {
-      const timer = setTimeout(() => {
-        setDisplayedTitle((prev) => prev + fullTitle[currentIndex]);
-        setCurrentIndex((prev) => prev + 1);
-      }, typingSpeed);
+  const mapUrl = google_map_embed?.trim();
+  const streetUrl = street_view_embed?.trim();
 
-      return () => clearTimeout(timer);
-    } else {
-      // After typing completes, start blinking cursor
-      const blinkTimer = setInterval(() => {
-        setShowCursor((prev) => !prev);
-      }, cursorBlinkSpeed);
+  const currentMap = showStreetView
+    ? streetUrl
+    : mapUrl;
 
-      return () => clearInterval(blinkTimer);
+  const isValidUrl = (url) => {
+    try {
+      const parsedUrl = new URL(url);
+
+      return (
+        parsedUrl.protocol === "https:" &&
+        parsedUrl.hostname === "www.google.com" &&
+        parsedUrl.pathname === "/maps/embed"
+      );
+    } catch {
+      return false;
     }
-  }, [currentIndex]);
+  };
 
-  // Reset effect when component mounts
-  useEffect(() => {
-    setDisplayedTitle("");
-    setCurrentIndex(0);
-    setShowCursor(true);
-  }, []);
+  const handleViewChange = (streetView) => {
+    setShowStreetView(streetView);
+    setIframeLoaded(false);
+  };
 
   return (
-    <section className="relative w-full mb-20 overflow-hidden bg-linear-to-br from-background via-background to-primary/5 pt-10 md:py-24">
-      {/* Animated background particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(15)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full bg-linear-to-r from-primary to-primary"
-            style={{
-              width: `${Math.random() * 4 + 1}px`,
-              height: `${Math.random() * 4 + 1}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `float ${Math.random() * 20 + 10}s linear infinite`,
-              animationDelay: `${Math.random() * 5}s`,
-            }}
-          />
-        ))}
-      </div>
+    <section className="w-full mb-20 bg-background py-10 md:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      {/* Subtle grid overlay */}
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, #ffffff 1px, transparent 1px),
-            linear-gradient(to bottom, #ffffff 1px, transparent 1px)
-          `,
-          backgroundSize: "40px 40px",
-        }}
-      ></div>
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-block relative">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-              <span className="bg-linear-to-r from-primary via-primary to-primary bg-clip-text text-transparent">
-                {displayedTitle}
-              </span>
-              <span
-                className={`inline-block w-0.5 h-12 md:h-14 ml-2 bg-linear-to-b from-primary via-primary to-primary align-middle ${
-                  showCursor ? "opacity-100" : "opacity-0"
-                } transition-opacity duration-150`}
-              ></span>
-            </h2>
-          </div>
+        <div className="text-center mb-10 md:mb-14">
+          <span className="text-sm font-semibold tracking-widest uppercase text-primary">
+            My Location
+          </span>
+
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mt-3">
+            Find <span className="text-primary">Me</span>
+          </h2>
+
+          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
+            Explore my location using Google Maps or take a closer
+            look with Street View.
+          </p>
         </div>
 
-        {/* Map Container */}
-        <div className="relative w-full">
-          {/* Floating elements */}
-          <div className="absolute -top-8 -right-8 w-32 h-32 bg-linear-to-br from-primary to-primary rounded-full blur-3xl -z-10"></div>
-          <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-linear-to-tr from-primary to-primary rounded-full blur-3xl -z-10"></div>
+        {/* Map Frame */}
+        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-lg">
 
-          {/* Map Frame */}
-          <div className="relative bg-card md:rounded-2xl rounded-md overflow-hidden md:shadow-2xl shadow-blue-900/30 border border-border">
-            {/* Frame top bar */}
-            <div className="h-12 bg-card border-b border-border flex items-center px-6">
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-red-500 to-red-400"></div>
-                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-yellow-500 to-yellow-400"></div>
-                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-500 to-green-400"></div>
+          {/* Top Bar */}
+          <div className="min-h-14 flex flex-wrap items-center justify-between gap-3 px-4 md:px-6 py-3 border-b border-border">
+
+            <div className="flex items-center gap-3">
+              <div className="flex gap-1.5">
+                <span className="w-3 h-3 rounded-full bg-red-500" />
+                <span className="w-3 h-3 rounded-full bg-yellow-500" />
+                <span className="w-3 h-3 rounded-full bg-green-500" />
               </div>
-              <div className="ml-6 text-sm text-muted-foreground font-medium tracking-wide">
-                Location Interface
-              </div>
+
+              <span className="text-sm font-medium text-muted-foreground">
+                {showStreetView ? "Street View" : "Google Maps"}
+              </span>
             </div>
 
-            {/* Map content */}
-            <div className="relative w-full h-100 sm:h-125 md:h-150">
-              {loading ? (
-                <div className="flex flex-col items-center justify-center h-full bg-gradient-to-br from-gray-800 to-gray-900">
-                  {/* Elegant loading spinner */}
-                  <div className="relative">
-                    <div className="w-20 h-20 rounded-full border-4 border-border"></div>
-                    <div className="absolute top-0 left-0 w-20 h-20 rounded-full border-4 border-t-transparent border-r-primary border-b-primary border-l-transparent animate-spin"></div>
+            {/* Toggle Buttons */}
+            <div className="flex items-center gap-1 rounded-lg bg-muted p-1">
+              <button
+                type="button"
+                onClick={() => handleViewChange(false)}
+                disabled={loading || !mapUrl}
+                className={`flex items-center gap-2 px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors disabled:opacity-40 ${
+                  !showStreetView
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <Map size={16} />
+                Map View
+              </button>
 
-                    {/* Inner ring */}
-                    <div className="absolute top-4 left-4 w-12 h-12 rounded-full border-2 border-gray-600/30"></div>
-                    <div className="absolute top-4 left-4 w-12 h-12 rounded-full border-2 border-t-transparent border-r-teal-400/50 border-b-primary border-l-transparent animate-spin animation-delay-200"></div>
-
-                    {/* Center dot */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-linear-to-r from-primary to-primary animate-pulse"></div>
-                  </div>
-
-                  <div className="mt-8 text-center">
-                    <p className="text-foreground font-medium tracking-wider mb-2">
-                      LOADING MAP DATA
-                    </p>
-                    <div className="w-64 h-1 bg-muted rounded-full overflow-hidden">
-                      <div className="h-full w-1/3 bg-linear-to-r from-primary via-primary to-primary animate-shimmer rounded-full"></div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {/* Map container with overlay effects */}
-                  <div className="absolute inset-0 bg-linear-to-br from-blue-900/20 to-teal-900/20 z-10 pointer-events-none"></div>
-
-                  {/* Corner accents */}
-                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary rounded-tl-lg z-20"></div>
-
-                  <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary rounded-tr-lg z-20"></div>
-
-                  <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-primary rounded-bl-lg z-20"></div>
-
-                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary rounded-br-lg z-20"></div>
-
-                  {/* Map iframe with enhanced styling */}
-                  <iframe
-                    src={google_map_embed}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen=""
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="relative z-0 filter saturate-110 contrast-110 brightness-105 hover:brightness-110 transition-all duration-500"
-                    title="Google Maps Location"
-                  />
-
-                  {/* Mobile Control Button */}
-                  <div className="absolute bottom-6 right-6 z-20">
-                    <div className="relative group">
-                      {/* Pulsing effect */}
-                      <div className="absolute -inset-2 bg-linear-to-r from-primary to-primary rounded-full animate-ping"></div>
-
-                      {/* Button */}
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Frame bottom bar */}
-            <div className="h-10 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-border flex items-center justify-between px-6 text-xs text-gray-500 font-mono">
-              <div>MAP:ACTIVE</div>
-              <div className="flex items-center gap-4">
-                <span>ZOOM: 14x</span>
-                <span className="w-px h-4 bg-gray-700"></span>
-                <span>VIEW: SATELLITE</span>
-                <span className="w-px h-4 bg-gray-700"></span>
-                <span>GOOGLE MAPS</span>
-              </div>
+              <button
+                type="button"
+                onClick={() => handleViewChange(true)}
+                disabled={loading || !streetUrl}
+                className={`flex items-center gap-2 px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors disabled:opacity-40 ${
+                  showStreetView
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <MapPinned size={16} />
+                Street View
+              </button>
             </div>
           </div>
+
+          {/* Map Content */}
+          <div className="relative w-full h-[350px] sm:h-[450px] md:h-[550px] bg-muted/30">
+
+            {loading ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+
+                <p className="text-sm text-muted-foreground">
+                  Loading map data...
+                </p>
+              </div>
+            ) : !currentMap || !isValidUrl(currentMap) ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
+                <Navigation
+                  size={32}
+                  className="text-muted-foreground"
+                />
+
+                <p className="text-muted-foreground">
+                  {showStreetView
+                    ? "Street View URL is unavailable or invalid."
+                    : "Google Maps URL is unavailable or invalid."}
+                </p>
+              </div>
+            ) : (
+              <>
+                {!iframeLoaded && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10 bg-muted/30 pointer-events-none">
+                    <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+
+                    <p className="text-sm text-muted-foreground">
+                      Loading {showStreetView ? "Street View" : "Map"}...
+                    </p>
+                  </div>
+                )}
+
+                <iframe
+                  key={currentMap}
+                  src={currentMap}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="eager"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={
+                    showStreetView
+                      ? "Google Maps Street View"
+                      : "Google Maps Location"
+                  }
+                  onLoad={() => setIframeLoaded(true)}
+                  className="absolute inset-0 w-full h-full"
+                />
+              </>
+            )}
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="flex items-center justify-between gap-3 px-4 md:px-6 py-3 border-t border-border bg-muted/30">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span className="w-2 h-2 rounded-full bg-green-500" />
+              MAP: ACTIVE
+            </div>
+
+            <span className="text-xs text-muted-foreground">
+              {showStreetView ? "STREET VIEW" : "MAP VIEW"} · GOOGLE MAPS
+            </span>
+          </div>
+
         </div>
       </div>
-
-      {/* Bottom spacing */}
-      <div className="h-16 md:h-24"></div>
-
-      {/* Custom animations */}
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translate(0, 0) rotate(0deg);
-          }
-          25% {
-            transform: translate(20px, -20px) rotate(90deg);
-          }
-          50% {
-            transform: translate(0, -40px) rotate(180deg);
-          }
-          75% {
-            transform: translate(-20px, -20px) rotate(270deg);
-          }
-        }
-
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-
-        .animate-shimmer {
-          animation: shimmer 2s infinite;
-        }
-
-        .animation-delay-200 {
-          animation-delay: 200ms;
-        }
-
-        .border-gradient-to-r {
-          border-image: linear-gradient(to right, #2dd4bf, #60a5fa) 1;
-        }
-      `}</style>
     </section>
   );
 };

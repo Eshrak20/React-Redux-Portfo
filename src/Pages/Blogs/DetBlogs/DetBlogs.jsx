@@ -50,7 +50,7 @@ const DetBlogs = ({ blog, language = "bn", onLanguageChange }) => {
     const socialLinks = socialResponse?.data || [];
 
     const authorName = blog?.staff?.name || "Eshrak G";
-    const portfolioUrl = "https://e.veringroup.com";
+    const portfolioUrl = "https://e.veringroup.com/about";
 
     const facebookUrl =
         blog?.staff?.facebook_url ||
@@ -169,9 +169,9 @@ const DetBlogs = ({ blog, language = "bn", onLanguageChange }) => {
 
     return (
         <div className="bg-slate-100/80 dark:bg-slate-950">
-            <section className="pb-10 pt-24 sm:pb-16 sm:pt-28">
+            <section className="pb-0 sm:pb-16 sm:pt-28">
                 <article
-                    className={`blog-print-area mx-auto grid w-full max-w-7xl grid-cols-1 gap-5 px-4 py-5 sm:px-6 sm:py-8 lg:grid-cols-[3.5rem_minmax(0,48rem)] lg:justify-center lg:gap-6 lg:px-8 xl:grid-cols-[17rem_minmax(0,48rem)_3.5rem] xl:gap-7 ${
+                    className={`blog-print-area mx-auto grid w-full max-w-7xl grid-cols-1 gap-0 py-0 sm:px-6 sm:py-8 lg:grid-cols-[3.5rem_minmax(0,48rem)] lg:justify-center lg:gap-6 lg:px-8 xl:grid-cols-[17rem_minmax(0,48rem)_3.5rem] xl:gap-7 ${
                         isFullscreen
                             ? "max-w-7xl lg:grid-cols-[3.5rem_minmax(0,54rem)] xl:grid-cols-[17rem_minmax(0,54rem)_3.5rem]"
                             : ""
@@ -197,7 +197,7 @@ const DetBlogs = ({ blog, language = "bn", onLanguageChange }) => {
                                 />
                             )}
 
-                            <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                            <div className="rounded-sm border border-border bg-card p-5 md:shadow-sm">
                                 <BlogAuthorPanel
                                     authorName={authorName}
                                     authorImage={blog?.staff?.image}
@@ -213,7 +213,7 @@ const DetBlogs = ({ blog, language = "bn", onLanguageChange }) => {
                     </aside>
 
                     {/* Blog Banner: Main Content Column */}
-                    <div className="min-w-0 lg:col-start-2 lg:row-start-1 xl:col-start-2 xl:row-start-1">
+                    <div className="hidden md:flex min-w-0 lg:col-start-2 lg:row-start-1 xl:col-start-2 xl:row-start-1">
                         <BlogBanner blog={blog} language={language} />
                     </div>
 
@@ -222,7 +222,7 @@ const DetBlogs = ({ blog, language = "bn", onLanguageChange }) => {
                         aria-label="Share this article"
                         className="print-hidden hidden lg:col-start-1 lg:row-start-2 lg:block xl:col-start-3 xl:row-start-1 xl:row-span-2"
                     >
-                        <div className="sticky top-28 flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-2 shadow-sm">
+                        <div className="sticky top-28 flex flex-col items-center gap-3 rounded-sm border border-border bg-card p-2 md:shadow-sm">
                             <span className="mb-1 text-center text-[11px] font-semibold uppercase tracking-wide text-muted-foreground [writing-mode:vertical-rl]">
                                 Share
                             </span>
@@ -241,7 +241,7 @@ const DetBlogs = ({ blog, language = "bn", onLanguageChange }) => {
                         ref={articleBodyRef}
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className={`min-w-0 rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8 lg:col-start-2 lg:row-start-2 lg:p-10 xl:col-start-2 xl:row-start-2 ${
+                        className={`min-w-0 md:rounded-3xl border border-slate-200/80 bg-white  md:shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8 lg:col-start-2 lg:row-start-2 lg:p-10 xl:col-start-2 xl:row-start-2 ${
                             isFullscreen ? "blog-reader-fullscreen" : ""
                         }`}
                     >
@@ -300,7 +300,7 @@ const DetBlogs = ({ blog, language = "bn", onLanguageChange }) => {
                         />
 
                         {summary && (
-                            <aside className="mt-10 rounded-2xl border border-primary/20 bg-primary/5 p-5 sm:p-7 dark:bg-primary/10">
+                            <aside className="mt-10 rounded-sm border border-primary/20 bg-primary/5 p-5 sm:p-7 dark:bg-primary/10">
                                 <h2 className="mb-2 text-sm font-semibold text-primary">
                                     Summary
                                 </h2>
@@ -336,7 +336,7 @@ const DetBlogs = ({ blog, language = "bn", onLanguageChange }) => {
                     </motion.div>
 
                     {/* Author Details: Mobile and Tablet */}
-                    <aside className="print-hidden rounded-2xl border border-border bg-card p-5 shadow-sm xl:hidden lg:col-span-2">
+                    <aside className="print-hidden rounded-sm border border-border bg-card p-5 md:shadow-sm xl:hidden lg:col-span-2">
                         <BlogAuthorPanel
                             authorName={authorName}
                             authorImage={blog?.staff?.image}

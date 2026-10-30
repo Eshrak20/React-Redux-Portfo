@@ -1,4 +1,5 @@
-import {motion} from "framer-motion";
+import RichContent from "@/components/RichContent/RichContent.jsx";
+import { motion } from "framer-motion";
 import {
     Activity,
     Code2,
@@ -9,8 +10,6 @@ import {
     Layout,
 } from "lucide-react";
 import GalleryDetProject from "./GalleryDetProject";
-import RichContent from "@/components/RichContent/RichContent.jsx";
-import React from "react";
 
 const AboutDetProject = ({project}) => {
     if (!project) return null;
@@ -107,7 +106,7 @@ const AboutDetProject = ({project}) => {
                 >
                     <motion.div variants={itemVariants}>
                         <div className="flex items-center gap-3 mb-8">
-                            <div className="p-3 rounded-xl bg-primary/10 dark:bg-primary/20">
+                            <div className="p-3  bg-primary/10 dark:bg-primary/20">
                                 <FileText size={24} className="text-primary"/>
                             </div>
                             <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -140,7 +139,7 @@ const InfoItem = ({icon, label, value, highlight = false}) => {
 
     return (
         <div
-            className="group relative p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 hover:border-primary/30 transition-all duration-300 hover:shadow-md dark:hover:shadow-none hover:-translate-y-1">
+            className="group relative p-4  bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 hover:border-primary/30 transition-all duration-300 hover:shadow-md dark:hover:shadow-none hover:-translate-y-1">
             <div className="flex items-center gap-2 mb-2">
                 <div className="p-1.5 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
                     {icon}

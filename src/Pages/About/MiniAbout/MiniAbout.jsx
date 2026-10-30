@@ -50,7 +50,7 @@ const MiniAbout = ({ about, metrics = [] }) => {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden py-16 md:py-24"
+      className="relative overflow-hidden pt-4 pb-16 md:py-24"
     >
       {/* Background Effects */}
       <div className="absolute inset-0 pointer-events-none">
@@ -155,7 +155,7 @@ const MiniAbout = ({ about, metrics = [] }) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.4 + index * 0.1 }}
-                  className="bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 md:p-6 rounded-xl md:rounded-2xl group hover:bg-primary dark:hover:bg-primary transition-colors"
+                  className="bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 md:p-6  md:rounded-sm group hover:bg-primary dark:hover:bg-primary transition-colors"
                 >
                   <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white group-hover:text-white">
                     {animatedValues[item.id] || 0}

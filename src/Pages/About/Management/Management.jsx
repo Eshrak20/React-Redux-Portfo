@@ -3,13 +3,13 @@ import Title from "@/components/Title/Title";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import {
-  FaUniversity,
-  FaSchool,
-  FaGraduationCap,
-  FaLaptopCode,
-  FaExternalLinkAlt,
+    FaExternalLinkAlt,
+    FaGraduationCap,
+    FaLaptopCode,
+    FaSchool,
+    FaUniversity,
 } from "react-icons/fa";
-import { SiLaravel, SiCodeforces } from "react-icons/si";
+import { SiCodeforces, SiLaravel } from "react-icons/si";
 
 const icons = {
   FaUniversity,
@@ -99,7 +99,7 @@ const Management = () => {
                       rotate: 12,
                       scale: 1.15,
                     }}
-                    className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary text-3xl"
+                    className="w-16 h-16 rounded-sm bg-primary/10 flex items-center justify-center text-primary text-3xl"
                   >
                     <Icon />
                   </motion.div>

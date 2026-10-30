@@ -25,20 +25,22 @@ const About = () => {
 
   return (
     <>
-      <CommonBanner
-        backgroundImage={aboutBg}
-        subtitle="MY Info"
-        title="About ME"
-        highlight="Eshràk G"
-      />
+      <div className="hidden md:flex ">
+        <CommonBanner
+          backgroundImage={aboutBg}
+          subtitle="MY Info"
+          title="About ME"
+          highlight="Eshràk G"
+        />
+      </div>
 
       <div className="md:mx-14 xl:mx-64">
         {aboutLoading || homeSectionLoading || !about || !homeSectionData ? (
           <MiniAboutSkeleton />
         ) : (
           <MiniAbout
-          about={about}
-          metrics={homeSectionData?.data[0].metrics || []}
+            about={about}
+            metrics={homeSectionData?.data[0].metrics || []}
           />
         )}
         <Management />

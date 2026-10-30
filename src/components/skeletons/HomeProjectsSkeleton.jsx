@@ -1,4 +1,3 @@
-import React from "react";
 
 const HomeProjectsSkeleton = ({ count = 8 }) => {
   return (
@@ -13,7 +12,7 @@ const HomeProjectsSkeleton = ({ count = 8 }) => {
         {Array.from({ length: count }).map((_, index) => (
           <div
             key={index}
-            className="bg-card rounded-xl border border-border shadow-lg overflow-hidden animate-pulse"
+            className="bg-card  border border-border shadow-lg overflow-hidden animate-pulse"
           >
             {/* Image Skeleton */}
             <div className="h-48 w-full bg-muted relative">

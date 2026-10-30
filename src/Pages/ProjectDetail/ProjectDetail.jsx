@@ -37,7 +37,7 @@
 //         <section className="max-w-425 mx-auto px-4 py-44">
 //             {/* Banner */}
 //             {project.banner && (
-//                 <div className="mb-10 md:rounded-2xl rounded-md overflow-hidden shadow-lg">
+//                 <div className="mb-10 md:rounded-sm rounded-md overflow-hidden shadow-lg">
 //                     <img
 //                         src={project.banner}
 //                         alt={project.project_name}
@@ -81,7 +81,7 @@
 //                                 key={index}
 //                                 src={`${import.meta.env ? import.meta.env.VITE_API_BASE_URL : process.env.REACT_APP_API_BASE_URL}/storage/${img}`}
 //                                 alt={`Gallery ${index + 1}`}
-//                                 className="rounded-xl shadow-md object-cover"
+//                                 className=" shadow-md object-cover"
 //                             />
 //                         ))}
 //                     </div>
@@ -95,7 +95,7 @@
 //                         href={project.live_url}
 //                         target="_blank"
 //                         rel="noreferrer"
-//                         className="px-6 py-3 rounded-xl bg-black text-white"
+//                         className="px-6 py-3  bg-black text-white"
 //                     >
 //                         Live Site
 //                     </a>
@@ -106,7 +106,7 @@
 //                         href={project.github_url}
 //                         target="_blank"
 //                         rel="noreferrer"
-//                         className="px-6 py-3 rounded-xl border"
+//                         className="px-6 py-3  border"
 //                     >
 //                         GitHub
 //                     </a>
@@ -120,7 +120,7 @@
 //
 // /* Reusable card */
 // const InfoCard = ({title, value}) => (
-//     <div className="p-6 border md:rounded-2xl rounded-md bg-white shadow-sm">
+//     <div className="p-6 border md:rounded-sm rounded-md bg-white shadow-sm">
 //         <h3 className="font-semibold mb-2">{title}</h3>
 //         <p className="text-gray-600">{value || "—"}</p>
 //     </div>

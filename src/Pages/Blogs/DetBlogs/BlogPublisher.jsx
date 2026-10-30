@@ -1,18 +1,18 @@
 import { motion } from "framer-motion";
 import {
-  Briefcase,
-  Building2,
-  Calendar,
-  Check,
-  Code,
-  ExternalLink,
-  Heart,
-  Link2,
-  Mail,
-  Share2,
-  Sparkles,
-  User,
-  X
+    Briefcase,
+    Building2,
+    Calendar,
+    Check,
+    Code,
+    ExternalLink,
+    Heart,
+    Link2,
+    Mail,
+    Share2,
+    Sparkles,
+    User,
+    X
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -99,7 +99,7 @@ const BlogPublisher = ({ blog }) => {
                 )}`
               }
               alt={staff.name}
-              className="w-28 h-28 md:rounded-2xl rounded-md object-cover ring-4 ring-gray-50 dark:ring-gray-800 shadow-sm"
+              className="w-28 h-28 md:rounded-sm rounded-md object-cover ring-4 ring-gray-50 dark:ring-gray-800 shadow-sm"
               onError={(e) => {
                 e.currentTarget.src =
                   "https://api.dicebear.com/9.x/initials/svg?seed=User";
@@ -156,7 +156,7 @@ const BlogPublisher = ({ blog }) => {
 
           {/* Stats (UNCHANGED) */}
           {authorStats.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-100 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl overflow-hidden mb-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-100 dark:bg-gray-800 border border-gray-100 dark:border-gray-700  overflow-hidden mb-10">
               {authorStats.map((stat, index) => (
                 <div
                   key={index}
@@ -191,7 +191,7 @@ const BlogPublisher = ({ blog }) => {
 
               <button
                 onClick={() => copyToClipboard(currentUrl)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all ${
+                className={`flex items-center gap-2 px-5 py-2.5  font-semibold text-sm transition-all ${
                   linkCopied
                     ? "bg-white dark:bg-black text-primary dark:text-primary ring-1 ring-primary dark:ring-primary"
                     : "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900"
@@ -237,7 +237,7 @@ const BlogPublisher = ({ blog }) => {
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-[90%] max-w-md"
           >
-            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div className="bg-white rounded-sm shadow-2xl overflow-hidden">
               {/* Modal Header */}
               <div className="bg-linear-to-r from-primary to-secondary px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -256,7 +256,7 @@ const BlogPublisher = ({ blog }) => {
 
               {/* Modal Body */}
               <div className="p-6 space-y-4">
-                <div className="flex items-start gap-3 p-3 bg-blue-50 rounded-xl">
+                <div className="flex items-start gap-3 p-3 bg-blue-50 ">
                   <div className="p-2 bg-blue-100 rounded-lg">
                     <Code size={18} className="text-primary" />
                   </div>
@@ -270,7 +270,7 @@ const BlogPublisher = ({ blog }) => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 bg-blue-50 rounded-xl">
+                <div className="flex items-start gap-3 p-3 bg-blue-50 ">
                   <div className="p-2 bg-blue-100 rounded-lg">
                     <Code size={18} className="text-primary" />
                   </div>
@@ -299,7 +299,7 @@ const BlogPublisher = ({ blog }) => {
               <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
                 <button
                   onClick={() => setShowCreditModal(false)}
-                  className="w-full px-4 py-2 bg-linear-to-r from-primary to-secondary text-white rounded-xl font-semibold text-sm hover:opacity-90 transition-colors"
+                  className="w-full px-4 py-2 bg-linear-to-r from-primary to-secondary text-white  font-semibold text-sm hover:opacity-90 transition-colors"
                 >
                   Close
                 </button>

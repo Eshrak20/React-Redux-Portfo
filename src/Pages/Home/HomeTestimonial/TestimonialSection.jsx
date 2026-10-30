@@ -1,73 +1,113 @@
-import React, { useState } from "react";
-import Title from "@/components/Title/Title";
-import { Star, Quote, User, Calendar, ChevronRight, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useLocation, Link } from "react-router-dom";
+
 import CumButton from "@/components/CumButton/CumButton";
+import Title from "@/components/Title/Title";
+import TestimonialCard from "./TestimonialCard";
 
-const TestimonialSection = ({ testimonial }) => {
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+} from "framer-motion";
+
+import {
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Quote,
+  Star,
+  User,
+  X,
+} from "lucide-react";
+
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+
+const TestimonialSection = ({ testimonial = [] }) => {
   const location = useLocation();
-  const [selectedTestimonial, setSelectedTestimonial] = useState(null);
-  
   const isHomePage = location.pathname === "/";
-  const displayedTestimonials = isHomePage ? testimonial?.slice(0, 4) : testimonial;
+  const shouldReduceMotion = useReducedMotion();
 
-  // Animation Variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
+  const [selectedTestimonial, setSelectedTestimonial] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const sliderRef = useRef(null);
+  const displayedTestimonials = isHomePage
+    ? testimonial.slice(0, 4)
+    : testimonial;
+
+  const canSlide = displayedTestimonials.length > 1;
+
+  // Reset slider when testimonial data changes.
+  useEffect(() => {
+    setActiveIndex(0);
+
+    if (sliderRef.current) {
+      sliderRef.current.scrollTo({
+        left: 0,
+        behavior: "instant",
+      });
+    }
+  }, [displayedTestimonials.length]);
+
+  // Track the currently visible mobile card.
+  const handleScroll = () => {
+    const slider = sliderRef.current;
+
+    if (!slider) return;
+
+    const card = slider.querySelector("[data-testimonial-card]");
+
+    if (!card) return;
+
+    const cardWidth = card.getBoundingClientRect().width;
+    const gap = 16;
+
+    const index = Math.round(
+      slider.scrollLeft / (cardWidth + gap)
+    );
+
+    setActiveIndex(
+      Math.min(index, displayedTestimonials.length - 1)
+    );
   };
 
-  const cardVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { 
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        duration: 0.5 
-      },
-    },
-    hover: {
-      y: -8,
-      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.08)",
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 25,
-      },
-    },
-  };
+  // Navigate mobile carousel.
+  const navigateSlider = (direction) => {
+    const slider = sliderRef.current;
 
-  const modalVariants = {
-    hidden: { opacity: 0, scale: 0.95, y: 20 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 25,
-      },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.95,
-      y: 20,
-      transition: { duration: 0.2 },
-    },
+    if (!slider) return;
+
+    const nextIndex = Math.max(
+      0,
+      Math.min(
+        activeIndex + direction,
+        displayedTestimonials.length - 1
+      )
+    );
+
+    const card = slider.querySelector("[data-testimonial-card]");
+
+    if (!card) return;
+
+    const gap = 16;
+    const cardWidth = card.getBoundingClientRect().width;
+
+    slider.scrollTo({
+      left: nextIndex * (cardWidth + gap),
+      behavior: shouldReduceMotion ? "instant" : "smooth",
+    });
+
+    setActiveIndex(nextIndex);
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    if (!dateString) return "Date unavailable";
+
+    const date = new Date(dateString);
+
+    if (Number.isNaN(date.getTime())) return "Date unavailable";
+
+    return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -75,12 +115,13 @@ const TestimonialSection = ({ testimonial }) => {
   };
 
   const renderStars = (rating) => {
-    return [...Array(5)].map((_, i) => (
+    const value = Math.min(5, Math.max(0, Number(rating) || 5));
+
+    return Array.from({ length: 5 }, (_, index) => (
       <Star
-        key={i}
-        size={18}
-        className={`${
-          i < rating
+        key={index}
+        className={`h-4 w-4 ${
+          index < value
             ? "fill-amber-400 text-amber-400"
             : "fill-gray-200 text-gray-200"
         }`}
@@ -88,151 +129,179 @@ const TestimonialSection = ({ testimonial }) => {
     ));
   };
 
+  // Close modal with Escape key.
+  useEffect(() => {
+    if (!selectedTestimonial) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setSelectedTestimonial(null);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedTestimonial]);
+
+  const modalVariants = {
+    hidden: {
+      opacity: 0,
+      scale: 0.97,
+      y: 15,
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 220,
+        damping: 25,
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.97,
+      y: 10,
+      transition: { duration: 0.18 },
+    },
+  };
+
   return (
-    <section className={`${isHomePage ? 'py-16' : 'py-20'}`}>
-      {/* GLOBAL STRUCTURE WRAPPER ALIGNMENT */}
-      <div className="container md:container lg:container mx-auto md:mx-auto lg:mx-auto px-6 md:px-8 lg:px-12">
-        
-        <div className="text-center mb-12">
+    <section className={isHomePage ? "py-14 sm:py-16" : "py-16 sm:py-20"}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+
+        {/* Section heading */}
+        <div className="mb-9 text-center sm:mb-12">
           <Title name="What MY Clients Say" />
-          {/* <p className="text-gray-600 dark:text-gray-400 mt-3 text-sm sm:text-base max-w-2xl mx-auto">
-            Trusted feedback from businesses we've partnered with to drive their success
-          </p> */}
         </div>
 
-        {/* Stats Banner (Only on Home Page) */}
-        {/* {isHomePage && (
-          <div className="mb-12">
-            <div className="bg-linear-to-r from-primary/10 to-secondary/10 md:rounded-2xl rounded-md p-6 md:p-8">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="text-center">
-                  <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">98%</div>
-                  <div className="text-gray-600 dark:text-gray-400 text-sm">Client Satisfaction</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">150+</div>
-                  <div className="text-gray-600 dark:text-gray-400 text-sm">Projects Delivered</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">4.9</div>
-                  <div className="text-gray-600 dark:text-gray-400 text-sm">Average Rating</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">95%</div>
-                  <div className="text-gray-600 dark:text-gray-400 text-sm">Repeat Business</div>
-                </div>
+        {/* Mobile carousel */}
+        <div className="md:hidden">
+
+          <div
+            ref={sliderRef}
+            onScroll={handleScroll}
+            className="
+              -mx-4 flex snap-x snap-mandatory gap-4
+              overflow-x-auto px-4 pb-5
+              scroll-smooth
+              [scrollbar-width:none]
+              [&::-webkit-scrollbar]:hidden
+            "
+          >
+            {displayedTestimonials.map((item) => (
+              <div
+                key={item.id}
+                data-testimonial-card
+                className="w-[86%] shrink-0 snap-center"
+              >
+                <TestimonialCard
+                  item={item}
+                  isHomePage={isHomePage}
+                  onClick={() => setSelectedTestimonial(item)}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile slider controls */}
+          {canSlide && (
+            <div className="mt-3 flex items-center justify-between px-1">
+
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                {activeIndex + 1} / {displayedTestimonials.length}
+              </span>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => navigateSlider(-1)}
+                  disabled={activeIndex === 0}
+                  aria-label="Previous testimonial"
+                  className="flex h-9 w-9 items-center justify-center border border-gray-200 text-gray-600 transition hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-30 dark:border-gray-700 dark:text-gray-300"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => navigateSlider(1)}
+                  disabled={activeIndex === displayedTestimonials.length - 1}
+                  aria-label="Next testimonial"
+                  className="flex h-9 w-9 items-center justify-center border border-gray-200 text-gray-600 transition hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-30 dark:border-gray-700 dark:text-gray-300"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
               </div>
             </div>
-          </div>
-        )} */}
+          )}
+        </div>
 
-        {/* Testimonial Grid */}
+        {/* Tablet and desktop grid */}
         <motion.div
-          variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className={`grid grid-cols-1 md:grid-cols-2 ${isHomePage ? 'lg:grid-cols-4' : 'lg:grid-cols-3'} gap-6`}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: shouldReduceMotion ? 0 : 0.1,
+              },
+            },
+          }}
+          className={`hidden md:grid md:grid-cols-2 ${
+            isHomePage ? "xl:grid-cols-4" : "xl:grid-cols-3"
+          } gap-5 lg:gap-6`}
         >
-          {displayedTestimonials?.map((item) => (
+          {displayedTestimonials.map((item) => (
             <motion.div
               key={item.id}
-              variants={cardVariants}
-              whileHover="hover"
-              onClick={() => isHomePage && setSelectedTestimonial(item)}
-              className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-primary/30 transition-all duration-300 cursor-pointer ${isHomePage ? 'h-full' : ''}`}
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  y: shouldReduceMotion ? 0 : 20,
+                },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: shouldReduceMotion ? 0 : 0.45,
+                  },
+                },
+              }}
+              whileHover={shouldReduceMotion ? undefined : { y: -5 }}
+              className="h-full"
             >
-              <div className="p-6 h-full flex flex-col">
-                {/* Header with Client Info */}
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="relative">
-                    {item.image ? (
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-16 h-16 rounded-xl object-cover border-2 border-primary/20"
-                      />
-                    ) : (
-                      <div className="w-16 h-16 rounded-xl bg-linear-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
-                        <User className="w-8 h-8 text-primary" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-gray-900 dark:text-white text-base sm:text-lg truncate">
-                      {item.name}
-                    </h3>
-                    {item.company && (
-                      <p className="text-gray-600 dark:text-gray-400 text-sm mt-1 truncate">
-                        {item.company}
-                      </p>
-                    )}
-                    <div className="flex items-center gap-2 mt-2">
-                      <Calendar className="w-4 h-4 text-gray-400" />
-                      <span className="text-gray-500 dark:text-gray-400 text-xs">
-                        {formatDate(item.created_at)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Quote Icon */}
-                <div className="mb-4">
-                  <Quote className="w-8 h-8 text-primary/30" />
-                </div>
-
-                {/* Testimonial Content */}
-                <div className="flex-1 mb-6">
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm line-clamp-4">
-                    {item.short_description}
-                  </p>
-                  
-                  {/* Read More Indicator (Only for Home Page) */}
-                  {isHomePage && item.long_description && (
-                    <div className="mt-3">
-                      <span className="inline-flex items-center text-primary text-sm font-medium">
-                        Read more <ChevronRight className="w-4 h-4 ml-1" />
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Rating and Actions */}
-                <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1">
-                      {renderStars(item.star || 5)}
-                    </div>
-                    {!isHomePage && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedTestimonial(item);
-                        }}
-                        className="text-sm text-primary hover:text-primary/80 font-medium"
-                      >
-                        View Full
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
+              <TestimonialCard
+                item={item}
+                isHomePage={isHomePage}
+                onClick={() => setSelectedTestimonial(item)}
+              />
             </motion.div>
           ))}
         </motion.div>
 
-        {/* View All Button (Only on Home Page) */}
+        {/* View all */}
         {isHomePage && (
-          <div className="text-center mt-12">
-            <CumButton path="/testimonial" title="View All Testimonials"/>
+          <div className="mt-9 text-center sm:mt-12">
+            <CumButton
+              path="/testimonial"
+              title="View All Testimonials"
+            />
           </div>
         )}
       </div>
 
-      {/* Testimonial Detail Modal System */}
+      {/* Testimonial modal */}
       <AnimatePresence>
         {selectedTestimonial && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5">
+
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -242,87 +311,111 @@ const TestimonialSection = ({ testimonial }) => {
               onClick={() => setSelectedTestimonial(null)}
             />
 
-            {/* Modal Shell */}
+            {/* Modal */}
             <motion.div
               variants={modalVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="relative w-full max-w-2xl max-h-[85vh] sm:max-h-[90vh] bg-white dark:bg-gray-900 md:rounded-2xl rounded-md md:shadow-2xl overflow-hidden flex flex-col"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="testimonial-modal-title"
+              className="
+                relative flex max-h-[90dvh] w-full max-w-2xl
+                flex-col overflow-hidden
+                rounded-xl bg-white shadow-2xl
+                dark:bg-gray-900
+              "
             >
-              {/* Close Button Anchor */}
+              {/* Close */}
               <button
+                type="button"
                 onClick={() => setSelectedTestimonial(null)}
-                className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 transition-colors shadow"
+                aria-label="Close testimonial"
+                className="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300"
               >
-                <X className="w-5 h-5" />
+                <X className="h-5 w-5" />
               </button>
 
-              {/* Scrollable Shell Block */}
-              <div className="overflow-y-auto flex-1 p-5 sm:p-8 custom-scrollbar">
-                {/* Client Header */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-6 sm:mb-8">
-                  <div className="relative shrink-0">
-                    {selectedTestimonial.image ? (
-                      <img
-                        src={selectedTestimonial.image}
-                        alt={selectedTestimonial.name}
-                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover border-3 border-primary/20"
-                      />
-                    ) : (
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-linear-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
-                        <User className="w-8 h-8 sm:w-10 sm:h-10 text-primary" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white truncate">
+              {/* Scrollable content */}
+              <div className="overflow-y-auto p-5 sm:p-8">
+
+                {/* Client information */}
+                <div className="flex items-center gap-4 pr-10 sm:gap-5">
+                  {selectedTestimonial.image ? (
+                    <img
+                      src={selectedTestimonial.image}
+                      alt={selectedTestimonial.name || "Client"}
+                      className="h-16 w-16 shrink-0 rounded-full border-2 border-primary/20 object-cover sm:h-20 sm:w-20"
+                    />
+                  ) : (
+                    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary/10 sm:h-20 sm:w-20">
+                      <User className="h-8 w-8 text-primary" />
+                    </div>
+                  )}
+
+                  <div className="min-w-0">
+                    <h2
+                      id="testimonial-modal-title"
+                      className="truncate text-xl font-bold text-gray-900 dark:text-white sm:text-2xl"
+                    >
                       {selectedTestimonial.name}
                     </h2>
+
                     {selectedTestimonial.company && (
-                      <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg mt-0.5 truncate">
+                      <p className="mt-1 truncate text-sm text-gray-500 dark:text-gray-400 sm:text-base">
                         {selectedTestimonial.company}
                       </p>
                     )}
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-2.5">
-                      <div className="flex items-center gap-1 text-amber-500">
-                        {renderStars(selectedTestimonial.star || 5)}
+
+                    <div className="mt-2 flex flex-wrap items-center gap-3">
+                      <div className="flex items-center gap-1">
+                        {renderStars(selectedTestimonial.star)}
                       </div>
-                      <div className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
-                        <Calendar className="w-4 h-4" />
+
+                      <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+                        <Calendar className="h-3.5 w-3.5" />
                         {formatDate(selectedTestimonial.created_at)}
-                      </div>
+                      </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Quote Content */}
-                <div className="relative mb-6 sm:mb-8 pt-4">
-                  <Quote className="absolute left-0 -top-1 w-8 h-8 text-primary/10" />
-                  <blockquote className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed pl-6 italic">
-                    "{selectedTestimonial.description || selectedTestimonial.short_description}"
+                {/* Full testimonial */}
+                <div className="relative mt-9 border-t border-gray-100 pt-7 dark:border-gray-800">
+                  <Quote className="mb-4 h-8 w-8 text-primary/40" />
+
+                  <blockquote className="text-base leading-8 text-gray-700 dark:text-gray-300 sm:text-lg">
+                    {selectedTestimonial.description ||
+                      selectedTestimonial.short_description}
                   </blockquote>
                 </div>
 
-                {/* Additional Metadata Details */}
+                {/* Project details */}
                 {selectedTestimonial.additional_info && (
-                  <div className="mb-6 sm:mb-8">
-                    <h4 className="text-base font-semibold text-gray-900 dark:text-white mb-3">
+                  <div className="mt-7">
+                    <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
                       Project Details
-                    </h4>
+                    </h3>
+
                     <div className="grid grid-cols-2 gap-4">
                       {selectedTestimonial.project_type && (
                         <div>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">Project Type</span>
-                          <p className="text-sm text-gray-900 dark:text-white font-medium">
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            Project Type
+                          </p>
+                          <p className="mt-1 text-sm font-medium text-gray-900 dark:text-white">
                             {selectedTestimonial.project_type}
                           </p>
                         </div>
                       )}
+
                       {selectedTestimonial.duration && (
                         <div>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">Duration</span>
-                          <p className="text-sm text-gray-900 dark:text-white font-medium">
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            Duration
+                          </p>
+                          <p className="mt-1 text-sm font-medium text-gray-900 dark:text-white">
                             {selectedTestimonial.duration}
                           </p>
                         </div>
@@ -331,39 +424,41 @@ const TestimonialSection = ({ testimonial }) => {
                   </div>
                 )}
 
-                {/* Metrics / Outcome Results */}
+                {/* Results */}
                 {selectedTestimonial.results && (
-                  <div className="bg-primary/5 rounded-xl p-5 mb-6 sm:mb-8">
-                    <h4 className="text-base font-semibold text-gray-900 dark:text-white mb-2">
+                  <div className="mt-7 border border-primary/10 bg-primary/5 p-5">
+                    <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
                       Results Achieved
-                    </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                    </h3>
+
+                    <p className="text-sm leading-7 text-gray-600 dark:text-gray-300">
                       {selectedTestimonial.results}
                     </p>
                   </div>
                 )}
 
-                {/* Action Controls Footer */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-5 border-t border-gray-100 dark:border-gray-800 mt-auto">
+                {/* Footer actions */}
+                <div className="mt-8 flex flex-col-reverse gap-3 border-t border-gray-100 pt-5 dark:border-gray-800 sm:flex-row">
                   <button
+                    type="button"
                     onClick={() => setSelectedTestimonial(null)}
-                    className="w-full sm:flex-1 order-2 sm:order-1 px-5 py-2.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm"
+                    className="flex-1 border border-gray-200 px-5 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
                   >
                     Close
                   </button>
+
                   {selectedTestimonial.website && (
                     <a
                       href={selectedTestimonial.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full sm:flex-1 order-1 sm:order-2 px-5 py-2.5 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors text-center text-sm"
+                      className="flex-1 bg-primary px-5 py-3 text-center text-sm font-medium text-white transition hover:bg-primary/90"
                     >
                       Visit Client Website
                     </a>
                   )}
                 </div>
               </div>
-
             </motion.div>
           </div>
         )}

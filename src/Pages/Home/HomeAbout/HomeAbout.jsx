@@ -1,19 +1,17 @@
-import React from "react";
+import Title from "@/components/Title/Title";
 import { motion } from "framer-motion";
 import {
-  Heart,
-  Globe,
-  ShieldCheck,
-  Award,
-  Rocket,
-  Users,
-  Code,
-  Clock,
-  Star,
-  TrendingUp,
-  ChevronRight,
+    Award,
+    ChevronRight,
+    Clock,
+    Code,
+    Globe,
+    Rocket,
+    ShieldCheck,
+    Star,
+    TrendingUp,
+    Users
 } from "lucide-react";
-import Title from "@/components/Title/Title";
 
 /* =======================
    Section Title
@@ -82,10 +80,10 @@ const FeatureCard = ({ feature, index }) => {
       transition={{ delay: index * 0.1, duration: 0.5 }}
       viewport={{ once: true }}
       whileHover={{ x: 6 }}
-      className="flex items-center gap-4 lg:gap-5 p-4 lg:p-5 md:rounded-2xl rounded-md bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 hover:border-primary/30 transition"
+      className="flex items-center gap-4 lg:gap-5 p-4 lg:p-5 md:rounded-sm rounded-md bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 hover:border-primary/30 transition"
     >
       <div
-        className={`p-2.5 lg:p-3 rounded-xl bg-linear-to-br ${feature.gradient} text-white shrink-0`}
+        className={`p-2.5 lg:p-3  bg-linear-to-br ${feature.gradient} text-white shrink-0`}
       >
         {feature.icon}
       </div>
@@ -189,7 +187,7 @@ const HomeAbout = ({ title, subtitle, description, image, metrics }) => {
 
             {/* Metrics Float Grid Container */}
             <div className="absolute -bottom-12 md:view-bottom-shift left-1/2 -translate-x-1/2 w-[95%]">
-              <div className="bg-white/90 dark:bg-gray-950/90 backdrop-blur-xl md:rounded-2xl rounded-md p-4 md:p-6 shadow-lg border border-gray-100 dark:border-gray-800">
+              <div className="bg-white/90 dark:bg-gray-950/90 backdrop-blur-xl md:rounded-sm rounded-md p-4 md:p-6 shadow-lg border border-gray-100 dark:border-gray-800">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                   {enhancedMetrics.slice(0, 4).map((metric, idx) => (
                     <MetricCard key={idx} metric={metric} index={idx} />

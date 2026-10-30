@@ -1,6 +1,5 @@
-import * as React from "react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Card({
   className,
@@ -10,7 +9,7 @@ function Card({
     <div
       data-slot="card"
       className={cn(
-        "flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm",
+        "flex flex-col gap-6  border bg-card py-6 text-card-foreground shadow-sm",
         className
       )}
       {...props} />
@@ -91,11 +90,6 @@ function CardFooter({
 }
 
 export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardAction,
-  CardDescription,
-  CardContent,
-}
+    Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle
+};
+

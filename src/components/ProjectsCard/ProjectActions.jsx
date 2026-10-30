@@ -43,7 +43,7 @@ const ActionButton = ({
     items-center
     justify-center
     gap-2
-    rounded-xl
+    
     px-5
     py-3
     font-medium
@@ -126,7 +126,7 @@ const ProjectActions = ({ project }) => {
         <motion.button
           {...buttonAnimation}
           onClick={() => window.open(window.location.href, "_blank")}
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-5 py-3 font-medium text-foreground transition-all duration-300 hover:bg-muted"
+          className="inline-flex items-center justify-center gap-2  border border-border bg-card px-5 py-3 font-medium text-foreground transition-all duration-300 hover:bg-muted"
         >
           <ExternalLink size={18} />
           Open in New Tab

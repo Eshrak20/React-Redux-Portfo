@@ -1,8 +1,7 @@
-import React from "react";
 
 const SkeletonCard = () => {
   return (
-    <div className="relative aspect-video rounded-xl overflow-hidden bg-linear-to-br from-gray-900 via-gray-800 to-gray-900">
+    <div className="relative aspect-video  overflow-hidden bg-linear-to-br from-gray-900 via-gray-800 to-gray-900">
       
       {/* Shimmer */}
       <div className="absolute inset-0 animate-skeleton">

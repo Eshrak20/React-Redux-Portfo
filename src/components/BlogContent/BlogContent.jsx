@@ -4,7 +4,7 @@ const BlogContent = ({content = "", language = "en", className = ""}) => {
     if (!content) return null;
 
     return (
-        <div className="w-full min-w-0 overflow-x-auto">
+        <div className="w-full min-w-0 overflow-x-auto px-4 md:px-0">
             <RichContent
                 content={content}
                 lang={language === "bn" ? "bn" : "en"}
@@ -28,10 +28,10 @@ const BlogContent = ({content = "", language = "en", className = ""}) => {
                     [&_th]:border [&_th]:border-border [&_th]:bg-muted [&_th]:p-3 [&_th]:text-start [&_th]:font-semibold [&_th]:text-foreground
                     [&_td]:border [&_td]:border-border [&_td]:p-3 [&_td]:align-top
                     [&_td_p]:my-0 [&_th_p]:my-0
-                    [&_pre]:my-6 [&_pre]:overflow-x-auto [&_pre]:whitespace-pre [&_pre]:rounded-xl [&_pre]:border [&_pre]:border-border [&_pre]:bg-muted [&_pre]:p-4
+                    [&_pre]:my-6 [&_pre]:overflow-x-auto [&_pre]:whitespace-pre [&_pre]: [&_pre]:border [&_pre]:border-border [&_pre]:bg-muted [&_pre]:p-4
                     [&_pre_code]:block [&_pre_code]:whitespace-pre [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-foreground
                     [&_code]:break-words [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5
-                    [&_img]:mx-auto [&_img]:my-6 [&_img]:h-auto [&_img]:max-w-full [&_img]:rounded-xl
+                    [&_img]:mx-auto [&_img]:my-6 [&_img]:h-auto [&_img]:max-w-full [&_img]:
                     [&_sub]:text-xs [&_sup]:text-xs
                 `}
             />

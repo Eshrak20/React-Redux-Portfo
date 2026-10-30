@@ -1,122 +1,48 @@
 import Title from "@/components/Title/Title";
-import { useEffect, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const Missions = ({ about, aboutLoading }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [missionTyped, setMissionTyped] = useState("");
-  const [visionTyped, setVisionTyped] = useState("");
   const sectionRef = useRef(null);
-  const missionRef = useRef(null);
-  const visionRef = useRef(null);
-  const missionText = about?.mission || "";
-  const visionText = about?.vission || "";
-
-  // Intersection Observer for scroll animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1, rootMargin: "50px" },
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Typing effect for mission
-  useEffect(() => {
-    if (
-      !isVisible ||
-      !missionText ||
-      missionTyped.length === missionText?.length
-    )
-      return;
-
-    const timeout = setTimeout(() => {
-      setMissionTyped(missionText.substring(0, missionTyped.length + 1));
-    }, 20);
-
-    return () => clearTimeout(timeout);
-  }, [isVisible, missionText, missionTyped]);
-
-  // Typing effect for vision
-  useEffect(() => {
-    if (!isVisible || !visionText || visionTyped.length === visionText?.length)
-      return;
-
-    const timeout = setTimeout(() => {
-      setVisionTyped(visionText.substring(0, visionTyped.length + 1));
-    }, 20);
-
-    return () => clearTimeout(timeout);
-  }, [isVisible, visionText, visionTyped]);
-
-  // Reset typed content when about changes
-  useEffect(() => {
-    setMissionTyped("");
-    setVisionTyped("");
-  }, [about]);
+  const isVisible = useInView(sectionRef, { once: true, amount: 0.15 });
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden py-24">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Grid pattern */}
-        <div
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-linear(to right, #ffffff 1px, transparent 1px),
-                             linear-linear(to bottom, #ffffff 1px, transparent 1px)`,
-            backgroundSize: "50px 50px",
-            transform: "perspective(500px) rotateX(60deg)",
-            transformOrigin: "center top",
-          }}
-        ></div>
+    <section
+      ref={sectionRef}
+      className="relative isolate overflow-hidden bg-background py-14 sm:py-16 lg:py-24"
+      aria-busy={aboutLoading}
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+      >
+        <div className="absolute -left-24 top-0 h-72 w-72 rounded-full bg-primary/10 blur-3xl sm:h-96 sm:w-96" />
+        <div className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-secondary/10 blur-3xl sm:h-96 sm:w-96" />
       </div>
 
-      <div className="container relative mx-auto md:px-6">
-        {/* Section header */}
-        <Title name="MY Purpose" />
+      <div className="container relative mx-auto px-4 sm:px-6">
+        <div className="mb-8 sm:mb-12">
+          <Title name="MY Purpose" />
+          <p className="mx-auto mt-3 max-w-2xl text-center text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
+            The principles that guide my work and the direction I’m building toward.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-8 relative">
+        <div className="relative grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:gap-8">
           {/* Mission Card */}
-          <div
-            ref={missionRef}
-            className={`
-              relative group 
-              backdrop-blur-sm bg-card/90 border border-border 
-              md:rounded-3xl 
-              p-6 md:p-10 overflow-hidden
-              transition-all duration-700 ease-out
-              ${
-                isVisible
-                  ? "opacity-100 scale-100 translate-y-0"
-                  : "opacity-0 scale-95 translate-y-10"
-              }
-              hover:border-primary/50 hover:md:shadow-2xl hover:shadow-primary/20
-              transform hover:-translate-y-2
-            `}
+          <motion.article
+            initial={{ opacity: 0, y: 24 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+            className="group relative overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-5 shadow-sm backdrop-blur-xl transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 sm:p-7 lg:p-9"
           >
-            {/* Card glow effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-transparent to-accent/20 rounded-3xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
+            <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-primary/10 blur-2xl transition-colors duration-300 group-hover:bg-primary/15" />
 
-            {/* Corner accents */}
-            <div className="absolute top-0 left-0 w-20 h-20 -translate-x-10 -translate-y-10 bg-primary/20 rounded-full blur-xl"></div>
-            <div className="absolute bottom-0 right-0 w-20 h-20 translate-x-10 translate-y-10 bg-accent/20 rounded-full blur-xl"></div>
-
-            {/* Content */}
-            <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-6 md:mb-8">
-                <div className="p-2 md:p-3 bg-gradient-to-br from-primary to-primary/80 rounded-xl shadow-lg">
+            <div className="relative">
+              <div className="mb-5 flex items-center gap-3 sm:mb-6">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-md shadow-primary/20 sm:h-12 sm:w-12">
                   <svg
-                    className="w-6 h-6 text-primary-foreground"
+                    className="h-5 w-5 text-primary-foreground sm:h-6 sm:w-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -130,82 +56,40 @@ const Missions = ({ about, aboutLoading }) => {
                   </svg>
                 </div>
 
-                <h3 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                <h3 className="text-xl font-bold text-foreground sm:text-2xl">
                   MY Mission
                 </h3>
               </div>
 
-              <div
-                className="
-                              prose prose-sm md:prose-lg
-                              dark:prose-invert
-                              max-w-none
-                              min-h-[80px] md:min-h-[120px]
-                              prose-p:text-card-foreground/90
-                              prose-strong:text-primary
-                              prose-headings:text-card-foreground
-                              prose-a:text-primary
-                            "
-                dangerouslySetInnerHTML={{
-                  __html: about?.mission || "",
-                }}
-              />
-
-              {/* Progress indicator */}
-              <div className="mt-6 flex items-center gap-2">
-                <div className="h-1 flex-1 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-500"
-                    style={{
-                      width: `${
-                        (missionTyped.length / about?.mission?.length) * 100
-                      }%`,
-                    }}
-                  ></div>
+              {aboutLoading ? (
+                <div className="space-y-3 py-2" aria-hidden="true">
+                  <div className="h-4 w-full animate-pulse rounded bg-muted" />
+                  <div className="h-4 w-11/12 animate-pulse rounded bg-muted" />
+                  <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
                 </div>
-                <span className="text-xs text-muted-foreground font-mono">
-                  {Math.round(
-                    (missionTyped.length / about?.mission?.length) * 100,
-                  )}
-                  %
-                </span>
-              </div>
+              ) : (
+                <div
+                  className="prose prose-sm max-w-none leading-relaxed text-card-foreground/85 dark:prose-invert sm:prose-base prose-p:my-0 prose-p:leading-7 prose-strong:text-primary prose-headings:text-foreground prose-a:text-primary"
+                  dangerouslySetInnerHTML={{ __html: about?.mission || "" }}
+                />
+              )}
             </div>
-          </div>
+          </motion.article>
 
           {/* Vision Card */}
-          <div
-            ref={visionRef}
-            className={`
-              relative group 
-              backdrop-blur-sm bg-card/90 border border-border 
-              md:rounded-3xl p-6 md:p-10 overflow-hidden
-              transition-all duration-700 ease-out
-              ${
-                isVisible
-                  ? "opacity-100 scale-100 translate-y-0"
-                  : "opacity-0 scale-95 translate-y-10"
-              }
-              hover:border-secondary/50 hover:md:shadow-2xl hover:shadow-secondary/20
-              transform hover:-translate-y-2
-            `}
-            style={{
-              animationDelay: "0.4s",
-            }}
+          <motion.article
+            initial={{ opacity: 0, y: 24 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, delay: 0.12, ease: "easeOut" }}
+            className="group relative overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-5 shadow-sm backdrop-blur-xl transition-all duration-300 hover:border-secondary/40 hover:shadow-xl hover:shadow-secondary/5 sm:p-7 lg:p-9"
           >
-            {/* Card glow effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-secondary/20 via-transparent to-accent/20 rounded-3xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
+            <div className="pointer-events-none absolute -left-12 -top-12 h-36 w-36 rounded-full bg-secondary/10 blur-2xl transition-colors duration-300 group-hover:bg-secondary/15" />
 
-            {/* Corner accents */}
-            <div className="absolute top-0 right-0 w-20 h-20 translate-x-10 -translate-y-10 bg-secondary/20 rounded-full blur-xl"></div>
-            <div className="absolute bottom-0 left-0 w-20 h-20 -translate-x-10 translate-y-10 bg-accent/20 rounded-full blur-xl"></div>
-
-            {/* Content */}
-            <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-6 md:mb-8">
-                <div className="p-2 md:p-3 bg-gradient-to-br from-secondary to-secondary/80 rounded-xl shadow-lg">
+            <div className="relative">
+              <div className="mb-5 flex items-center gap-3 sm:mb-6">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-secondary to-secondary/80 shadow-md shadow-secondary/20 sm:h-12 sm:w-12">
                   <svg
-                    className="w-6 h-6 text-secondary-foreground"
+                    className="h-5 w-5 text-secondary-foreground sm:h-6 sm:w-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -224,48 +108,25 @@ const Missions = ({ about, aboutLoading }) => {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-secondary to-secondary/70 bg-clip-text text-transparent">
+                <h3 className="text-xl font-bold text-foreground sm:text-2xl">
                   MY Vision
                 </h3>
               </div>
 
-              <div
-                className="
-                          prose prose-sm md:prose-lg
-                          dark:prose-invert
-                          max-w-none
-                          min-h-[80px] md:min-h-[146px]
-                          prose-p:text-card-foreground/90
-                          prose-strong:text-secondary
-                          prose-headings:text-card-foreground
-                          prose-a:text-secondary
-                        "
-                dangerouslySetInnerHTML={{
-                  __html: about?.vission || "",
-                }}
-              />
-
-              {/* Progress indicator */}
-              <div className="mt-6 flex items-center gap-2">
-                <div className="h-1 flex-1 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-secondary to-secondary/80 rounded-full transition-all duration-500"
-                    style={{
-                      width: `${
-                        (visionTyped.length / about?.vission?.length) * 100
-                      }%`,
-                    }}
-                  ></div>
+              {aboutLoading ? (
+                <div className="space-y-3 py-2" aria-hidden="true">
+                  <div className="h-4 w-full animate-pulse rounded bg-muted" />
+                  <div className="h-4 w-11/12 animate-pulse rounded bg-muted" />
+                  <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
                 </div>
-                <span className="text-xs text-muted-foreground font-mono">
-                  {Math.round(
-                    (visionTyped.length / about?.vission?.length) * 100,
-                  )}
-                  %
-                </span>
-              </div>
+              ) : (
+                <div
+                  className="prose prose-sm max-w-none leading-relaxed text-card-foreground/85 dark:prose-invert sm:prose-base prose-p:my-0 prose-p:leading-7 prose-strong:text-secondary prose-headings:text-foreground prose-a:text-secondary"
+                  dangerouslySetInnerHTML={{ __html: about?.vission || "" }}
+                />
+              )}
             </div>
-          </div>
+          </motion.article>
         </div>
       </div>
     </section>

@@ -1,17 +1,17 @@
-import React, { useMemo, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
-  Mail,
-  Phone,
-  MapPin,
-  Instagram,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Youtube,
-  ExternalLink,
-  MessageSquare,
+    ExternalLink,
+    Facebook,
+    Instagram,
+    Linkedin,
+    Mail,
+    MapPin,
+    MessageSquare,
+    Phone,
+    Twitter,
+    Youtube,
 } from "lucide-react";
+import { useMemo, useRef } from "react";
 import contactImg from "../../assets/BannerImages/Contact.jpg";
 
 const platformIcons = {
@@ -113,7 +113,7 @@ const ContactSection = ({ settings, socials }) => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="group flex items-start sm:items-center p-4 md:p-5 rounded-md md:rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all"
+                  className="group flex items-start sm:items-center p-4 md:p-5 rounded-md md:rounded-sm bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all"
                 >
                   <div className="shrink-0 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-primary/10 text-primary">
                     {item.icon}
@@ -155,7 +155,7 @@ const ContactSection = ({ settings, socials }) => {
             viewport={{ once: true }}
             className="relative order-1 lg:order-2 flex justify-center w-full"
           >
-            <div className="relative z-10 overflow-hidden rounded-md md:rounded-2xl shadow-xl w-full aspect-4/5 md:aspect-3/4 group border border-gray-100 dark:border-slate-800">
+            <div className="relative z-10 overflow-hidden rounded-md md:rounded-sm shadow-xl w-full aspect-4/5 md:aspect-3/4 group border border-gray-100 dark:border-slate-800">
               
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -178,7 +178,7 @@ const ContactSection = ({ settings, socials }) => {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity }}
-              className="absolute -bottom-4 -right-2 md:-right-8 bg-primary px-4 py-3 md:px-8 md:py-5 rounded-md md:rounded-2xl shadow-lg z-20"
+              className="absolute -bottom-4 -right-2 md:-right-8 bg-primary px-4 py-3 md:px-8 md:py-5 rounded-md md:rounded-sm shadow-lg z-20"
             >
               <p className="text-white font-bold text-sm md:text-xl">
                 Available

@@ -1,4 +1,3 @@
-import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const HomeServiceSkeleton = () => {
@@ -22,11 +21,11 @@ const HomeServiceSkeleton = () => {
           {Array.from({ length: 4 }).map((_, i) => (
             <div
               key={i}
-              className="flex flex-col items-center justify-center p-10 bg-gray-50 border border-gray-200 md:rounded-2xl rounded-md"
+              className="flex flex-col items-center justify-center p-10 bg-gray-50 border border-gray-200 md:rounded-sm rounded-md"
             >
               {/* Icon Skeleton */}
               <div className="mb-6">
-                <Skeleton className="w-20 h-20 md:rounded-2xl rounded-md bg-muted" />
+                <Skeleton className="w-20 h-20 md:rounded-sm rounded-md bg-muted" />
               </div>
 
               {/* Title Skeleton */}

@@ -1,35 +1,43 @@
+
 import { Outlet } from "react-router";
-import Navbar from "./shared/Navbar/Navbar";
-import PageLoader from "./components/pageLoader/pageLoader";
-import Footer from "./shared/Footer/Footer";
 import { useGetSettingsDataQuery, useGetSocialLinksQuery } from "./redux/api/homeApi";
 
+import Footer from "./shared/Footer/Footer";
+import Navbar from "./shared/Navbar/Navbar";
+
 const App = () => {
-  const { data: footerData, isLoading: footerLoading, isError: footerError } =
-    useGetSettingsDataQuery();
+  const {
+    data: footerData,
+    isLoading: footerLoading,
+    isError: footerError,
+  } = useGetSettingsDataQuery();
+
   const { data: socialLinksData } = useGetSocialLinksQuery();
 
-  const data = footerData?.data?.[0] || {};
-  // console.log(data);
+  const settings = footerData?.data?.[0] ?? {};
 
   return (
-    <div className="mx-auto flex min-h-screen flex-col pb-[calc(5.5rem+env(safe-area-inset-bottom))] lg:pb-0">
-      {/* GLOBAL PAGE LOADER */}
-      {/* <PageLoader /> */}
+    <div className="flex min-h-screen w-full flex-col overflow-x-clip bg-background">
 
-      <Navbar  socialLinksData={socialLinksData} settingData={data}  />
+      {/* Global Navbar */}
+      <Navbar
+        settingData={settings}
+        socialLinksData={socialLinksData}
+      />
 
-      {/* MAIN CONTENT */}
-      <main className="flex-1">
+      {/* Main Content */}
+      <main className="min-w-0 w-full flex-1">
         <Outlet />
       </main>
 
+      {/* Global Footer */}
       <Footer
-        data={data}
+        data={settings}
         socialLinksData={socialLinksData}
         isLoading={footerLoading}
         isError={footerError}
       />
+
     </div>
   );
 };

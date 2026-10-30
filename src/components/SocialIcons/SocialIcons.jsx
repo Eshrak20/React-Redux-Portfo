@@ -32,7 +32,7 @@ const SocialIcons = ({
             aria-label={link.name ?? link.platform}
             whileHover={{ y: -3, scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`flex h-11 w-11 items-center justify-center rounded-xl border border-primary/20 bg-card text-primary transition-all duration-300 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-lg ${buttonClassName}`}
+            className={`flex h-11 w-11 items-center justify-center  border border-primary/20 bg-card text-primary transition-all duration-300 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-lg ${buttonClassName}`}
           >
             <Icon size={iconSize} />
           </motion.a>

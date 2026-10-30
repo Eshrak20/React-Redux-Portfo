@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Copy, Check, Phone } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, Copy, Phone, X } from "lucide-react";
+import { useState } from "react";
 
 const SupportModal = ({ isOpen, onClose, phoneNumber = "+1 234 567 890" }) => {
   const [copied, setCopied] = useState(false);
@@ -30,7 +30,7 @@ const SupportModal = ({ isOpen, onClose, phoneNumber = "+1 234 567 890" }) => {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-sm bg-white md:rounded-2xl rounded-md md:shadow-2xl overflow-hidden p-8"
+            className="relative w-full max-w-sm bg-white md:rounded-sm rounded-md md:shadow-2xl overflow-hidden p-8"
           >
             <button
               onClick={onClose}
@@ -49,7 +49,7 @@ const SupportModal = ({ isOpen, onClose, phoneNumber = "+1 234 567 890" }) => {
               </p>
 
               {/* Number Display & Copy Button */}
-              <div className="flex items-center gap-2 p-1 bg-gray-50 border border-gray-100 rounded-xl">
+              <div className="flex items-center gap-2 p-1 bg-gray-50 border border-gray-100 ">
                 <div className="flex-1 font-mono font-medium text-lg py-3 px-4 text-black">
                   {phoneNumber}
                 </div>

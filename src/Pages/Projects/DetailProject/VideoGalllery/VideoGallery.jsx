@@ -1,16 +1,11 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  Play,
-  Video,
-  Sparkles,
-  Zap,
-  ArrowRight,
-  Volume2,
-  Maximize2,
-  Clock,
-  Eye,
+    Clock,
+    Eye,
+    Play,
+    Video
 } from "lucide-react";
+import { useState } from "react";
 import { VideoModal } from "./VideoModal";
 
 const VideoGallery = ({
@@ -225,7 +220,7 @@ const VideoGallery = ({
             <motion.div
               key={index}
               whileHover={{ y: -10 }}
-              className="p-6 md:rounded-2xl rounded-md bg-white/50 dark:bg-neutral-900/40 backdrop-blur-sm border border-gray-100 dark:border-neutral-800/60 text-center"
+              className="p-6 md:rounded-sm rounded-md bg-white/50 dark:bg-neutral-900/40 backdrop-blur-sm border border-gray-100 dark:border-neutral-800/60 text-center"
             >
               <div className="w-12 h-12 rounded-full bg-linear-to-r from-primary/10 to-primary/10 dark:from-primary/20 dark:to-primary/20 flex items-center justify-center mx-auto mb-4">
                 <Video className="w-6 h-6 text-primary" />

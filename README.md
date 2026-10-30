@@ -30,7 +30,7 @@ admin http://192.168.10.33:8000
 
   /* CTA Button
             <div className="pt-6">
-              <button className="group relative w-full lg:w-max bg-primary text-primary-foreground px-10 py-5 rounded-xl font-bold uppercase tracking-widest overflow-hidden transition-all hover:shadow-[0_0_30px_rgba(var(--primary),0.4)]">
+              <button className="group relative w-full lg:w-max bg-primary text-primary-foreground px-10 py-5  font-bold uppercase tracking-widest overflow-hidden transition-all hover:shadow-[0_0_30px_rgba(var(--primary),0.4)]">
                 <span className="relative z-10 flex items-center justify-center gap-3">
                   <Headphones className="w-5 h-5" />
                   Get Premium Support

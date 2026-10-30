@@ -11,7 +11,7 @@ const BlogDetailToolbar = ({
     toggleFullscreen,
     onPrint,
 }) => (
-    <div className="mb-7 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border/80 bg-background/95 p-2 shadow-sm sm:p-3">
+    <div className="mb-7 flex flex-wrap items-center justify-between gap-2  border border-border/80 bg-background/95 p-2 shadow-sm sm:p-3">
         {hasEnglishVersion ? (
             <div className="flex items-center gap-1.5 shrink-0">
                 <Languages aria-hidden="true" className="h-4 w-4 text-primary" />

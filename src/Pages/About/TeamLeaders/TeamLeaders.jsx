@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
 import Title from "@/components/Title/Title";
+import { useEffect, useRef, useState } from "react";
 
 const TeamLeaders = ({ profiles = [] }) => {
   const [selectedProfile, setSelectedProfile] = useState(null);
@@ -60,7 +60,7 @@ const TeamLeaders = ({ profiles = [] }) => {
               <div
                 key={profile?.id || index}
                 onClick={() => setSelectedProfile(profile)}
-                className="group cursor-pointer bg-white dark:bg-gray-900 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 transition-all duration-300 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-700 flex flex-col h-full"
+                className="group cursor-pointer bg-white dark:bg-gray-900  overflow-hidden border border-gray-200 dark:border-gray-800 transition-all duration-300 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-700 flex flex-col h-full"
               >
                 {/* Image Section */}
                 <div className="relative h-64 md:h-72 overflow-hidden bg-gray-100 dark:bg-gray-800 shrink-0">
@@ -132,7 +132,7 @@ const TeamLeaders = ({ profiles = [] }) => {
           ></div>
 
           {/* Modal Container */}
-          <div className="relative w-full max-w-5xl max-h-[85vh] sm:max-h-[90vh] bg-white dark:bg-gray-900 md:rounded-2xl rounded-md md:shadow-2xl overflow-hidden flex flex-col md:flex-row animate-in fade-in duration-200">
+          <div className="relative w-full max-w-5xl max-h-[85vh] sm:max-h-[90vh] bg-white dark:bg-gray-900 md:rounded-sm rounded-md md:shadow-2xl overflow-hidden flex flex-col md:flex-row animate-in fade-in duration-200">
             {/* Close Button Anchor */}
             <button 
               onClick={() => setSelectedProfile(null)}

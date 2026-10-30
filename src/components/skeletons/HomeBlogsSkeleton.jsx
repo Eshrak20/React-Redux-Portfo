@@ -1,4 +1,3 @@
-import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const HomeBlogsSkeleton = () => {
@@ -16,7 +15,7 @@ const HomeBlogsSkeleton = () => {
         {Array.from({ length: 6 }).map((_, index) => (
           <div
             key={index}
-            className="bg-white md:rounded-2xl rounded-md shadow-lg border border-gray-100 overflow-hidden"
+            className="bg-white md:rounded-sm rounded-md shadow-lg border border-gray-100 overflow-hidden"
           >
             {/* Image Skeleton */}
             <div className="relative aspect-video">

@@ -68,14 +68,14 @@ const Navbar = ({settingData}) => {
     return (
         <>
             <header
-                className={`site-navbar fixed inset-x-0 top-3 z-[90] px-3 transition-[transform,opacity] duration-300 ease-out motion-reduce:transition-none sm:top-4 sm:px-5 lg:px-0 ${
+                className={`hidden md:flex site-navbar fixed inset-x-0 top-3 z-[90] px-3 transition-[transform,opacity] duration-300 ease-out motion-reduce:transition-none sm:top-4 sm:px-5 lg:px-0 ${
                     isNavbarVisible
                         ? "translate-y-0 opacity-100"
                         : "-translate-y-[calc(10%+1rem)] opacity-0 pointer-events-none"
                 }`}
             >
                 <div
-                    className={`site-navbar-shell mx-auto flex h-14 w-full items-center justify-between rounded-2xl border px-3 shadow-sm transition-[width,background-color,box-shadow] duration-300 sm:h-16 sm:px-5 lg:h-[66px] lg:w-[90%] lg:rounded-full lg:px-6 xl:w-[85%] ${
+                    className={`site-navbar-shell mx-auto flex h-14 w-full items-center justify-between rounded-sm border px-3 shadow-sm transition-[width,background-color,box-shadow] duration-300 sm:h-16 sm:px-5 lg:h-[66px] lg:w-[90%] lg:rounded-full lg:px-6 xl:w-[85%] ${
                         isScrolled
                             ? "border-border/80 bg-background/95 shadow-md lg:w-[88%] xl:w-[78%] 2xl:w-[78%]"
                             : "border-gray-300/50 bg-white/80 dark:border-gray-400/80 dark:bg-slate-950/75"
