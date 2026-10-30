@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import {
-    ArrowRight,
-    BookOpen,
-    Mail,
-    MapPin,
-    MessageSquare,
-    Phone,
-    Send,
-    User,
+  ArrowRight,
+  BookOpen,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Phone,
+  Send,
+  User,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -50,7 +50,7 @@ const GetInTouchSection = ({ onSubmit, loading, settings }) => {
   return (
     <section
       id="submit"
-      className="relative py-24 bg-[#faf9f6] dark:bg-slate-950 overflow-hidden"
+      className="relative py-4 md:py-24 bg-[#faf9f6] dark:bg-slate-950 overflow-hidden"
     >
       {/* Background text */}
       <div className="absolute top-10 right-[-5%] text-[18vw] font-black text-black/[0.03] dark:text-white/[0.03] select-none leading-none pointer-events-none uppercase">

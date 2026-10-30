@@ -14,7 +14,7 @@ const roles = [
 
 const BannerHome = () => {
   return (
-    <section className="relative w-full overflow-hidden bg-background mt-0 lg:mt-12">
+    <section className="relative w-full overflow-hidden bg-pink-50 mt-0 lg:mt-12">
 
       {/* Background circuit design */}
       <div className="absolute top-0 right-0 w-1/3 h-full pointer-events-none opacity-20 md:opacity-35">

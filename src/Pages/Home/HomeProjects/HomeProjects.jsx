@@ -10,7 +10,7 @@ const HomeProjects = ({ projects = [] }) => {
     return (
         <section
             id="projects"
-            className="overflow-hidden px-5 pt-3 pb-16 sm:px-8 sm:py-20 lg:px-10"
+            className="overflow-hidden  bg-pink-50 dark:bg-background px-5 pt-3 pb-16 sm:px-8 sm:py-20 lg:px-10"
         >
             <div className="mx-auto max-w-7xl">
 

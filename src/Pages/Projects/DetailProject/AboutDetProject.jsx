@@ -29,7 +29,7 @@ const AboutDetProject = ({project}) => {
     };
 
     return (
-        <section className="relative max-w-7xl mx-auto pt-32 px-6  bg-transparent text-gray-900 dark:text-gray-100">
+        <section className="relative max-w-7xl mx-auto pt-3 md:pt-32 px-6  bg-transparent text-gray-900 dark:text-gray-100">
             {/* Top Section: Image & Meta Data */}
             <motion.div
                 variants={containerVariants}

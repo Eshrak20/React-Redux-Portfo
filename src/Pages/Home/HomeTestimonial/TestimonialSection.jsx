@@ -171,7 +171,7 @@ const TestimonialSection = ({ testimonial = [] }) => {
   };
 
   return (
-    <section className={isHomePage ? "py-14 sm:py-16" : "py-16 sm:py-20"}>
+    <section className={isHomePage ? "bg-pink-50 dark:bg-background py-14 sm:py-16" : "py-16 sm:py-20"}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-12">
 
         {/* Section heading */}

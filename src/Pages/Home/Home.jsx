@@ -35,7 +35,7 @@ const Home = () => {
   const { data: blogsData, isLoading: blogLoading } = useGetBlogsQuery();
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <HomeBanner />
 
       {/* SERVICES */}

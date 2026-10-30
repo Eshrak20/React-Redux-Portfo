@@ -21,7 +21,7 @@ const Missions = ({ about, aboutLoading }) => {
       </div>
 
       <div className="container relative mx-auto px-4 sm:px-6">
-        <div className="mb-8 sm:mb-12">
+        <div className="hidden  md:flex mb-8 sm:mb-12">
           <Title name="MY Purpose" />
           <p className="mx-auto mt-3 max-w-2xl text-center text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
             The principles that guide my work and the direction I’m building toward.
