@@ -38,29 +38,20 @@ const CommonMap = ({
 
   return (
     <section className="w-full mb-20 bg-background py-10 md:py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto  sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="hidden md:flex text-center mb-10 md:mb-14">
+        <div className="hidden md:inline text-center">
           <span className="text-sm font-semibold tracking-widest uppercase text-primary">
             My Location
           </span>
-
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mt-3">
-            Find <span className="text-primary">Me</span>
-          </h2>
-
-          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
-            Explore my location using Google Maps or take a closer
-            look with Street View.
-          </p>
         </div>
 
         {/* Map Frame */}
-        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-lg">
+        <div className="overflow-hidden mt-4 rounded-xl  bg-card md:shadow-lg">
 
           {/* Top Bar */}
-          <div className="min-h-14 flex flex-wrap items-center justify-between gap-3 px-4 md:px-6 py-3 border-b border-border">
+          <div className="min-h-14 flex flex-wrap items-center justify-between gap-3 px-4 md:px-6 py-3 ">
 
             <div className="flex items-center gap-3">
               <div className="flex gap-1.5">
@@ -82,7 +73,7 @@ const CommonMap = ({
                 disabled={loading || !mapUrl}
                 className={`flex items-center gap-2 px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors disabled:opacity-40 ${
                   !showStreetView
-                    ? "bg-primary text-primary-foreground shadow-sm"
+                    ? "bg-primary text-primary-foreground md:shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -96,7 +87,7 @@ const CommonMap = ({
                 disabled={loading || !streetUrl}
                 className={`flex items-center gap-2 px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors disabled:opacity-40 ${
                   showStreetView
-                    ? "bg-primary text-primary-foreground shadow-sm"
+                    ? "bg-primary text-primary-foreground md:shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -111,7 +102,7 @@ const CommonMap = ({
 
             {loading ? (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+                <div className="w-10 h-10  rounded-full animate-spin" />
 
                 <p className="text-sm text-muted-foreground">
                   Loading map data...
@@ -134,7 +125,7 @@ const CommonMap = ({
               <>
                 {!iframeLoaded && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10 bg-muted/30 pointer-events-none">
-                    <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+                    <div className="w-10 h-10  rounded-full animate-spin" />
 
                     <p className="text-sm text-muted-foreground">
                       Loading {showStreetView ? "Street View" : "Map"}...
@@ -164,7 +155,7 @@ const CommonMap = ({
           </div>
 
           {/* Bottom Bar */}
-          <div className="flex items-center justify-between gap-3 px-4 md:px-6 py-3 border-t border-border bg-muted/30">
+          <div className="flex items-center justify-between gap-3 px-4 md:px-6 py-3  bg-muted/30">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span className="w-2 h-2 rounded-full bg-green-500" />
               MAP: ACTIVE

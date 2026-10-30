@@ -25,38 +25,30 @@ const BlogsCard = ({ blogs = [], pagination, setPage, isFetching }) => {
       }
     >
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-8 text-center sm:mb-10">
-          <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            {language === "bn" ? "আমার লেখা" : "My Writes"}
-          </h2>
-
-          <div className="mx-auto h-1.5 w-20 rounded-full bg-primary sm:w-24" />
-        </div>
-
-        {/* Language Toggle */}
-        <div className="mb-7 flex justify-center">
+        {/* Top Controls */}
+        <div className="mb-6 flex items-center justify-between gap-3">
+          {/* Language Toggle */}
           <LanguageToggle language={language} onChange={setLanguage} />
-        </div>
 
-        {/* View All */}
-        {isHomePage && (
-          <div className="mb-6 flex justify-end">
+          {/* View All */}
+          {isHomePage && (
             <Link
               to="/blogs"
               className="
-                                inline-flex items-center gap-2
-                                text-sm font-medium text-primary
-                                transition-all duration-300
-                                hover:gap-3
-                            "
+        group inline-flex shrink-0 items-center gap-1.5
+        rounded-full border border-primary/20
+        bg-primary/5 px-3 py-2
+        text-xs sm:text-sm font-semibold text-primary
+        transition-all duration-300
+        hover:border-primary hover:bg-primary hover:text-white
+      "
             >
               {language === "bn" ? "সব ব্লগ দেখুন" : "View All Blogs"}
 
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Loading */}
         {isFetching && !isHomePage && (

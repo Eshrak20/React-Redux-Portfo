@@ -14,99 +14,149 @@ import ScrollToTopButton from "./navComponents/ScrollToTopButton";
 import "./styles/navbar.css";
 import { isNavItemActive } from "./utils/navbarHelpers";
 
-const Navbar = ({settingData}) => {
-    const {
-        isScrolled,
-        showTopButton,
-        isNavbarVisible,
-        isDarkMode,
-        toggleTheme,
-    } = useNavbar();
-    const location = useLocation();
-    const projectMatch = useMatch("/projects/*");
-    const blogMatch = useMatch("/blogs/*");
-    const navWrapRef = useRef(null);
-    const navItemRefs = useRef([]);
-    const [activePill, setActivePill] = useState({
-        left: 10,
-        width: 10,
-        opacity: 0,
+const Navbar = ({ settingData }) => {
+  const {
+    isScrolled,
+    showTopButton,
+    isNavbarVisible,
+    isDarkMode,
+    toggleTheme,
+  } = useNavbar();
+
+  const location = useLocation();
+  const projectMatch = useMatch("/projects/*");
+  const blogMatch = useMatch("/blogs/*");
+
+  const navWrapRef = useRef(null);
+  const navItemRefs = useRef([]);
+
+  const [activePill, setActivePill] = useState({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  });
+
+  const phoneNumber =
+    settingData?.primary_phone ||
+    settingData?.phone ||
+    settingData?.data?.primary_phone ||
+    settingData?.data?.phone ||
+    WHATSAPP_NUMBER;
+
+  const isActive = (item) =>
+    isNavItemActive({
+      item,
+      pathname: location.pathname,
+      projectMatch,
+      blogMatch,
     });
-    const phoneNumber =
-        settingData?.primary_phone ||
-        settingData?.phone ||
-        settingData?.data?.primary_phone ||
-        settingData?.data?.phone ||
-        WHATSAPP_NUMBER;
-    const isActive = (item) =>
-        isNavItemActive({
-            item,
-            pathname: location.pathname,
-            projectMatch,
-            blogMatch,
-        });
-    const activeIndex = navItems.findIndex(isActive);
 
-    useLayoutEffect(() => {
-        const updateActivePill = () => {
-            const activeElement = navItemRefs.current[activeIndex];
-            const navElement = navWrapRef.current;
-            if (!activeElement || !navElement) return;
-            const activeBounds = activeElement.getBoundingClientRect();
-            const navBounds = navElement.getBoundingClientRect();
-            setActivePill({
-                left: activeBounds.left - navBounds.left,
-                width: activeBounds.width,
-                opacity: 1,
-            });
-        };
-        updateActivePill();
-        window.addEventListener("resize", updateActivePill);
-        return () => window.removeEventListener("resize", updateActivePill);
-    }, [activeIndex, location.pathname]);
+  const activeIndex = navItems.findIndex(isActive);
 
-    return (
-        <>
-            <header
-                className={`hidden md:flex site-navbar fixed inset-x-0 top-3 z-[90] px-3 transition-[transform,opacity] duration-300 ease-out motion-reduce:transition-none sm:top-4 sm:px-5 lg:px-0 ${
-                    isNavbarVisible
-                        ? "translate-y-0 opacity-100"
-                        : "-translate-y-[calc(10%+1rem)] opacity-0 pointer-events-none"
-                }`}
-            >
-                <div
-                    className={`site-navbar-shell mx-auto flex h-14 w-full items-center justify-between rounded-sm border px-3 shadow-sm transition-[width,background-color,box-shadow] duration-300 sm:h-16 sm:px-5 lg:h-[66px] lg:w-[90%] lg:rounded-full lg:px-6 xl:w-[85%] ${
-                        isScrolled
-                            ? "border-border/80 bg-background/95 shadow-md lg:w-[88%] xl:w-[78%] 2xl:w-[78%]"
-                            : "border-gray-300/50 bg-white/80 dark:border-gray-400/80 dark:bg-slate-950/75"
-                    }`}
-                >
-                    <NavbarLogo
-                        logo={isDarkMode ? logoD : logoL}
-                        alt="Eshrak Portfolio"
-                    />
-                    <DesktopNav
-                        navWrapRef={navWrapRef}
-                        navItemRefs={navItemRefs}
-                        activePill={activePill}
-                        isNavItemActive={isActive}
-                    />
-                    <NavbarActions
-                        isDarkMode={isDarkMode}
-                        onThemeToggle={toggleTheme}
-                        phoneNumber={phoneNumber}
-                    />
-                </div>
-            </header>
-            <MobileNav
-                isVisible={isNavbarVisible}
-                isNavItemActive={isActive}
-                phoneNumber={phoneNumber}
-            />
-            <ScrollToTopButton isVisible={showTopButton} />
-            <FloatingWhatsapp phoneNumber={phoneNumber} />
-        </>
-    );
+  useLayoutEffect(() => {
+    const updateActivePill = () => {
+      const activeElement = navItemRefs.current[activeIndex];
+      const navElement = navWrapRef.current;
+
+      if (!activeElement || !navElement) {
+        setActivePill((previous) => ({
+          ...previous,
+          opacity: 0,
+        }));
+        return;
+      }
+
+      setActivePill({
+        left: activeElement.offsetLeft,
+        width: activeElement.offsetWidth,
+        opacity: 1,
+      });
+    };
+
+    updateActivePill();
+
+    const observer = new ResizeObserver(updateActivePill);
+
+    if (navWrapRef.current) {
+      observer.observe(navWrapRef.current);
+    }
+
+    navItemRefs.current.forEach((element) => {
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, [activeIndex, location.pathname]);
+
+  return (
+    <>
+      {/* Desktop Navbar */}
+
+      <header
+        className={`
+        site-navbar fixed inset-x-0 top-2 z-[90]
+        hidden px-3 transition-all duration-300
+        ease-out motion-reduce:transition-none
+        md:flex sm:top-3 sm:px-4
+        ${
+          isNavbarVisible
+            ? "translate-y-0 opacity-100"
+            : "-translate-y-16 pointer-events-none opacity-0"
+        }
+    `}
+      >
+        <div
+          className={`
+            site-navbar-shell mx-auto
+            flex h-[52px] w-full items-center
+            justify-between gap-3
+            transition-all duration-300
+            sm:h-14 sm:px-5
+            lg:w-[92%] lg:px-6
+            xl:w-[86%] xl:px-7
+            2xl:w-[73%]
+            ${
+              isScrolled
+                ? `
+                        backdrop-blur-xl
+                    `
+                : `
+                        backdrop-blur-xl
+                    `
+            }
+        `}
+        >
+          <NavbarLogo
+            logo={isDarkMode ? logoD : logoL}
+            alt="Eshrak Portfolio"
+          />
+
+          <DesktopNav
+            navWrapRef={navWrapRef}
+            navItemRefs={navItemRefs}
+            activePill={activePill}
+            isNavItemActive={isActive}
+          />
+
+          <NavbarActions
+            isDarkMode={isDarkMode}
+            onThemeToggle={toggleTheme}
+            phoneNumber={phoneNumber}
+          />
+        </div>
+      </header>
+
+      <MobileNav
+        isVisible={isNavbarVisible}
+        isNavItemActive={isActive}
+        phoneNumber={phoneNumber}
+      />
+
+      <ScrollToTopButton isVisible={showTopButton} />
+
+      <FloatingWhatsapp phoneNumber={phoneNumber} />
+    </>
+  );
 };
 
 export default Navbar;

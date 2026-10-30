@@ -175,7 +175,7 @@ const TestimonialSection = ({ testimonial = [] }) => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-12">
 
         {/* Section heading */}
-        <div className="mb-9 text-center sm:mb-12">
+        <div className="hidden mb-9 text-center sm:mb-12">
           <Title name="What MY Clients Say" />
         </div>
 

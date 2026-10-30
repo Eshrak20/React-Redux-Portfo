@@ -11,29 +11,40 @@ const BlogDetailToolbar = ({
     toggleFullscreen,
     onPrint,
 }) => (
-    <div className="mb-7 flex flex-wrap items-center justify-between gap-2  border border-border/80 bg-background/95 p-2 shadow-sm sm:p-3">
+    <div className="mb-7 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border/80 bg-background/95 p-2 shadow-sm backdrop-blur-sm sm:p-3">
         {hasEnglishVersion ? (
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex items-center gap-2 shrink-0">
                 <Languages aria-hidden="true" className="h-4 w-4 text-primary" />
 
                 <div
                     role="group"
                     aria-label="Choose article language"
-                    className="inline-flex rounded-full border border-border bg-muted/70 p-0.5"
+                    className="relative inline-flex items-center rounded-full border border-border bg-muted/60 p-1 shadow-inner"
                 >
-                    {["bn", "en"].map((option) => (
+                    {/* Animated Sliding Background Indicator */}
+                    <div
+                        aria-hidden="true"
+                        className={`absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full bg-primary transition-all duration-300 ease-out shadow-sm ${
+                            language === "bn" ? "left-1" : "left-[calc(50%+2px)]"
+                        }`}
+                    />
+
+                    {[
+                        { id: "bn", label: "বাংলা" },
+                        { id: "en", label: "English" },
+                    ].map((option) => (
                         <button
-                            key={option}
+                            key={option.id}
                             type="button"
-                            aria-pressed={language === option}
-                            onClick={() => onLanguageChange(option)}
-                            className={`min-h-8 rounded-full px-2.5 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                                language === option
-                                    ? "bg-primary text-white shadow-sm"
+                            aria-pressed={language === option.id}
+                            onClick={() => onLanguageChange(option.id)}
+                            className={`relative z-10 flex min-h-8 w-20 items-center justify-center rounded-full text-xs font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                                language === option.id
+                                    ? "text-primary-foreground"
                                     : "text-muted-foreground hover:text-foreground"
                             }`}
                         >
-                            {option === "bn" ? "বাংলা" : "English"}
+                            {option.label}
                         </button>
                     ))}
                 </div>

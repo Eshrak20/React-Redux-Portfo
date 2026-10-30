@@ -1,132 +1,118 @@
-import Title from "@/components/Title/Title";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 
-const Missions = ({ about, aboutLoading }) => {
-  const sectionRef = useRef(null);
-  const isVisible = useInView(sectionRef, { once: true, amount: 0.15 });
+import Title from "@/components/Title/Title";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+const TypeEffect = ({ text, speed = 100 }) => {
+  const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    let index = 0;
+
+    const interval = setInterval(() => {
+      index++;
+      setDisplayedText(text.slice(0, index));
+
+      if (index >= text.length) {
+        clearInterval(interval);
+      }
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, speed]);
 
   return (
+    <span>
+      {displayedText}
+      <span className="animate-pulse text-primary">|</span>
+    </span>
+  );
+};
+
+const Missions = ({ about, aboutLoading }) => {
+  return (
     <section
-      ref={sectionRef}
-      className="relative isolate overflow-hidden bg-background py-14 sm:py-16 lg:py-24"
+      className="bg-background py-12 sm:py-16 lg:pb-14"
       aria-busy={aboutLoading}
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
-      >
-        <div className="absolute -left-24 top-0 h-72 w-72 rounded-full bg-primary/10 blur-3xl sm:h-96 sm:w-96" />
-        <div className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-secondary/10 blur-3xl sm:h-96 sm:w-96" />
-      </div>
+      <div className="container mx-auto px-4 sm:px-6">
 
-      <div className="container relative mx-auto px-4 sm:px-6">
-        <div className="hidden  md:flex mb-8 sm:mb-12">
+        {/* Heading */}
+        <div className="hidden mb-8 text-center sm:mb-12">
           <Title name="MY Purpose" />
-          <p className="mx-auto mt-3 max-w-2xl text-center text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
-            The principles that guide my work and the direction I’m building toward.
+
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
+            The principles that guide my work and the direction I'm building toward.
           </p>
         </div>
 
-        <div className="relative grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:gap-8">
-          {/* Mission Card */}
+        {/* Mission & Vision */}
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+
+          {/* Mission */}
           <motion.article
-            initial={{ opacity: 0, y: 24 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, ease: "easeOut" }}
-            className="group relative overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-5 shadow-sm backdrop-blur-xl transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 sm:p-7 lg:p-9"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="border border-border bg-card p-5 sm:p-7 lg:p-8"
           >
-            <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-primary/10 blur-2xl transition-colors duration-300 group-hover:bg-primary/15" />
+            <div className="mb-5 flex items-center gap-3">
+              <span className="text-2xl text-primary">01.</span>
 
-            <div className="relative">
-              <div className="mb-5 flex items-center gap-3 sm:mb-6">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-md shadow-primary/20 sm:h-12 sm:w-12">
-                  <svg
-                    className="h-5 w-5 text-primary-foreground sm:h-6 sm:w-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    />
-                  </svg>
-                </div>
-
-                <h3 className="text-xl font-bold text-foreground sm:text-2xl">
-                  MY Mission
-                </h3>
-              </div>
-
-              {aboutLoading ? (
-                <div className="space-y-3 py-2" aria-hidden="true">
-                  <div className="h-4 w-full animate-pulse rounded bg-muted" />
-                  <div className="h-4 w-11/12 animate-pulse rounded bg-muted" />
-                  <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
-                </div>
-              ) : (
-                <div
-                  className="prose prose-sm max-w-none leading-relaxed text-card-foreground/85 dark:prose-invert sm:prose-base prose-p:my-0 prose-p:leading-7 prose-strong:text-primary prose-headings:text-foreground prose-a:text-primary"
-                  dangerouslySetInnerHTML={{ __html: about?.mission || "" }}
-                />
-              )}
+              <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
+                My Mission
+              </h3>
             </div>
+
+            {aboutLoading ? (
+              <div className="space-y-3 animate-pulse">
+                <div className="h-4 w-full rounded bg-muted" />
+                <div className="h-4 w-5/6 rounded bg-muted" />
+                <div className="h-4 w-3/4 rounded bg-muted" />
+              </div>
+            ) : (
+              <div
+                className="prose prose-sm max-w-none leading-7 text-muted-foreground dark:prose-invert sm:prose-base prose-p:my-0 prose-strong:text-primary prose-headings:text-foreground prose-a:text-primary"
+                dangerouslySetInnerHTML={{
+                  __html: about?.mission || "",
+                }}
+              />
+            )}
           </motion.article>
 
-          {/* Vision Card */}
+          {/* Vision */}
           <motion.article
-            initial={{ opacity: 0, y: 24 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, delay: 0.12, ease: "easeOut" }}
-            className="group relative overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-5 shadow-sm backdrop-blur-xl transition-all duration-300 hover:border-secondary/40 hover:shadow-xl hover:shadow-secondary/5 sm:p-7 lg:p-9"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.12 }}
+            className="border border-border bg-card p-5 sm:p-7 lg:p-8"
           >
-            <div className="pointer-events-none absolute -left-12 -top-12 h-36 w-36 rounded-full bg-secondary/10 blur-2xl transition-colors duration-300 group-hover:bg-secondary/15" />
+            <div className="mb-5 flex items-center gap-3">
+              <span className="text-2xl text-secondary">02.</span>
 
-            <div className="relative">
-              <div className="mb-5 flex items-center gap-3 sm:mb-6">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-secondary to-secondary/80 shadow-md shadow-secondary/20 sm:h-12 sm:w-12">
-                  <svg
-                    className="h-5 w-5 text-secondary-foreground sm:h-6 sm:w-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-foreground sm:text-2xl">
-                  MY Vision
-                </h3>
-              </div>
-
-              {aboutLoading ? (
-                <div className="space-y-3 py-2" aria-hidden="true">
-                  <div className="h-4 w-full animate-pulse rounded bg-muted" />
-                  <div className="h-4 w-11/12 animate-pulse rounded bg-muted" />
-                  <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
-                </div>
-              ) : (
-                <div
-                  className="prose prose-sm max-w-none leading-relaxed text-card-foreground/85 dark:prose-invert sm:prose-base prose-p:my-0 prose-p:leading-7 prose-strong:text-secondary prose-headings:text-foreground prose-a:text-secondary"
-                  dangerouslySetInnerHTML={{ __html: about?.vission || "" }}
-                />
-              )}
+              <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
+                My Vision
+              </h3>
             </div>
+
+            {aboutLoading ? (
+              <div className="space-y-3 animate-pulse">
+                <div className="h-4 w-full rounded bg-muted" />
+                <div className="h-4 w-5/6 rounded bg-muted" />
+                <div className="h-4 w-3/4 rounded bg-muted" />
+              </div>
+            ) : (
+              <div
+                className="prose prose-sm max-w-none leading-7 text-muted-foreground dark:prose-invert sm:prose-base prose-p:my-0 prose-strong:text-secondary prose-headings:text-foreground prose-a:text-secondary"
+                dangerouslySetInnerHTML={{
+                  __html: about?.vission || "",
+                }}
+              />
+            )}
           </motion.article>
+
         </div>
       </div>
     </section>
