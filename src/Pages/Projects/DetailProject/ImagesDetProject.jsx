@@ -1,50 +1,64 @@
-import { motion } from "framer-motion";
-import { FileText } from "lucide-react";
+import { Images } from "lucide-react";
 import { useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Counter from "yet-another-react-lightbox/plugins/counter";
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import Captions from "yet-another-react-lightbox/plugins/captions";
+import "yet-another-react-lightbox/plugins/counter.css";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+import "yet-another-react-lightbox/plugins/captions.css";
 import "yet-another-react-lightbox/styles.css";
 
 const ImagesDetProject = ({ project_gallery = [] }) => {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
 
-  if (!project_gallery || project_gallery.length === 0) return null;
+  if (!project_gallery?.length) return null;
 
-  const slides = project_gallery.map((src) => ({ src }));
+  const slides = project_gallery.map((src, imageIndex) => ({
+    src,
+    alt: `Project screenshot ${imageIndex + 1}`,
+    title: `Project screenshot ${imageIndex + 1}`,
+    description: `${imageIndex + 1} of ${project_gallery.length}`,
+  }));
 
   return (
-    <div className="max-w-7xl mx-auto pb-24">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="p-3  bg-primary/10 dark:bg-primary/20">
-          <FileText size={24} className="text-primary" />
+    <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      <div className="mb-5 flex items-center gap-3 sm:mb-7">
+        <div className="flex h-10 w-10 items-center justify-center bg-primary/10 text-primary">
+          <Images aria-hidden="true" size={20} />
         </div>
-        <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Project Images
-        </h3>
+        <div>
+          <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+            Project gallery
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Swipe to explore, or select an image to view it larger.
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-6">
-        {project_gallery.map((img, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="group relative overflow-hidden rounded-sm bg-gray-200 dark:bg-gray-800 cursor-pointer aspect-[4/3]"
+      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:thin] sm:mx-0 sm:gap-4 sm:px-0 md:grid md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-3">
+        {project_gallery.map((image, imageIndex) => (
+          <button
+            key={`${image}-${imageIndex}`}
+            type="button"
             onClick={() => {
-              setIndex(i);
+              setIndex(imageIndex);
               setOpen(true);
             }}
+            aria-label={`View project image ${imageIndex + 1}`}
+            className="group relative aspect-[4/3] w-[84vw] shrink-0 snap-center overflow-hidden border border-border bg-muted text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:w-[60vw] md:w-auto"
           >
             <img
-              src={img}
-              alt={`Gallery image ${i + 1}`}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              src={image}
+              alt={`${imageIndex + 1} of ${project_gallery.length} project screenshots`}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
             />
-            {/* Hover overlay */}
-            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </motion.div>
+          </button>
         ))}
       </div>
 
@@ -53,8 +67,11 @@ const ImagesDetProject = ({ project_gallery = [] }) => {
         close={() => setOpen(false)}
         index={index}
         slides={slides}
+        plugins={[Zoom, Counter, Thumbnails, Captions]}
+        zoom={{ maxZoomPixelRatio: 3, zoomInMultiplier: 2 }}
+        thumbnails={{ showToggle: true }}
       />
-    </div>
+    </section>
   );
 };
 

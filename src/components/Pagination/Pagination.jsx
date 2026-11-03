@@ -56,29 +56,19 @@ const Pagination = ({
 
         pages.push(1);
 
-        if (currentPage > 4) {
+        if (currentPage <= 4) {
+            for (let page = 2; page <= 5; page++) {
+                pages.push(page);
+            }
+            pages.push("right-ellipsis");
+        } else if (currentPage >= lastPage - 3) {
             pages.push("left-ellipsis");
-        }
-
-        const startPage = Math.max(
-            2,
-            currentPage - 1
-        );
-
-        const endPage = Math.min(
-            lastPage - 1,
-            currentPage + 1
-        );
-
-        for (
-            let page = startPage;
-            page <= endPage;
-            page++
-        ) {
-            pages.push(page);
-        }
-
-        if (currentPage < lastPage - 3) {
+            for (let page = lastPage - 4; page < lastPage; page++) {
+                pages.push(page);
+            }
+        } else {
+            pages.push("left-ellipsis");
+            pages.push(currentPage - 1, currentPage, currentPage + 1);
             pages.push("right-ellipsis");
         }
 

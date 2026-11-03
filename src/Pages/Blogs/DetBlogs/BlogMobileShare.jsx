@@ -2,14 +2,15 @@ import { Share2, X } from "lucide-react";
 import { useState } from "react";
 import SocialShareButtons from "./SocialShareButtons";
 
-const BlogMobileShare = ({title, summary}) => {
+const BlogMobileShare = ({title, summary, contentType = "article"}) => {
     const [isOpen, setIsOpen] = useState(false);
+    const panelId = `mobile-${contentType}-share`;
 
     return (
         <div className="print-hidden fixed bottom-5 left-4 z-50 lg:hidden">
             {isOpen && (
                 <div
-                    id="mobile-article-share"
+                    id={panelId}
                     className="mb-3 rounded-sm border border-border bg-background p-3 shadow-xl"
                 >
                     <SocialShareButtons
@@ -17,14 +18,15 @@ const BlogMobileShare = ({title, summary}) => {
                         summary={summary}
                         url={window.location.href}
                         grid
+                        contentType={contentType}
                     />
                 </div>
             )}
             <button
                 type="button"
-                aria-label={isOpen ? "Close share options" : "Share this article"}
+                aria-label={isOpen ? "Close share options" : `Share this ${contentType}`}
                 aria-expanded={isOpen}
-                aria-controls="mobile-article-share"
+                aria-controls={panelId}
                 onClick={() => setIsOpen((open) => !open)}
                 className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >

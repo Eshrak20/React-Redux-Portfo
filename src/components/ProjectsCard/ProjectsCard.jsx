@@ -1,6 +1,4 @@
 import Pagination from "@/components/Pagination/Pagination";
-import { containerVariants } from "@/utils/projectAnimations";
-import { motion } from "framer-motion";
 import { FolderKanban } from "lucide-react";
 import ProjectCard from "./ProjectCard";
 
@@ -28,11 +26,7 @@ const ProjectsCard = ({
         </div>
       </header>
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "0px 0px 100px 0px" }}
+      <div
         className="grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
       >
         {projects.length ? (
@@ -49,7 +43,7 @@ const ProjectsCard = ({
             </p>
           </div>
         )}
-      </motion.div>
+      </div>
 
       {pagination && setPage && (
         <div className="mt-10 sm:mt-12">

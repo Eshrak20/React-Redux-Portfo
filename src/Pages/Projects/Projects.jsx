@@ -40,7 +40,7 @@ const Projects = () => {
    */
   const { data, isLoading, isFetching } = useGetAllProjectsQuery({
     page,
-    per_page: 20,
+    per_page: 6,
 
     project_type: filters.project_type || undefined,
 

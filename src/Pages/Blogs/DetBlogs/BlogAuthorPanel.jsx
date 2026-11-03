@@ -12,6 +12,7 @@ const BlogAuthorPanel = ({
     linkedInUrl,
     portfolioUrl,
     portfolioLogo,
+    onAuthorImageClick,
 }) => {
     const [randomNote, setRandomNote] = useState(() =>
         getRandomAuthorNote()
@@ -28,14 +29,32 @@ const BlogAuthorPanel = ({
     return (
         <>
             <div className="mb-4 flex items-center gap-3">
-                <img
-                    src={authorImage || portfolioLogo}
-                    alt={authorImage ? authorName : `${authorName} logo`}
-                    className="h-14 w-14 rounded-full border border-border bg-slate-950 object-cover p-1"
-                    onError={(event) => {
-                        event.currentTarget.src = portfolioLogo;
-                    }}
-                />
+                {onAuthorImageClick ? (
+                    <button
+                        type="button"
+                        onClick={onAuthorImageClick}
+                        aria-label={`View ${authorName}'s profile image`}
+                        className="group h-14 w-14 shrink-0 overflow-hidden rounded-full border border-border bg-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    >
+                        <img
+                            src={authorImage || portfolioLogo}
+                            alt={authorImage ? authorName : `${authorName} logo`}
+                            className="h-full w-full object-cover p-1 transition-transform duration-200 group-hover:scale-125"
+                            onError={(event) => {
+                                event.currentTarget.src = portfolioLogo;
+                            }}
+                        />
+                    </button>
+                ) : (
+                    <img
+                        src={authorImage || portfolioLogo}
+                        alt={authorImage ? authorName : `${authorName} logo`}
+                        className="h-14 w-14 shrink-0 rounded-full border border-border bg-slate-950 object-cover p-1"
+                        onError={(event) => {
+                            event.currentTarget.src = portfolioLogo;
+                        }}
+                    />
+                )}
 
                 <div className="min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wide text-primary">

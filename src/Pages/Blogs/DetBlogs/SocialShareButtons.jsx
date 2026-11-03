@@ -14,6 +14,7 @@ const SocialShareButtons = ({
   url = window.location.href,
   vertical = false,
   grid = false,
+  contentType = "article",
 }) => {
   const [copyState, setCopyState] = useState("idle");
   const shareDescription = getExcerpt(summary, 220);
@@ -87,8 +88,8 @@ const SocialShareButtons = ({
         <button
           type="button"
           onClick={handleCopy}
-          aria-label={copyState === "copied" ? "Link copied" : "Copy article link"}
-          title={copyState === "copied" ? "Link copied" : "Copy article link"}
+          aria-label={copyState === "copied" ? "Link copied" : `Copy ${contentType} link`}
+          title={copyState === "copied" ? "Link copied" : `Copy ${contentType} link`}
           className={buttonClass}
         >
           {copyState === "copied" ? <Check size={18} /> : <Copy size={18} />}
@@ -101,7 +102,7 @@ const SocialShareButtons = ({
       )}
       {copyState === "copied" && (
         <span role="status" className="sr-only">
-          Article link copied
+          {contentType} link copied
         </span>
       )}
     </div>

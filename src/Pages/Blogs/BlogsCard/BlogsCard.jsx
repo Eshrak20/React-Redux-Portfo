@@ -7,7 +7,7 @@ import Pagination from "@/components/Pagination/Pagination";
 import BlogCarousel from "./BlogCarousel";
 import LanguageToggle from "./LanguageToggle";
 
-const BlogsCard = ({ blogs = [], pagination, setPage, isFetching }) => {
+const BlogsCard = ({ blogs = [], pagination, page, setPage, isFetching }) => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
@@ -63,7 +63,13 @@ const BlogsCard = ({ blogs = [], pagination, setPage, isFetching }) => {
         {/* Blog Content */}
         {displayedBlogs.length > 0 ? (
           <div aria-busy={isFetching && !isHomePage} className="mt-5">
-            <BlogCarousel blogs={displayedBlogs} language={language} />
+            <BlogCarousel
+              key={`${page ?? "home"}-${displayedBlogs
+                .map((blog) => blog.id ?? blog.slug)
+                .join(",")}`}
+              blogs={displayedBlogs}
+              language={language}
+            />
           </div>
         ) : (
           <div className="rounded-sm border border-dashed border-border px-4 py-16 text-center sm:py-24">

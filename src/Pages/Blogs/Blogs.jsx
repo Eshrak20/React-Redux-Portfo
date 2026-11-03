@@ -14,6 +14,7 @@ const Blogs = () => {
   const [perPage, setPerPage] = useState(() =>
     window.matchMedia("(min-width: 768px)").matches ? 18 : 6
   );
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     window.scrollTo({
@@ -28,6 +29,7 @@ const Blogs = () => {
 
     const handleScreenChange = (event) => {
       setPerPage(event.matches ? 18 : 6);
+      setPage(1);
     };
 
     mediaQuery.addEventListener("change", handleScreenChange);
@@ -42,8 +44,6 @@ const Blogs = () => {
     category: "",
     sort: "latest",
   });
-
-  const [page, setPage] = useState(1);
 
   const { data, isLoading, isFetching } = useGetBlogsQuery({
     page,

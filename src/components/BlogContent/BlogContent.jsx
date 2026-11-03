@@ -4,7 +4,7 @@ const BlogContent = ({content = "", language = "en", className = ""}) => {
     if (!content) return null;
 
     return (
-        <div className="w-full min-w-0 overflow-x-auto px-4 md:px-0">
+        <div className="w-full min-w-0 px-4 md:px-0">
             <RichContent
                 content={content}
                 lang={language === "bn" ? "bn" : "en"}

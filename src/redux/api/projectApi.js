@@ -5,7 +5,7 @@ export const projectApi = baseApi.injectEndpoints({
     getAllProjects: builder.query({
       query: ({
                 page = 1,
-                per_page = 20,
+                per_page = 6,
                 project_type,
                 project_category,
                 sort,
