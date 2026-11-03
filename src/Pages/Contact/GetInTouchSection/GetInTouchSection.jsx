@@ -1,6 +1,5 @@
-import { motion } from "framer-motion";
 import {
-  ArrowRight,
+  ArrowUpRight,
   BookOpen,
   Mail,
   MapPin,
@@ -11,14 +10,30 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-const GetInTouchSection = ({ onSubmit, loading, settings }) => {
-  const embedUrl = settings?.data?.[0]?.google_map_embed;
+const fields = [
+  { name: "name", icon: User, label: "Full name", type: "text" },
+  { name: "email", icon: Mail, label: "Email address", type: "email" },
+  { name: "phone", icon: Phone, label: "Phone number", type: "tel" },
+  { name: "subject", icon: BookOpen, label: "Subject", type: "text" },
+];
+
+const GetInTouchSection = ({
+  onSubmit,
+  loading,
+  settings,
+  submitError,
+}) => {
   const data = settings?.data?.[0];
-
-  const mapLink = embedUrl
-    ? embedUrl.replace("/maps/embed?", "/maps?")
-    : "#";
-
+  let mapUrl = data?.google_map_embed;
+  if (mapUrl) {
+    try {
+      const parsedMapSettings = JSON.parse(mapUrl);
+      mapUrl = parsedMapSettings.google_map_embed || mapUrl;
+    } catch {
+      // The setting can also be stored as a direct URL.
+    }
+    mapUrl = mapUrl.replace("/maps/embed?", "/maps?");
+  }
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,218 +42,217 @@ const GetInTouchSection = ({ onSubmit, loading, settings }) => {
     message: "",
   });
 
-  const [focusedField, setFocusedField] = useState(null);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((previous) => ({ ...previous, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
-  };
-
-  const inputWrapperClasses = (fieldName) => `
-    relative group transition-all duration-300 border-b-2
-    ${
-      focusedField === fieldName
-        ? "border-primary"
-        : "border-gray-200 dark:border-slate-700"
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const submitted = await onSubmit(formData);
+    if (submitted) {
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
     }
-  `;
+  };
+
+  const inputClassName =
+    "min-h-12 w-full border-b border-border bg-transparent px-0 py-3 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary disabled:opacity-60";
 
   return (
     <section
       id="submit"
-      className="relative py-4 md:py-24 bg-[#faf9f6] dark:bg-slate-950 overflow-hidden"
+      className="bg-background px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:pb-20 lg:pt-32"
     >
-      {/* Background text */}
-      <div className="absolute top-10 right-[-5%] text-[18vw] font-black text-black/[0.03] dark:text-white/[0.03] select-none leading-none pointer-events-none uppercase">
-        Inquiry
-      </div>
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-8 max-w-2xl sm:mb-10">
+          {/* <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary sm:text-sm">
+            Get in touch
+          </p> */}
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            Let’s start a conversation
+          </h2>
+          <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
+            Have a project in mind or a question? Send a message and I’ll get
+            back to you as soon as I can.
+          </p>
+        </div>
 
-      <div className="container mx-auto md:px-6 relative z-10">
-        <div className="bg-white dark:bg-slate-900 md:rounded-[40px] md:shadow-2xl overflow-hidden flex flex-col lg:flex-row border border-gray-100 dark:border-slate-800">
-          
-          {/* LEFT FORM */}
-          <div className="lg:w-3/5 p-8 md:p-16 lg:p-20">
-            
-            <header className="mb-12">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="h-[1px] w-8 bg-primary"></span>
-                <span className="text-primary font-bold tracking-[0.3em] text-xs uppercase">
-                  Write to us
-                </span>
-              </div>
-
-              <h2 className="text-4xl md:text-5xl font-serif text-slate-900 dark:text-white">
-                Send a <span className="italic text-primary">Message</span>
-              </h2>
-            </header>
+        <div className="grid min-w-0 border-y border-border lg:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.8fr)]">
+          <div className="min-w-0 py-7 sm:py-9 lg:pr-12 lg:py-10">
+            <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
+              Send a message
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              Fields marked required help me respond to your inquiry.
+            </p>
 
             <form
               onSubmit={handleSubmit}
-              className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12"
+              className="mt-7 grid min-w-0 grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2 sm:gap-y-7"
             >
-              {/* INPUT FIELD FACTORY */}
-              {[
-                { name: "name", icon: User, label: "Full Name", type: "text" },
-                { name: "email", icon: Mail, label: "Email Address", type: "email" },
-                { name: "phone", icon: Phone, label: "Phone Number", type: "tel" },
-                { name: "subject", icon: BookOpen, label: "Subject", type: "text" },
-              ].map((field) => (
-                <div key={field.name} className={inputWrapperClasses(field.name)}>
+              {fields.map(({ name, icon: Icon, label, type }) => (
+                <div key={name} className="min-w-0">
                   <label
-                    className={`absolute flex items-center gap-2 transition-all duration-300 ${
-                      formData[field.name] || focusedField === field.name
-                        ? "-top-6 text-[10px] text-primary font-black uppercase tracking-widest"
-                        : "top-3 text-gray-400 dark:text-slate-500"
-                    }`}
+                    htmlFor={`contact-${name}`}
+                    className="mb-1.5 flex items-center gap-2 text-sm font-medium text-foreground"
                   >
-                    <field.icon size={14} /> {field.label}
+                    <Icon aria-hidden="true" size={15} className="text-primary" />
+                    {label}
+                    {/* <span className="text-primary" aria-hidden="true">
+                      *
+                    </span> */}
                   </label>
-
                   <input
-                    name={field.name}
-                    value={formData[field.name]}
+                    id={`contact-${name}`}
+                    name={name}
+                    type={type}
+                    value={formData[name]}
                     onChange={handleChange}
-                    onFocus={() => setFocusedField(field.name)}
-                    onBlur={() => setFocusedField(null)}
-                    type={field.type}
-                    required
-                    className="w-full bg-transparent py-3 outline-none text-slate-800 dark:text-white"
+                    autoComplete={
+                      name === "name"
+                        ? "name"
+                        : name === "email"
+                          ? "email"
+                          : name === "phone"
+                            ? "tel"
+                            : "off"
+                    }
+                    disabled={loading}
+                    className={inputClassName}
                   />
                 </div>
               ))}
 
-              {/* MESSAGE */}
-              <div className={`md:col-span-2 ${inputWrapperClasses("message")}`}>
+              <div className="min-w-0 sm:col-span-2">
                 <label
-                  className={`absolute flex items-center gap-2 transition-all duration-300 ${
-                    formData.message || focusedField === "message"
-                      ? "-top-6 text-[10px] text-primary font-black uppercase tracking-widest"
-                      : "top-3 text-gray-400 dark:text-slate-500"
-                  }`}
+                  htmlFor="contact-message"
+                  className="mb-1.5 flex items-center gap-2 text-sm font-medium text-foreground"
                 >
-                  <MessageSquare size={14} /> Your Message
+                  <MessageSquare
+                    aria-hidden="true"
+                    size={15}
+                    className="text-primary"
+                  />
+                  Your message
+                  {/* <span className="text-primary" aria-hidden="true">
+                    *
+                  </span> */}
                 </label>
-
                 <textarea
+                  id="contact-message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  onFocus={() => setFocusedField("message")}
-                  onBlur={() => setFocusedField(null)}
-                  rows="3"
-                  required
-                  className="w-full bg-transparent py-3 outline-none text-slate-800 dark:text-white resize-none"
+                  rows={5}
+                  disabled={loading}
+                  className={`${inputClassName} min-h-32 resize-y`}
                 />
               </div>
 
-              {/* SUBMIT */}
-              <div className="md:col-span-2 pt-4">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+              {submitError && (
+                <p
+                  role="alert"
+                  className="border-s-2 border-destructive bg-destructive/5 px-4 py-3 text-sm text-destructive sm:col-span-2"
+                >
+                  {submitError}
+                </p>
+              )}
+
+              <div className="sm:col-span-2">
+                <button
                   type="submit"
                   disabled={loading}
-                  className="group relative inline-flex items-center gap-4 px-10 py-5 bg-slate-900 dark:bg-black text-white rounded-full overflow-hidden transition-all duration-500 shadow-lg disabled:opacity-50"
+                  className="inline-flex min-h-12 w-full items-center justify-center gap-3 bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60 sm:w-auto"
                 >
-                  <span className="relative z-10 flex items-center gap-3 font-bold tracking-[0.2em] text-xs">
-                    {loading ? "PROCESSING..." : "SUBMIT INQUIRY"}
-                    <Send
-                      size={16}
-                      className={`transition-transform duration-300 ${
-                        loading
-                          ? "animate-pulse"
-                          : "group-hover:translate-x-1 group-hover:-translate-y-1"
-                      }`}
-                    />
-                  </span>
-
-                  <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                </motion.button>
+                  {loading ? "Sending message…" : "Send message"}
+                  <Send aria-hidden="true" size={16} />
+                </button>
               </div>
             </form>
           </div>
 
-          {/* RIGHT INFO */}
-          <div className="lg:w-2/5 bg-slate-900 dark:bg-black p-8 md:p-16 lg:p-20 text-white relative overflow-hidden flex flex-col justify-between">
-            
-            {/* glow */}
-            <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 blur-[100px]" />
-            <div className="absolute bottom-0 left-0 w-80 h-80 bg-white/5 blur-[100px]" />
+          <aside className="min-w-0 border-t border-border bg-muted/30 px-4 py-7 sm:px-6 sm:py-9 lg:border-s lg:border-t-0 lg:px-8 lg:py-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+              Contact details
+            </p>
+            <h3 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+              Prefer another way?
+            </h3>
 
-            <div className="relative z-10">
-              <h3 className="text-3xl font-serif mb-12">
-                Contact <span className="text-primary">Details</span>
-              </h3>
-
+            <dl className="mt-7 divide-y divide-border">
               {[
                 {
                   icon: Phone,
-                  label: "Call Anytime",
+                  label: "Phone",
                   value: data?.primary_phone,
-                  href: `tel:${data?.primary_phone}`,
+                  href: data?.primary_phone
+                    ? `tel:${data.primary_phone}`
+                    : undefined,
                 },
                 {
                   icon: Mail,
-                  label: "Email Support",
+                  label: "Email",
                   value: data?.primary_email,
-                  href: `mailto:${data?.primary_email}`,
+                  href: data?.primary_email
+                    ? `mailto:${data.primary_email}`
+                    : undefined,
                 },
                 {
                   icon: MapPin,
-                  label: "MY Location",
+                  label: "Location",
                   value: data?.address,
                 },
-              ].map((item, i) => (
-                <div key={i} className="flex gap-6 group mb-10">
-                  <div className="w-14 h-14 flex items-center justify-center rounded-md md:rounded-sm bg-white/5 border border-white/10 group-hover:bg-primary group-hover:border-primary transition-all">
-                    <item.icon
-                      size={22}
-                      className="text-primary group-hover:text-white"
+              ]
+                .filter((item) => item.value)
+                .map(({ icon: Icon, label, value, href }) => (
+                  <div
+                    key={label}
+                    className="grid min-w-0 grid-cols-[2.5rem_minmax(0,1fr)] gap-3 py-5 first:pt-0 last:pb-0"
+                  >
+                    <Icon
+                      aria-hidden="true"
+                      size={19}
+                      className="mt-0.5 text-primary"
                     />
+                    <div className="min-w-0">
+                      <dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        {label}
+                      </dt>
+                      <dd className="mt-1 break-words text-sm font-medium leading-6 text-foreground sm:text-base">
+                        {href ? (
+                          <a
+                            href={href}
+                            className="underline decoration-border underline-offset-4 transition-colors hover:text-primary hover:decoration-primary"
+                          >
+                            {value}
+                          </a>
+                        ) : (
+                          value
+                        )}
+                      </dd>
+                    </div>
                   </div>
+                ))}
+            </dl>
 
-                  <div>
-                    <p className="text-white/40 text-[10px] uppercase tracking-widest mb-1">
-                      {item.label}
-                    </p>
-
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        className="text-base font-medium hover:text-primary transition-colors"
-                      >
-                        {item.value}
-                      </a>
-                    ) : (
-                      <p className="text-base font-medium max-w-[220px]">
-                        {item.value}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* bottom */}
-            <div className="relative z-10 mt-12 pt-8 border-t border-white/10">
-              {/* <p className="italic text-white/50 text-sm mb-6">
-                "Building spaces where luxury meets comfort."
-              </p> */}
-
+            {mapUrl && (
               <a
-                href={mapLink}
+                href={mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-primary font-bold text-[10px] uppercase tracking-widest hover:opacity-80"
+                className="mt-7 inline-flex min-h-11 items-center gap-2 border-t border-border pt-5 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
               >
-                View on Maps <ArrowRight size={14} />
+                Open location in Maps
+                <ArrowUpRight aria-hidden="true" size={16} />
               </a>
-            </div>
-          </div>
+            )}
+          </aside>
         </div>
       </div>
     </section>

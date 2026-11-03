@@ -40,9 +40,11 @@ const ProjectHeroMedia = ({ project }) => {
     );
   };
 
+  const showVideoPoster = Boolean(videoId);
+
   return (
     <div
-      className="relative aspect-[16/10] max-h-[34rem] touch-pan-y overflow-hidden bg-black sm:aspect-[2/1]"
+      className="relative aspect-[16/10] max-h-[38rem] touch-pan-y overflow-hidden bg-black sm:aspect-[2/1]"
       onTouchStart={
         !videoId && gallery.length > 1
           ? (event) => {
@@ -79,22 +81,45 @@ const ProjectHeroMedia = ({ project }) => {
         />
       ) : (
         <>
-          <img
-            src={
-              videoId
-                ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
-                : gallery[activeIndex]
-            }
-            alt={`${project.project_name} project preview${gallery.length > 1 ? ` ${activeIndex + 1} of ${gallery.length}` : ""}`}
-            fetchPriority="high"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover"
-            onError={(event) => {
-              if (!videoId) return;
-              event.currentTarget.onerror = null;
-              event.currentTarget.src = getProjectImage(project);
-            }}
-          />
+          {/* Video poster layer (only when a video exists) */}
+          {showVideoPoster && (
+            <img
+              src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+              alt={`${project.project_name} project preview`}
+              fetchPriority="high"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = getProjectImage(project);
+              }}
+            />
+          )}
+
+          {/* Gallery cross-fade stack (only when no video) */}
+          {!showVideoPoster &&
+            gallery.map((src, index) => (
+              <img
+                key={`${src}-${index}`}
+                src={src}
+                alt={
+                  index === activeIndex
+                    ? `${project.project_name} project preview${
+                        gallery.length > 1
+                          ? ` ${activeIndex + 1} of ${gallery.length}`
+                          : ""
+                      }`
+                    : ""
+                }
+                aria-hidden={index !== activeIndex}
+                fetchPriority={index === 0 ? "high" : "low"}
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out ${
+                  index === activeIndex ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
 
           {videoId ? (
             <button
@@ -104,7 +129,11 @@ const ProjectHeroMedia = ({ project }) => {
               className="absolute inset-0 flex items-center justify-center bg-black/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
             >
               <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg sm:h-20 sm:w-20">
-                <Play aria-hidden="true" className="ml-1 h-7 w-7 sm:h-8 sm:w-8" fill="currentColor" />
+                <Play
+                  aria-hidden="true"
+                  className="ml-1 h-7 w-7 sm:h-8 sm:w-8"
+                  fill="currentColor"
+                />
               </span>
               <span className="absolute bottom-4 left-4 text-sm font-semibold text-white sm:bottom-6 sm:left-6">
                 Play project video
@@ -127,7 +156,11 @@ const ProjectHeroMedia = ({ project }) => {
                 <button
                   type="button"
                   onClick={() => setIsPaused((paused) => !paused)}
-                  aria-label={isPaused ? "Resume image slideshow" : "Pause image slideshow"}
+                  aria-label={
+                    isPaused
+                      ? "Resume image slideshow"
+                      : "Pause image slideshow"
+                  }
                   className="flex h-10 w-10 items-center justify-center border border-white/50 bg-black/30 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 >
                   {isPaused ? (

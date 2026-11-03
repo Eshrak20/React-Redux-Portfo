@@ -20,7 +20,7 @@ const FooterBrand = () => {
   const siteName = settings.site_name || "Eshrak";
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-4 sm:space-y-5">
       {/* Logo */}
       <div>
         {isLoading ? (
@@ -43,7 +43,7 @@ const FooterBrand = () => {
       </div>
 
       {/* Description */}
-      <div className="max-w-md text-xs leading-6 text-muted-foreground sm:text-sm sm:leading-7">
+      <div className="max-w-md text-xs leading-6 text-muted-foreground">
         <RichContent content={description} />
       </div>
 

@@ -1,7 +1,14 @@
 
 import { getRandomAuthorNote } from "@/data/authorNotes";
-import { ChevronDown, ChevronUp, Shuffle } from "lucide-react";
+import {
+    ChevronDown,
+    ChevronUp,
+    Shuffle,
+} from "lucide-react";
 import { useState } from "react";
+import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import "yet-another-react-lightbox/styles.css";
 
 const BlogAuthorPanel = ({
     authorName,
@@ -12,13 +19,15 @@ const BlogAuthorPanel = ({
     linkedInUrl,
     portfolioUrl,
     portfolioLogo,
-    onAuthorImageClick,
 }) => {
     const [randomNote, setRandomNote] = useState(() =>
         getRandomAuthorNote()
     );
 
     const [showFullBio, setShowFullBio] = useState(false);
+    const [imageOpen, setImageOpen] = useState(false);
+
+    const profileImage = authorImage || portfolioLogo;
 
     const handleAnotherNote = () => {
         setRandomNote((currentNote) =>
@@ -28,44 +37,49 @@ const BlogAuthorPanel = ({
 
     return (
         <>
-            <div className="mb-4 flex items-center gap-3">
-                {onAuthorImageClick ? (
-                    <button
-                        type="button"
-                        onClick={onAuthorImageClick}
-                        aria-label={`View ${authorName}'s profile image`}
-                        className="group h-14 w-14 shrink-0 overflow-hidden rounded-full border border-border bg-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                    >
-                        <img
-                            src={authorImage || portfolioLogo}
-                            alt={authorImage ? authorName : `${authorName} logo`}
-                            className="h-full w-full object-cover p-1 transition-transform duration-200 group-hover:scale-125"
-                            onError={(event) => {
-                                event.currentTarget.src = portfolioLogo;
-                            }}
-                        />
-                    </button>
-                ) : (
-                    <img
-                        src={authorImage || portfolioLogo}
-                        alt={authorImage ? authorName : `${authorName} logo`}
-                        className="h-14 w-14 shrink-0 rounded-full border border-border bg-slate-950 object-cover p-1"
-                        onError={(event) => {
-                            event.currentTarget.src = portfolioLogo;
-                        }}
-                    />
-                )}
+       
+{/* Author Information */}
+<div className="mb-5 flex items-center gap-4">
+    <button
+        type="button"
+        onClick={() => setImageOpen(true)}
+        aria-label={`View ${authorName}'s profile image`}
+        className="author-avatar group relative h-[76px] w-[76px] shrink-0 rounded-[42%_58%_55%_45%/48%_42%_58%_52%] border border-primary/30 bg-primary/5 p-1 shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+    >
+        <span className="absolute inset-[-4px] rounded-[42%_58%_55%_45%/48%_42%_58%_52%] border border-dashed border-primary/30 transition-colors duration-300 group-hover:border-primary/70" />
 
-                <div className="min-w-0">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-primary">
-                        About the author
-                    </p>
+        <img
+            src={profileImage}
+            alt={`${authorName} profile`}
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full rounded-[inherit] object-cover transition-transform duration-500 group-hover:scale-110"
+            onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = portfolioLogo;
+            }}
+        />
 
-                    <h2 className="mt-1 truncate font-bold text-foreground">
-                        {authorName}
-                    </h2>
-                </div>
-            </div>
+        <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-card bg-primary" />
+    </button>
+
+    <div className="min-w-0">
+        <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+            About the author
+        </p>
+
+        <h2 className="mt-1 truncate font-bold text-foreground">
+            {authorName}
+        </h2>
+
+        {designation && (
+            <p className="mt-1 line-clamp-1 text-xs text-muted-foreground">
+                {designation}
+            </p>
+        )}
+    </div>
+</div>
+
 
             {designation && (
                 <p className="mb-3 text-sm text-muted-foreground">
@@ -156,6 +170,25 @@ const BlogAuthorPanel = ({
                     </a>
                 )}
             </div>
+
+            {/* Permanent Author Image Lightbox */}
+            <Lightbox
+                open={imageOpen}
+                close={() => setImageOpen(false)}
+                slides={[
+                    {
+                        src: profileImage,
+                        alt: `${authorName} profile image`,
+                    },
+                ]}
+                plugins={[Zoom]}
+                carousel={{
+                    finite: true,
+                }}
+                controller={{
+                    closeOnBackdropClick: true,
+                }}
+            />
         </>
     );
 };

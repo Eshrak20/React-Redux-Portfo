@@ -95,7 +95,7 @@ const BookCallButton = ({
                                 : "text-xs font-bold tracking-wide"
                         }
                     >
-                        {isMobile ? "Call" : "Let's talk"}
+                        {isMobile ? "Call" : "Open it your own risk"}
                     </span>
                 </button>
             </DialogTrigger>

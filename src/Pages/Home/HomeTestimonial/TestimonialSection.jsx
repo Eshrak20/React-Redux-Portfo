@@ -4,19 +4,19 @@ import Title from "@/components/Title/Title";
 import TestimonialCard from "./TestimonialCard";
 
 import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
+    AnimatePresence,
+    motion,
+    useReducedMotion,
 } from "framer-motion";
 
 import {
-  Calendar,
-  ChevronLeft,
-  ChevronRight,
-  Quote,
-  Star,
-  User,
-  X,
+    Calendar,
+    ChevronLeft,
+    ChevronRight,
+    Quote,
+    Star,
+    User,
+    X,
 } from "lucide-react";
 
 import { useEffect, useRef, useState } from "react";
@@ -171,7 +171,7 @@ const TestimonialSection = ({ testimonial = [] }) => {
   };
 
   return (
-    <section className={isHomePage ? "bg-pink-50 dark:bg-background py-14 sm:py-16" : "py-16 sm:py-20"}>
+    <section className={isHomePage ? " dark:bg-background py-14 sm:py-16" : "py-16 sm:py-20"}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-12">
 
         {/* Section heading */}

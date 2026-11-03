@@ -1,5 +1,6 @@
 [
   {
+    "period": "2023 - 2027",
     "title": "Daffodil Polytechnic Institute",
     "subtitle": "Diploma in Computer Science & Technology",
     "status": "Running • 8th Semester",
@@ -7,6 +8,7 @@
     "link": "https://dpi.ac"
   },
   {
+    "period": "2020 - 2022",
     "title": "Birshreshtha Munshi Abdur Rouf Public College",
     "subtitle": "Higher Secondary Certificate (Science)",
     "status": "Completed",
@@ -14,6 +16,7 @@
     "link": "https://www.abdurroufcollege.ac.bd/"
   },
   {
+    "period": "2010 - 2019",
     "title": "Firoza Bashar Ideal School & College",
     "subtitle": "Junior School Certificate (JSC -- 2019)",
     "status": "Completed",
@@ -21,6 +24,7 @@
     "link": "https://fbic.edu.bd/"
   },
   {
+    "period": "2025 - 2025",
     "title": "Programming Hero",
     "subtitle": "Complete Next Level Web Development",
     "status": "Certified",
@@ -28,6 +32,7 @@
     "link": "https://programming-hero.com"
   },
   {
+    "period": "2023 - 2024",
     "title": "Phitron",
     "subtitle": "Problem Solving with C & C++",
     "status": "Completed",
@@ -35,6 +40,7 @@
     "link": "https://phitron.io"
   },
   {
+    "period": "2024 - 2024",
     "title": "Ostad",
     "subtitle": "PHP, Laravel & Filament",
     "status": "Completed",

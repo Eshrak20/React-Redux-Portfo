@@ -1,4 +1,3 @@
-
 import { NavLink } from "react-router-dom";
 
 const NavbarLogo = ({ logo, alt = "Logo" }) => (
@@ -6,16 +5,16 @@ const NavbarLogo = ({ logo, alt = "Logo" }) => (
         to="/"
         aria-label={alt}
         className="
-            flex h-12 w-44 shrink-0 items-center
-            sm:h-[52px] sm:w-48
-            lg:w-[210px]
+            flex h-16 w-56 shrink-0 items-center
+            sm:h-[72px] sm:w-64
+            lg:h-24 lg:w-[150px] mt-8
         "
     >
         <img
             src={logo}
             alt=""
-            width="210"
-            height="65"
+            width="280"
+            height="86"
             fetchPriority="high"
             decoding="async"
             className="h-full w-full object-contain object-left"

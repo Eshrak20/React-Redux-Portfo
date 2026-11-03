@@ -20,7 +20,7 @@ const BlogsCard = ({ blogs = [], pagination, page, setPage, isFetching }) => {
     <section
       className={
         isHomePage
-          ? "bg-pink-50 dark:bg-background overflow-hidden  pb-12 pt-3 sm:py-14 lg:py-16"
+          ? " dark:bg-background overflow-hidden  pb-12 pt-3 sm:py-14 lg:py-16"
           : "bg-background overflow-hidden dark:bg-background pb-12 pt-3 sm:py-14 lg:py-16"
       }
     >

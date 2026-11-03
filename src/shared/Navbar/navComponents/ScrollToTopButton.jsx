@@ -16,23 +16,24 @@ const ScrollToTopButton = ({ isVisible }) => {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Scroll to top"
           className="
-  fixed
-  bottom-[calc(4.25rem+env(safe-area-inset-bottom))]
-  right-3
-  z-[90]
-  flex h-9 w-9 items-center justify-center
-  rounded-full
-  bg-primary text-primary-foreground
-  shadow-lg shadow-primary/20
-  transition-shadow duration-300
-  hover:shadow-xl hover:shadow-primary/30
-  focus-visible:outline-none
-  focus-visible:ring-2 focus-visible:ring-primary
-  focus-visible:ring-offset-2
-  sm:right-5 sm:h-11 sm:w-11
-  md:h-12 md:w-12
-  lg:bottom-20
-"
+                      fixed
+                      bottom-[calc(4.25rem+env(safe-area-inset-bottom))]
+                      right-3
+                      z-[90]
+                      flex h-9 w-9 items-center justify-center
+                      rounded-full
+                      bg-primary text-primary-foreground
+                      hidden md:flex
+                      shadow-lg shadow-primary/20
+                      transition-shadow duration-300
+                      hover:shadow-xl hover:shadow-primary/30
+                      focus-visible:outline-none
+                      focus-visible:ring-2 focus-visible:ring-primary
+                      focus-visible:ring-offset-2
+                      sm:right-5 sm:h-11 sm:w-11
+                      md:h-12 md:w-12
+                      lg:bottom-20
+                    "
         >
           <ArrowUp aria-hidden="true" className="h-4 w-4 sm:h-5 sm:w-5" />
         </motion.button>

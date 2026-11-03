@@ -6,6 +6,7 @@ import { useGetGalleryImageQuery } from "@/redux/api/galleryApi";
 import { useGetHomeMetricsQuery } from "@/redux/api/homeApi";
 import { useEffect } from "react";
 import Gallery from "./Gallery/Gallery";
+import DesktopManagment from "./Management/DesktopManagment";
 import Management from "./Management/Management";
 import MiniAbout from "./MiniAbout/MiniAbout";
 import Missions from "./Missions/Missions";
@@ -34,7 +35,7 @@ const About = () => {
         />
       </div>
 
-      <div className="md:mx-14 xl:mx-64">
+      <div className="md:mx-8 lg:mx-10 xl:mx-14 2xl:mx-32">
         {aboutLoading || homeSectionLoading || !about || !homeSectionData ? (
           <MiniAboutSkeleton />
         ) : (
@@ -43,7 +44,10 @@ const About = () => {
             metrics={homeSectionData?.data[0].metrics || []}
           />
         )}
-        <Management />
+       <div id="bildungsweg" className="scroll-mt-24">
+  <DesktopManagment />
+  <Management />
+</div>
         <Gallery galleryImageData={galleryImageData?.data} />
         <Missions about={about?.data[0]} aboutLoading={aboutLoading} />
       </div>

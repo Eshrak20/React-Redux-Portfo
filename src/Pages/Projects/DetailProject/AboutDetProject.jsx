@@ -50,7 +50,7 @@ const AboutDetProject = ({ project, about, socialLinks = [] }) => {
     .filter(({ technologies }) => technologies.length > 0);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-8 pt-5 sm:px-6 sm:pt-10 lg:px-8 lg:pt-16">
+    <div className="mx-auto max-w-7xl px-4 pb-8 pt-5 sm:px-6 sm:pt-10 lg:px-8 lg:pt-18">
       <header className="overflow-hidden rounded-sm border border-border bg-card">
         <ProjectHeroMedia project={project} />
         <div className="grid gap-8 p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-12 lg:p-10">
@@ -131,7 +131,7 @@ const AboutDetProject = ({ project, about, socialLinks = [] }) => {
         </div>
       </header>
 
-      <div className="mt-8 grid min-w-0 gap-6 lg:grid-cols-[3.5rem_minmax(0,1fr)_16rem] lg:justify-center lg:gap-6 xl:grid-cols-[3.5rem_minmax(0,48rem)_16rem] xl:gap-8">
+      <div className="mt-8 grid min-w-0 gap-6 lg:grid-cols-[3.5rem_minmax(0,1fr)_16rem] lg:justify-center lg:gap-6 xl:grid-cols-[3.5rem_minmax(0,48rem)_16rem] xl:gap-18">
         <aside
           aria-label="Share this project"
           className="hidden min-w-0 lg:col-start-1 lg:row-start-1 lg:block"

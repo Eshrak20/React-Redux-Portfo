@@ -25,14 +25,14 @@ const FooterContact = () => {
   if (isLoading) {
     return (
       <div>
-        <h3 className="text-2xl font-bold text-foreground lg:text-3xl">
+        <h3 className="text-base font-semibold tracking-wide text-foreground">
           Contact
         </h3>
 
-        <div className="mt-6 space-y-6 lg:mt-8 lg:space-y-8">
-          <div className="h-16 animate-pulse rounded-lg bg-muted lg:h-20" />
-          <div className="h-16 animate-pulse rounded-lg bg-muted lg:h-20" />
-          <div className="h-16 animate-pulse rounded-lg bg-muted lg:h-20" />
+        <div className="mt-5 space-y-4">
+          <div className="h-12 animate-pulse rounded-lg bg-muted" />
+          <div className="h-12 animate-pulse rounded-lg bg-muted" />
+          <div className="h-12 animate-pulse rounded-lg bg-muted" />
         </div>
       </div>
     );
@@ -42,28 +42,28 @@ const FooterContact = () => {
 
   return (
     <div>
-      <h3 className="text-2xl font-bold text-foreground lg:text-3xl">
+      <h3 className="text-base font-semibold tracking-wide text-foreground">
         Contact
       </h3>
 
-      <div className="mt-7 space-y-7 lg:mt-9 lg:space-y-9">
+      <div className="mt-5 space-y-4">
         {/* Email */}
         <a
           href={gmailUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-start gap-4 lg:gap-5"
+          className="group flex items-start gap-3"
         >
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground lg:h-16 lg:w-16 lg:rounded-2xl">
-            <Mail size={24} className="lg:h-7 lg:w-7" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+            <Mail size={17} aria-hidden="true" />
           </div>
 
-          <div className="min-w-0 pt-1">
-            <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground lg:text-base">
+          <div className="min-w-0 pt-0.5">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               Email
             </p>
 
-            <p className="mt-1 break-all text-lg font-medium text-foreground transition-colors duration-300 group-hover:text-primary lg:text-xl xl:text-2xl">
+            <p className="mt-0.5 break-all text-sm font-medium leading-5 text-foreground transition-colors duration-300 group-hover:text-primary">
               {email}
             </p>
           </div>
@@ -72,35 +72,35 @@ const FooterContact = () => {
         {/* Phone */}
         <a
           href={`tel:${phone.replace(/\s+/g, "")}`}
-          className="group flex items-start gap-4 lg:gap-5"
+          className="group flex items-start gap-3"
         >
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground lg:h-16 lg:w-16 lg:rounded-2xl">
-            <Phone size={24} className="lg:h-7 lg:w-7" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+            <Phone size={17} aria-hidden="true" />
           </div>
 
-          <div className="min-w-0 pt-1">
-            <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground lg:text-base">
+          <div className="min-w-0 pt-0.5">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               Phone
             </p>
 
-            <p className="mt-1 text-lg font-medium text-foreground transition-colors duration-300 group-hover:text-primary lg:text-xl xl:text-2xl">
+            <p className="mt-0.5 text-sm font-medium leading-5 text-foreground transition-colors duration-300 group-hover:text-primary">
               {phone}
             </p>
           </div>
         </a>
 
         {/* Address */}
-        <div className="group flex items-start gap-4 lg:gap-5">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary lg:h-16 lg:w-16 lg:rounded-2xl">
-            <MapPin size={24} className="lg:h-7 lg:w-7" />
+        <div className="group flex items-start gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <MapPin size={17} aria-hidden="true" />
           </div>
 
-          <div className="min-w-0 pt-1">
-            <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground lg:text-base">
+          <div className="min-w-0 pt-0.5">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               Address
             </p>
 
-            <p className="mt-1 text-lg font-medium leading-relaxed text-foreground lg:text-xl xl:text-2xl">
+            <p className="mt-0.5 text-sm font-medium leading-5 text-foreground">
               {address}
             </p>
           </div>

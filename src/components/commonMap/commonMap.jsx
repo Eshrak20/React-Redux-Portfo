@@ -1,6 +1,19 @@
-
 import { Map, MapPinned, Navigation } from "lucide-react";
 import { useState } from "react";
+
+const isValidMapUrl = (url) => {
+  if (!url) return false;
+  try {
+    const parsedUrl = new URL(url);
+    return (
+      parsedUrl.protocol === "https:" &&
+      parsedUrl.hostname === "www.google.com" &&
+      parsedUrl.pathname === "/maps/embed"
+    );
+  } catch {
+    return false;
+  }
+};
 
 const CommonMap = ({
   google_map_embed,
@@ -9,27 +22,9 @@ const CommonMap = ({
 }) => {
   const [showStreetView, setShowStreetView] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
-
   const mapUrl = google_map_embed?.trim();
   const streetUrl = street_view_embed?.trim();
-
-  const currentMap = showStreetView
-    ? streetUrl
-    : mapUrl;
-
-  const isValidUrl = (url) => {
-    try {
-      const parsedUrl = new URL(url);
-
-      return (
-        parsedUrl.protocol === "https:" &&
-        parsedUrl.hostname === "www.google.com" &&
-        parsedUrl.pathname === "/maps/embed"
-      );
-    } catch {
-      return false;
-    }
-  };
+  const currentMap = showStreetView ? streetUrl : mapUrl;
 
   const handleViewChange = (streetView) => {
     setShowStreetView(streetView);
@@ -37,135 +32,106 @@ const CommonMap = ({
   };
 
   return (
-    <section className="w-full mb-20 bg-background py-10 md:py-20">
-      <div className="max-w-7xl mx-auto  sm:px-6 lg:px-8">
+    <section className="bg-background px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-5 flex flex-col gap-4 border-b border-border pb-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+              Find me
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+              Location
+            </h2>
+          </div>
 
-        {/* Header */}
-        <div className="hidden md:inline text-center">
-          <span className="text-sm font-semibold tracking-widest uppercase text-primary">
-            My Location
-          </span>
+          <div
+            role="group"
+            aria-label="Map display"
+            className="flex w-full border border-border sm:w-auto"
+          >
+            <button
+              type="button"
+              onClick={() => handleViewChange(false)}
+              disabled={loading || !mapUrl}
+              aria-pressed={!showStreetView}
+              className={`inline-flex min-h-11 flex-1 items-center justify-center gap-2 px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none ${
+                !showStreetView
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Map aria-hidden="true" size={16} />
+              Map
+            </button>
+            <button
+              type="button"
+              onClick={() => handleViewChange(true)}
+              disabled={loading || !streetUrl}
+              aria-pressed={showStreetView}
+              className={`inline-flex min-h-11 flex-1 items-center justify-center gap-2 border-s border-border px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none ${
+                showStreetView
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <MapPinned aria-hidden="true" size={16} />
+              Street view
+            </button>
+          </div>
         </div>
 
-        {/* Map Frame */}
-        <div className="overflow-hidden mt-4 rounded-xl  bg-card md:shadow-lg">
-
-          {/* Top Bar */}
-          <div className="min-h-14 flex flex-wrap items-center justify-between gap-3 px-4 md:px-6 py-3 ">
-
-            <div className="flex items-center gap-3">
-              <div className="flex gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-red-500" />
-                <span className="w-3 h-3 rounded-full bg-yellow-500" />
-                <span className="w-3 h-3 rounded-full bg-green-500" />
-              </div>
-
-              <span className="text-sm font-medium text-muted-foreground">
-                {showStreetView ? "Street View" : "Google Maps"}
-              </span>
+        <div className="relative aspect-[4/3] min-h-64 overflow-hidden border border-border bg-muted sm:aspect-[16/8] lg:aspect-[16/7]">
+          {loading ? (
+            <div
+              role="status"
+              className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6"
+            >
+              <span className="h-1 w-20 bg-primary/70" />
+              <p className="text-sm text-muted-foreground">
+                Loading map details…
+              </p>
             </div>
-
-            {/* Toggle Buttons */}
-            <div className="flex items-center gap-1 rounded-lg bg-muted p-1">
-              <button
-                type="button"
-                onClick={() => handleViewChange(false)}
-                disabled={loading || !mapUrl}
-                className={`flex items-center gap-2 px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors disabled:opacity-40 ${
-                  !showStreetView
-                    ? "bg-primary text-primary-foreground md:shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Map size={16} />
-                Map View
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleViewChange(true)}
-                disabled={loading || !streetUrl}
-                className={`flex items-center gap-2 px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors disabled:opacity-40 ${
+          ) : !currentMap || !isValidMapUrl(currentMap) ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
+              <Navigation
+                aria-hidden="true"
+                size={28}
+                className="text-muted-foreground"
+              />
+              <p className="max-w-md text-sm leading-6 text-muted-foreground">
+                {showStreetView
+                  ? "Street View is not available."
+                  : "A map location is not available yet."}
+              </p>
+            </div>
+          ) : (
+            <>
+              {!iframeLoaded && (
+                <div
+                  role="status"
+                  className="absolute inset-0 z-10 flex items-center justify-center bg-muted"
+                >
+                  <span className="text-sm text-muted-foreground">
+                    Loading {showStreetView ? "Street View" : "map"}…
+                  </span>
+                </div>
+              )}
+              <iframe
+                key={currentMap}
+                src={currentMap}
+                title={
                   showStreetView
-                    ? "bg-primary text-primary-foreground md:shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <MapPinned size={16} />
-                Street View
-              </button>
-            </div>
-          </div>
-
-          {/* Map Content */}
-          <div className="relative w-full h-[350px] sm:h-[450px] md:h-[550px] bg-muted/30">
-
-            {loading ? (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                <div className="w-10 h-10  rounded-full animate-spin" />
-
-                <p className="text-sm text-muted-foreground">
-                  Loading map data...
-                </p>
-              </div>
-            ) : !currentMap || !isValidUrl(currentMap) ? (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
-                <Navigation
-                  size={32}
-                  className="text-muted-foreground"
-                />
-
-                <p className="text-muted-foreground">
-                  {showStreetView
-                    ? "Street View URL is unavailable or invalid."
-                    : "Google Maps URL is unavailable or invalid."}
-                </p>
-              </div>
-            ) : (
-              <>
-                {!iframeLoaded && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10 bg-muted/30 pointer-events-none">
-                    <div className="w-10 h-10  rounded-full animate-spin" />
-
-                    <p className="text-sm text-muted-foreground">
-                      Loading {showStreetView ? "Street View" : "Map"}...
-                    </p>
-                  </div>
-                )}
-
-                <iframe
-                  key={currentMap}
-                  src={currentMap}
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="eager"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title={
-                    showStreetView
-                      ? "Google Maps Street View"
-                      : "Google Maps Location"
-                  }
-                  onLoad={() => setIframeLoaded(true)}
-                  className="absolute inset-0 w-full h-full"
-                />
-              </>
-            )}
-          </div>
-
-          {/* Bottom Bar */}
-          <div className="flex items-center justify-between gap-3 px-4 md:px-6 py-3  bg-muted/30">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="w-2 h-2 rounded-full bg-green-500" />
-              MAP: ACTIVE
-            </div>
-
-            <span className="text-xs text-muted-foreground">
-              {showStreetView ? "STREET VIEW" : "MAP VIEW"} · GOOGLE MAPS
-            </span>
-          </div>
-
+                    ? "Google Maps Street View"
+                    : "Google Maps location"
+                }
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                onLoad={() => setIframeLoaded(true)}
+                className="absolute inset-0 h-full w-full border-0"
+              />
+            </>
+          )}
         </div>
       </div>
     </section>

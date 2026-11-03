@@ -1,207 +1,323 @@
 
-import CumButton from "@/components/CumButton/CumButton";
-import Title from "@/components/Title/Title";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
-import {
-  FaExternalLinkAlt,
-  FaGraduationCap,
-  FaLaptopCode,
-  FaSchool,
-  FaUniversity,
-} from "react-icons/fa";
-import { SiCodeforces, SiLaravel } from "react-icons/si";
-
-const icons = {
-  FaUniversity,
-  FaSchool,
-  FaGraduationCap,
-  FaLaptopCode,
-  SiLaravel,
-  SiCodeforces,
-};
-
-const containerVariants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.45,
-      ease: "easeOut",
-    },
-  },
-};
+import TimelineCard from "./TimelineCard";
 
 const Management = () => {
   const [managementData, setManagementData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
-    let isMounted = true;
+    const controller = new AbortController();
 
-    fetch("/Json/Management.json")
-      .then((res) => {
-        if (!res.ok) {
+    const fetchEducation = async () => {
+      try {
+        const response = await fetch("/Json/Management.json", {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
           throw new Error("Failed to load education data");
         }
 
-        return res.json();
-      })
-      .then((data) => {
-        if (isMounted) {
-          setManagementData(Array.isArray(data) ? data : []);
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid education data");
+        }
+
+        setManagementData(data);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Education data error:", error);
+          setLoadError(true);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
           setLoading(false);
         }
-      })
-      .catch((err) => {
-        console.error("Education data error:", err);
-
-        if (isMounted) {
-          setLoading(false);
-        }
-      });
-
-    return () => {
-      isMounted = false;
+      }
     };
+
+    fetchEducation();
+
+    return () => controller.abort();
   }, []);
 
-  if (loading) {
-    return (
-      <section className="my-24 px-4 text-center">
-        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-primary/20 border-t-primary" />
-        <p className="mt-4 text-sm text-muted-foreground">
-          Loading education...
-        </p>
-      </section>
-    );
-  }
-
   return (
-    <section className="relative mx-auto my-3 md:my-20 max-w-7xl px-4 sm:my-24 sm:px-6 lg:px-8">
-      <Title name="Education & Learning Journey" />
+    <section
+      aria-labelledby="management-mobile-heading"
+      aria-busy={loading}
+      className="
+        relative mx-auto max-w-7xl
+        overflow-hidden
+        px-4 py-12
+        sm:px-6 sm:py-14
+        lg:hidden
+      "
+    >
+      {/* Section Heading */}
+      <motion.header
+        initial={
+          shouldReduceMotion
+            ? false
+            : { opacity: 0, y: 20 }
+        }
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{
+          duration: shouldReduceMotion ? 0 : 0.5,
+        }}
+        className="mb-10 text-center sm:mb-12"
+      >
+        <p className="
+          mb-3 text-[10px] font-bold
+          uppercase tracking-[0.25em]
+          text-primary sm:text-xs
+        ">
+          My Learning Journey
+        </p>
 
-      <div className="relative mt-12 flex items-start gap-8 lg:mt-16">
-        {/* Desktop Side Label */}
-        <div className="sticky top-32 hidden shrink-0 -rotate-90 lg:mt-28 lg:block">
-          <CumButton title="Always Learning" />
-        </div>
-
-        {/* Education Cards */}
-        <motion.div
-          variants={containerVariants}
-          initial={shouldReduceMotion ? false : "hidden"}
-          whileInView="show"
-          viewport={{
-            once: true,
-            amount: 0.12,
-          }}
-          className="grid w-full grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-2 lg:gap-6"
+        <h2
+          id="management-mobile-heading"
+          className="
+            text-3xl font-bold tracking-tight
+            text-foreground
+            sm:text-4xl
+          "
         >
-          {managementData.map((item, index) => {
-            const Icon = icons[item.icon] || FaUniversity;
+          Education & Learning Journey
+        </h2>
 
-            return (
-              <motion.article
-                key={`${item.title}-${index}`}
-                variants={shouldReduceMotion ? {} : cardVariants}
-                whileHover={
-                  shouldReduceMotion
-                    ? undefined
-                    : {
-                        y: -4,
-                      }
-                }
-                className="group relative isolate overflow-hidden border border-border/70 bg-card p-5 transition-colors duration-300 hover:border-primary/40 sm:p-6 lg:p-7 lg:shadow-sm lg:hover:shadow-lg"
-              >
-                {/* Subtle top accent */}
-                <div className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100" />
+        <p className="
+          mx-auto mt-3 max-w-md
+          text-xs leading-relaxed
+          text-muted-foreground
+          sm:text-sm sm:leading-7
+        ">
+          Every step of my education, learning, and professional development.
+        </p>
 
-                {/* Background Decoration */}
-                <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/[0.04] blur-3xl transition-colors duration-300 group-hover:bg-primary/[0.09]" />
+        <div className="
+          mx-auto mt-5 h-1 w-12
+          rounded-full bg-primary
+        " />
+      </motion.header>
 
-                <div className="relative flex items-start justify-between gap-4">
-                  {/* Icon */}
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-primary/15 bg-primary/10 text-2xl text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white sm:h-14 sm:w-14 sm:text-3xl">
-                    <Icon />
-                  </div>
+      {/* Loading State */}
+      {loading ? (
+        <div
+          role="status"
+          className="flex justify-center py-12"
+        >
+          <span className="
+            h-8 w-8 animate-spin rounded-full
+            border-2 border-primary/20
+            border-t-primary
+          " />
 
-                  {/* External Link */}
-                  {item.link && (
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Visit ${item.title}`}
-                      className="flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition-colors duration-200 hover:border-primary hover:bg-primary hover:text-white"
-                    >
-                      <FaExternalLinkAlt className="text-xs" />
-                    </a>
-                  )}
-                </div>
+          <span className="sr-only">
+            Loading education history...
+          </span>
+        </div>
+      ) : loadError ? (
+        <p
+          role="alert"
+          className="
+            mx-auto max-w-md
+            rounded-xl border border-border
+            bg-card px-5 py-6
+            text-center text-sm
+            text-muted-foreground
+          "
+        >
+          Education history could not be loaded.
+          Please try again later.
+        </p>
+      ) : managementData.length ? (
 
-                <div className="relative mt-6">
-                  {/* Learning Path Label */}
-                  <div className="mb-3 flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 bg-primary" />
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:text-xs">
-                      Learning Journey
+        /* Education Timeline */
+        <div className="relative mx-auto max-w-3xl">
+
+          {/* Timeline Line */}
+          <div
+            aria-hidden="true"
+            className="
+              absolute bottom-3 left-[11px] top-3
+              w-[2px]
+              bg-gradient-to-b
+              from-transparent
+              via-primary/40
+              to-transparent
+
+              sm:left-1/2
+              sm:-translate-x-1/2
+            "
+          />
+
+          {/* Timeline Items */}
+          <div className="
+            space-y-6
+            sm:space-y-7
+          ">
+            {managementData.map((item, index) => {
+              const isLeft = index % 2 === 0;
+
+              return (
+                <motion.div
+                  key={`${item.title}-${item.period || index}`}
+                  initial={
+                    shouldReduceMotion
+                      ? false
+                      : {
+                          opacity: 0,
+                          y: 20,
+                        }
+                  }
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  viewport={{
+                    once: true,
+                    amount: 0.15,
+                  }}
+                  transition={{
+                    duration: shouldReduceMotion ? 0 : 0.5,
+                    ease: "easeOut",
+                  }}
+                  className="
+                    relative grid
+                    grid-cols-[24px_minmax(0,1fr)]
+                    items-start
+                    gap-x-3
+
+                    sm:grid-cols-[minmax(0,1fr)_40px_minmax(0,1fr)]
+                    sm:gap-x-0
+                  "
+                >
+
+                  {/* Timeline Marker */}
+                  <div className="
+                    relative z-10
+                    col-start-1 row-start-1
+                    flex justify-center
+                    pt-1
+
+                    sm:col-start-2
+                  ">
+                    <span className="
+                      flex h-6 w-6
+                      items-center justify-center
+
+                      rounded-full
+                      border-[4px]
+                      border-background
+                      bg-primary
+
+                      shadow-[0_0_0_4px]
+                      shadow-primary/10
+
+                      sm:h-7 sm:w-7
+                    ">
+                      <span className="
+                        h-1.5 w-1.5
+                        rounded-full
+                        bg-primary-foreground
+                      " />
                     </span>
                   </div>
 
-                  {/* Title */}
-                  <h2 className="text-lg font-bold leading-snug text-card-foreground transition-colors duration-200 group-hover:text-primary sm:text-xl">
-                    {item.title}
-                  </h2>
+                  {/* Alternating Timeline Card */}
+                  <div
+                    className={`
+                      col-start-2
+                      row-start-1
+                      min-w-0
 
-                  {/* Description */}
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground sm:text-base">
-                    {item.subtitle}
-                  </p>
+                      ${
+                        isLeft
+                          ? "sm:col-start-1 sm:row-start-1 sm:pr-6"
+                          : "sm:col-start-3 sm:row-start-1 sm:pl-6"
+                      }
+                    `}
+                  >
 
-                  {/* Status */}
-                  {item.status && (
-                    <div className="mt-6 flex items-center gap-2">
-                      <span className="relative flex h-2 w-2">
-                        <span className="absolute inline-flex h-full w-full animate-ping bg-primary/40" />
-                        <span className="relative inline-flex h-2 w-2 bg-primary" />
-                      </span>
+                    {/* Period */}
+                    <p className={`
+                      mb-2.5
+                      flex items-center gap-2
 
-                      <span className="border border-primary/15 bg-primary/5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-primary sm:text-xs">
-                        {item.status}
-                      </span>
-                    </div>
-                  )}
-                </div>
+                      text-[10px]
+                      font-bold uppercase
+                      tracking-wider
+                      text-primary
 
-                {/* Card Number */}
-                <span className="pointer-events-none absolute bottom-3 right-5 text-5xl font-black tracking-tighter text-foreground/[0.035] sm:text-6xl">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-              </motion.article>
-            );
-          })}
-        </motion.div>
-      </div>
+                      sm:mb-3
+                      sm:text-xs
 
-      {!managementData.length && (
-        <p className="py-12 text-center text-sm text-muted-foreground">
-          No education information available.
-        </p>
+                      ${
+                        isLeft
+                          ? "sm:justify-end sm:text-right"
+                          : "sm:justify-start sm:text-left"
+                      }
+                    `}>
+                      <span className="
+                        h-1.5 w-1.5
+                        shrink-0 rounded-full
+                        bg-primary
+
+                        sm:hidden
+                      " />
+
+                      {item.period || "Education"}
+                    </p>
+
+                    {/* Reusable Card */}
+                    <TimelineCard
+                      item={item}
+                      index={index}
+                    />
+                  </div>
+
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Timeline End Decoration */}
+          <div
+            aria-hidden="true"
+            className="
+              absolute -bottom-1
+              left-[6px]
+              h-3 w-3
+              rounded-full
+              bg-primary/30
+
+              sm:left-1/2
+              sm:-translate-x-1/2
+            "
+          />
+
+        </div>
+      ) : (
+
+        /* Empty State */
+        <div className="
+          rounded-xl
+          border border-dashed
+          border-border
+          px-5 py-12
+          text-center
+        ">
+          <p className="text-sm text-muted-foreground">
+            No education information available.
+          </p>
+        </div>
       )}
     </section>
   );

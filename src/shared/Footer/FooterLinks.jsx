@@ -22,21 +22,25 @@ const FooterLinks = () => {
 
   return (
     <div>
-      <h3 className="text-2xl font-bold text-foreground sm:text-2xl lg:text-3xl">
+      <h3 className="text-base font-semibold tracking-wide text-foreground">
         Quick Links
       </h3>
 
-      <nav className="mt-6 grid grid-cols-1 gap-4 sm:gap-5 lg:mt-8 lg:gap-6">
+      <nav
+        aria-label="Quick links"
+        className="mt-4 grid grid-cols-1 gap-2.5 sm:mt-5 sm:gap-3"
+      >
         {footerLinks.map((link) => (
           <Link
             key={link.path}
             to={link.path}
             onClick={handleClick}
-            className="group flex w-fit items-center gap-3 text-base font-medium text-muted-foreground transition-all duration-300 hover:translate-x-1.5 hover:text-primary sm:text-lg lg:gap-4 lg:text-xl"
+            className="group flex w-fit items-center gap-2 text-sm font-medium text-muted-foreground transition-all duration-300 hover:translate-x-1 hover:text-primary"
           >
             <ChevronRight
-              size={20}
-              className="shrink-0 text-primary transition-transform duration-300 group-hover:translate-x-1 sm:h-5 sm:w-5 lg:h-6 lg:w-6"
+              size={15}
+              aria-hidden="true"
+              className="shrink-0 text-primary transition-transform duration-300 group-hover:translate-x-0.5"
             />
 
             <span>{link.label}</span>
